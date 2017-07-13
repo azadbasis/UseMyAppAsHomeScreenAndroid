@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".7"
+            android:background="#006efe">
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.1"
+            android:background="#fff"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:src="@drawable/backwardarrow"
+        android:layout_marginTop="10dp"
+
+        />
+
+    <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.customfonts.MyTextView
+        android:visibility="gone"
+        android:id="@+id/submitProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submint"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        android:background="@drawable/rect"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        />
+
+    <ImageView
+        android:id="@+id/deleteProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_action_delete"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentEnd="true"
+        />
+
+    <LinearLayout
+        android:layout_below="@+id/imgUserPicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/cameraSetting"
+        android:layout_marginTop="0dp"
+        android:padding="0dp">
+
+        <ImageView
+            android:id="@+id/imvTakePic"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:src="@drawable/camera" />
+
+
+        <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.customfonts.MyTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload Cover Picture"
+            android:textColor="#fff"
+            android:textSize="14.5dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="center"
+            android:letterSpacing="0.02"
+
+            />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_edit"
+            android:layout_gravity="right"
+            android:id="@+id/imgEditProfile"/>
+    </LinearLayout>
+    <ScrollView
+        android:layout_below="@+id/cameraSetting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingTop="12dp"
+            android:background="#f3f3f3"
+            android:layout_height="wrap_content">
+            <!--****NAME TEXT****-->
+
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+                    android:id="@+id/name1"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NAME"
+                    android:gravity="left"
+                    android:textColor="#333333" />
+
+                <TextView
+
+                    android:id="@+id/tvName"
+                    android:layout_weight=".5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Your Full Name"
+                    android:editable="true"
+                    android:textColor="#1d6c8e" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
+                    android:layout_weight=".5"
+                    android:id="@+id/input_layout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+
+                        android:id="@+id/input_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Your Full Name" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+
+
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DESIGNATION"
+                    android:gravity="left"
+                    android:textColor="#333333" />
+
+                <TextView
+                    android:id="@+id/tvDesignation"
+                    android:layout_weight=".5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Your Designation"
+                    android:textColor="#1d6c8e" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
+                    android:layout_weight=".5"
+                    android:id="@+id/input_layout_designation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+
+                        android:id="@+id/input_Designation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Your Designation" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile"
+                    android:gravity="left"
+                    android:textColor="#333333" />
+
+                <TextView
+
+                    android:id="@+id/tvPhone"
+                    android:layout_weight=".5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Your Phone Number"
+                    android:textColor="#1d6c8e"/>
+
+
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
+                    android:layout_weight=".5"
+                    android:id="@+id/input_layout_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+
+                        android:id="@+id/input_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Your PhoneNumber" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:gravity="left"
+                    android:textColor="#333333" />
+
+                <TextView
+
+                    android:id="@+id/tvAddress"
+                    android:layout_weight=".5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Your Address"
+                    android:textColor="#1d6c8e"/>
+
+
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
+                    android:layout_weight=".5"
+                    android:id="@+id/input_layout_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+
+                        android:id="@+id/input_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Your Address" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
+
+                <TextView
+
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:gravity="left"
+                    android:textColor="#333333" />
+
+                <TextView
+
+                    android:id="@+id/tvEmail"
+                    android:layout_weight=".5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Your Email"
+                    android:textColor="#1d6c8e"/>
+
+
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
+                    android:layout_weight=".5"
+                    android:id="@+id/input_layout_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+
+                        android:id="@+id/input_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Your Email" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.customfonts.MyTextView
+        android:id="@+id/order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#51a3df"
+        android:text="CONTINUE TO PROJECTS"
+        android:textSize="16dp"
+        android:textColor="#fff"
+        android:padding="16dp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:drawableRight="@drawable/next"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgUserPicture"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:src="@drawable/usericon"
+        android:layout_below="@+id/back"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+</RelativeLayout>

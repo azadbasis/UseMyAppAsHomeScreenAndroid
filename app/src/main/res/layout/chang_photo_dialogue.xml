@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+     >
+    
+    
+    <LinearLayout 
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:background="#4FA8DC"
+        
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        
+        <LinearLayout 
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Option"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
+        
+        <View 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            />
+        
+        <LinearLayout 
+              android:id="@+id/tvUseCam"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView 
+              
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Camera"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
+        <View 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            />
+        <LinearLayout 
+            android:id="@+id/tvRoll"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView 
+                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From Gallery"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
+        <View 
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#ffffff"
+            />
+        <LinearLayout 
+            android:id="@+id/tvCance"
+           android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView 
+                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
