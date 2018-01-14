@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "684719610199",
+    "firebase_url": "https://fir-realtime-chat-3007e.firebaseio.com",
+    "project_id": "fir-realtime-chat-3007e",
+    "storage_bucket": "fir-realtime-chat-3007e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684719610199:android:8ee25d09ff6c2adb",
+        "android_client_info": {
+          "package_name": "com.icteuro.firebaserealtimechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684719610199-cpqr2orckeescnrbtvebcoosl571nm0e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.icteuro.firebaserealtimechat",
+            "certificate_hash": "f55b676fda16a80ababd5d36750163f93a0da3b6"
+          }
+        },
+        {
+          "client_id": "684719610199-u8jgka25ptfgqk4tlr847m9cf20e4ale.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWcH6O_pekcPVs4GswxQDfnxmyzSsAIdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684719610199-u8jgka25ptfgqk4tlr847m9cf20e4ale.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684719610199:android:cb56a7d056ba4167",
+        "android_client_info": {
+          "package_name": "alessandro.firebaseandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684719610199-aaee7k1ag5p1c9hkhv27d6vo8e9j0g8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "alessandro.firebaseandroid",
+            "certificate_hash": "908ff850b251c74efafdf08730d9c5540127ef29"
+          }
+        },
+        {
+          "client_id": "684719610199-u8jgka25ptfgqk4tlr847m9cf20e4ale.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWcH6O_pekcPVs4GswxQDfnxmyzSsAIdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684719610199-u8jgka25ptfgqk4tlr847m9cf20e4ale.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684719610199:android:b6108e41ac5c6039",
+        "android_client_info": {
+          "package_name": "azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684719610199-eib4aoqb4a0jr48su4o9431vk58rutip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid",
+            "certificate_hash": "908ff850b251c74efafdf08730d9c5540127ef29"
+          }
+        },
+        {
+          "client_id": "684719610199-u8jgka25ptfgqk4tlr847m9cf20e4ale.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWcH6O_pekcPVs4GswxQDfnxmyzSsAIdw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684719610199-u8jgka25ptfgqk4tlr847m9cf20e4ale.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
