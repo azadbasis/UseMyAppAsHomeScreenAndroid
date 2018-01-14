@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">SREDA</string>
+    <string-array name="blood_group">
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B_</item>
+        <item>O+</item>
+        <item>O-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+    </string-array>
+    <string name="car"><b>Sustainable And Renewable Energy\n Development Authority
+Power Division</b>\n <u>Car Requisition Form(govt./personal purpose)</u></string>
+
+    <string name="type_a_message">Type a message...</string>
+
 </resources>

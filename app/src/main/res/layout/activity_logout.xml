@@ -17,9 +17,16 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:background="@drawable/banner"/>
+            android:background="@drawable/bannersreda"/>
 
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="টেকসই ও নবায়নযোগ্য জ্বালানি উন্নয়ন কর্তৃপক্ষ বিদ্যুৎ বিভাগ বিদ্যুৎ, জ্বালানি ও খনিজ সম্পদ মন্ত্রণালয় গণপ্রজাতন্ত্রী বাংলাদেশ সরকার"
+            android:textColor="#fff"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,13 +70,6 @@
 
         </LinearLayout>
 
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_white"
-            android:layout_gravity="center|top"
-            android:layout_marginTop="60dp"/>
 
     </FrameLayout>
 
@@ -164,7 +164,13 @@
 
 
 
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:visibility="visible" />
 
 </LinearLayout>
 

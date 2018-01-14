@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:rotation="35"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meeting Room"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:background="@drawable/circle_accent"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="meeting Notice"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:background="@drawable/circle_accent"
+            android:layout_marginRight="@dimen/_5sdp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="meeting Minutes"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:background="@drawable/circle_accent"
+            android:layout_marginRight="@dimen/_5sdp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

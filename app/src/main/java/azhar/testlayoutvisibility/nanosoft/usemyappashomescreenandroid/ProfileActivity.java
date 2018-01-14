@@ -3,7 +3,9 @@ package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,28 +23,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 
 public class ProfileActivity extends AppCompatActivity {
 
 
-    private static final int RESULT_LOAD_IMAGE = 43535;
-    private TextView tvName,tvDesignation,tvPhone,tvAddress,tvEmail;
-    private ImageView imgEditProfile,imvFromGallery;
+    private Context con;
+    private TextView tvName, tvId, tvDesignation, tvPhone, tvAddress, tvBloodGroup, tvDOB, tvEmail;
+    //private ImageView imgEditProfile;
+    private Button btnDateOfInterView;
+    private Spinner spinnerBloodgroup;
 
-    private TextInputLayout input_layout_name,input_layout_designation,input_layout_phone,input_layout_address,input_layout_email;
-    private EditText input_name,input_Designation,input_phone,input_address,input_email;
-    String name,designation,phone,address,email;
-    private ImageView imgUserPicture,imvTakePic;
+    private TextInputLayout input_layout_name, input_layout_designation, input_layout_phone, input_layout_address,  input_layout_blood_group, input_layout_email, input_layout_id;
+
+    private EditText input_name, input_id, input_Designation, input_phone, input_address, input_blood_group, input_email;
+
+    String name, designation, phone, address, bloodGroup, email, officerId, dob;
+    String employeeDate;
+    private ImageView imgUserPicture, imvTakePic,imgEditProfile;
     private File file;
     String picture = "";
     private static File dir = null;
@@ -56,46 +70,66 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        con = this;
         findViewById();
-        name ="Here is azhar";
-        designation ="Android Developer";
-        phone ="01717121839";
-        address ="Mymensingh";
-        email ="azadbasis@gmail.com";
+        name = "Here is azhar";
+        designation = "Android Developer";
+        phone = "01717121839";
+        address = "Mymensingh";
+        email = "azadbasis@gmail.com";
+        officerId = "0947328974";
+        bloodGroup = "A+";
+        dob = "1-1-1990";
         tvName.setText(name);
+        tvId.setText(officerId);
         tvDesignation.setText(designation);
-        tvAddress.setText(designation);
+        tvBloodGroup.setText(bloodGroup);
+        tvAddress.setText(address);
         tvPhone.setText(phone);
         tvEmail.setText(email);
+        tvDOB.setText(dob);
+        btnDateOfInterView.setText(dob);
     }
 
     private void findViewById() {
 
-        input_layout_name = (TextInputLayout)findViewById(R.id.input_layout_name);
+        input_layout_name = (TextInputLayout) findViewById(R.id.input_layout_name);
         input_name = (EditText) findViewById(R.id.input_name);
-        tvName = ( TextView) findViewById(R.id.tvName);
+        tvName = (TextView) findViewById(R.id.tvName);
 
+        input_layout_id = (TextInputLayout) findViewById(R.id.input_layout_id);
+        input_id = (EditText) findViewById(R.id.input_id);
+        tvId = (TextView) findViewById(R.id.tvId);
 
-        input_layout_designation = (TextInputLayout)findViewById(R.id.input_layout_designation);
+        input_layout_designation = (TextInputLayout) findViewById(R.id.input_layout_designation);
         input_Designation = (EditText) findViewById(R.id.input_Designation);
-        tvDesignation = ( TextView) findViewById(R.id.tvDesignation);
+        tvDesignation = (TextView) findViewById(R.id.tvDesignation);
 
-        input_layout_phone = (TextInputLayout)findViewById(R.id.input_layout_phone);
+        input_layout_phone = (TextInputLayout) findViewById(R.id.input_layout_phone);
         input_phone = (EditText) findViewById(R.id.input_phone);
-        tvPhone = ( TextView) findViewById(R.id.tvPhone);
+        tvPhone = (TextView) findViewById(R.id.tvPhone);
 
-        input_layout_address = (TextInputLayout)findViewById(R.id.input_layout_address);
+        input_layout_address = (TextInputLayout) findViewById(R.id.input_layout_address);
         input_address = (EditText) findViewById(R.id.input_address);
-        tvAddress = ( TextView) findViewById(R.id.tvAddress);
+        tvAddress = (TextView) findViewById(R.id.tvAddress);
 
-        input_layout_email = (TextInputLayout)findViewById(R.id.input_layout_email);
+        input_layout_blood_group = (TextInputLayout) findViewById(R.id.input_layout_blood_group);
+        input_blood_group = (EditText) findViewById(R.id.input_blood_group);
+        tvBloodGroup = (TextView) findViewById(R.id.tvBloodGroup);
+        spinnerBloodgroup = (Spinner)findViewById(R.id.spinnerBloodgroup);
+
+        tvDOB = (TextView) findViewById(R.id.tvDOB);
+        btnDateOfInterView = (Button) findViewById(R.id.btnDateOfInterView);
+
+
+        input_layout_email = (TextInputLayout) findViewById(R.id.input_layout_email);
         input_email = (EditText) findViewById(R.id.input_email);
-        tvEmail = ( TextView) findViewById(R.id.tvEmail);
+        tvEmail = (TextView) findViewById(R.id.tvEmail);
 
 
-        imgEditProfile = ( ImageView) findViewById(R.id.imgEditProfile);
-        imvTakePic = ( ImageView) findViewById(R.id.imvTakePic);
-        imgUserPicture = ( ImageView) findViewById(R.id.imgUserPicture);
+        imgEditProfile = (ImageView) findViewById(R.id.imgEditProfile);
+        imvTakePic = (ImageView) findViewById(R.id.imvTakePic);
+        imgUserPicture = (ImageView) findViewById(R.id.imgUserPicture);
 
         imvTakePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +147,11 @@ public class ProfileActivity extends AppCompatActivity {
                 input_name.setText(name);
 
 
+                tvId.setVisibility(View.GONE);
+                input_layout_id.setVisibility(View.VISIBLE);
+                input_id.setText(officerId);
+
+
                 tvDesignation.setVisibility(View.GONE);
                 input_layout_designation.setVisibility(View.VISIBLE);
                 input_Designation.setText(designation);
@@ -125,63 +164,49 @@ public class ProfileActivity extends AppCompatActivity {
                 input_layout_address.setVisibility(View.VISIBLE);
                 input_address.setText(address);
 
+                tvBloodGroup.setVisibility(View.GONE);
+                //input_layout_blood_group.setVisibility(View.VISIBLE);
+                //input_blood_group.setText(bloodGroup);
+                spinnerBloodgroup.setVisibility(View.VISIBLE);
+
+
+                tvDOB.setVisibility(View.GONE);
+                //  input_layout_dob.setVisibility(View.VISIBLE);
+                //   input_dob.setText(dob);
+                btnDateOfInterView.setVisibility(View.VISIBLE);
+
+                final Calendar myCalendar = Calendar.getInstance();
+                DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        DateFormat dateFormat = new java.text.SimpleDateFormat("dd-MM-yyyy");
+                        employeeDate = dateFormat.format(myCalendar.getTime());
+                        btnDateOfInterView.setText(employeeDate);
+                    }
+                };
+                final DatePickerDialog d = new DatePickerDialog(ProfileActivity.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+
+                btnDateOfInterView.setText(dob);
+                btnDateOfInterView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        d.show();
+                    }
+                });
+
                 tvEmail.setVisibility(View.GONE);
                 input_layout_email.setVisibility(View.VISIBLE);
                 input_email.setText(email);
 
             }
         });
-
-//        imvFromGallery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // Create intent to Open Image applications like Gallery, Google Photos
-//                Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//// Start the Intent
-//                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-//            }
-//        });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        try {
-//            // When an Image is picked
-//            if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK
-//                    && null != data) {
-//                // Get the Image from data
-//
-//                Uri selectedImage = data.getData();
-//                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//                // Get the cursor
-//                Cursor cursor = getContentResolver().query(selectedImage,
-//                        filePathColumn, null, null, null);
-//                // Move to first row
-//                cursor.moveToFirst();
-//
-//                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//              String  imgDecodableString = cursor.getString(columnIndex);
-//                cursor.close();
-//                ImageView imgView = (ImageView) findViewById(R.id.usericon);
-//                // Set the Image in ImageView after decoding the String
-//                imgView.setImageBitmap(BitmapFactory
-//                        .decodeFile(imgDecodableString));
-//
-//            } else {
-//                Toast.makeText(this, "You haven't picked Image",
-//                        Toast.LENGTH_LONG).show();
-//            }
-//        } catch (Exception e) {
-//            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
-//                    .show();
-//        }
-//    }
 
-
-    private void imageCaptureDialogue(){
+    private void imageCaptureDialogue() {
         dialog = new Dialog(ProfileActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.chang_photo_dialogue);
@@ -197,7 +222,6 @@ public class ProfileActivity extends AppCompatActivity {
                 .findViewById(R.id.tvCance);
 
 
-
         tvRoll.setOnClickListener(new View.OnClickListener() {
 
             @TargetApi(Build.VERSION_CODES.M)
@@ -206,40 +230,22 @@ public class ProfileActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
 
 
-
-                AppConstant.isGallery=true;
-                if ( ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                AppConstant.isGallery = true;
+                if (ActivityCompat.checkSelfPermission(con, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) ProfileActivity.this,
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstant.WRITEEXTERNAL_PERMISSION_RUNTIME);
                     dialog.dismiss();
-                }else{
+                } else {
                     final Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent,"Select Picture"), galarytakid);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), galarytakid);
                     dialog.dismiss();
                 }
             }
 
 
-
-//                if (ContextCompat.checkSelfPermission(con,Manifest.permission.READ_EXTERNAL_STORAGE)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//
-//                    ActivityCompat.requestPermissions(RegistrationActivity.this,
-//                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                            2);
-//                }else if(ContextCompat.checkSelfPermission(con,Manifest.permission.READ_EXTERNAL_STORAGE)
-//                        == PackageManager.PERMISSION_GRANTED){
-//                    final Intent intent = new Intent();
-//                    intent.setType("image/*");
-//                    intent.setAction(Intent.ACTION_GET_CONTENT);
-//                    startActivityForResult(
-//                            Intent.createChooser(intent, "Select Picture"),
-//                            galarytakid);
-//                    dialog.dismiss();
-//                }
 
 
         });
@@ -252,27 +258,25 @@ public class ProfileActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
 
 
-
-                if ( ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.CAMERA)
+                if (ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.CAMERA)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) ProfileActivity.this,
                             new String[]{Manifest.permission.CAMERA}, AppConstant.CAMERA_RUNTIME_PERMISSION);
                     dialog.dismiss();
-                }else{
-                    AppConstant.isGallery=false;
-                    if ( ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                } else {
+                    AppConstant.isGallery = false;
+                    if (ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions((Activity) ProfileActivity.this,
                                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstant.WRITEEXTERNAL_PERMISSION_RUNTIME);
                         dialog.dismiss();
-                    }else{
+                    } else {
                         final Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(i, imagecaptureid);
                         dialog.dismiss();
                     }
                 }
             }
-
 
 
 //                if (ContextCompat.checkSelfPermission(con,Manifest.permission.CAMERA)
@@ -288,7 +292,6 @@ public class ProfileActivity extends AppCompatActivity {
 //                    startActivityForResult(i, imagecaptureid);
 //                    dialog.dismiss();
 //                }
-
 
 
         });
@@ -314,11 +317,11 @@ public class ProfileActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Now user should be able to use camera
 
-                if ( ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions((Activity) ProfileActivity.this,
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstant.WRITEEXTERNAL_PERMISSION_RUNTIME);
-                }else{
+                } else {
                     final Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(i, imagecaptureid);
                 }
@@ -327,14 +330,14 @@ public class ProfileActivity extends AppCompatActivity {
                 // that require this permission or it will force close like your
                 // original question
             }
-        }else if (requestCode==AppConstant.WRITEEXTERNAL_PERMISSION_RUNTIME){
+        } else if (requestCode == AppConstant.WRITEEXTERNAL_PERMISSION_RUNTIME) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (AppConstant.isGallery){
+                if (AppConstant.isGallery) {
                     final Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent,"Select Picture"), galarytakid);
-                }else {
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), galarytakid);
+                } else {
                     final Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(i, imagecaptureid);
                 }
@@ -447,8 +450,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private String saveBitmapIntoSdcard(Bitmap bitmap22, String filename)
             throws IOException {
-		/*
-		 *
+        /*
+         *
 		 * check the path and create if needed
 		 */
         createBaseDirctory();
@@ -491,4 +494,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+    public void goBackState(View view) {
+        finish();
+    }
 }
