@@ -6,7 +6,10 @@ import android.accounts.AccountManagerCallback;
 import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -23,6 +26,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -40,6 +44,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +53,8 @@ import com.squareup.timessquare.CalendarCellDecorator;
 import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
 import com.squareup.timessquare.DayViewAdapter;
+
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,7 +79,7 @@ public class MainActivity extends AppCompatActivity{
 
     Context con;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private TextView tvChat;
+    private TextView tvChat,tvMeetingNotice;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private CalendarPickerView calendar_view;
@@ -95,7 +102,7 @@ public class MainActivity extends AppCompatActivity{
 
         Log.e("token",PersistData.getStringData(con,AppConstant.fcm_token));
         if(checkPermission()){
-            queryLabels();
+            //queryLabels();
         }else if(!checkPermission()){
             requestPermission();
         }
@@ -107,11 +114,20 @@ public class MainActivity extends AppCompatActivity{
     private void initialize() {
 
         tvChat = (TextView)findViewById(R.id.tvChat);
+        tvMeetingNotice = (TextView)findViewById(R.id.tvMeetingNotice);
+
 
         tvChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(con,UserListActivity.class));
+            }
+        });
+
+        tvMeetingNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(con,MeetingNoticeActivity.class));
             }
         });
 
@@ -307,10 +323,55 @@ public class MainActivity extends AppCompatActivity{
         final TextView tvToday = (TextView)dialog.findViewById(R.id.tvToday);
         tvToday.setText("Today ("+todate+") Events:");
         final EditText etTitle = (EditText)dialog.findViewById(R.id.etTitle);
-        final EditText etTime = (EditText)dialog.findViewById(R.id.etTime);
+        final TextView tvTime = (TextView)dialog.findViewById(R.id.tvTime);
+        final TextInputLayout txtInputTime = (TextInputLayout)dialog.findViewById(R.id.txtInputTime);
         Button btnAdd = (Button)dialog.findViewById(R.id.btnAdd);
         Button btnCancel = (Button)dialog.findViewById(R.id.btnCancel);
+        tvTime.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                final DateTime inspected_at = DateTime.now();
+                int hour    = inspected_at.getHourOfDay();
+                int minutes = inspected_at.getMinuteOfHour();
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(dialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
+
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String format;
+
+                        if (hourOfDay == 0) {
+
+                            hourOfDay += 12;
+
+                            format = "AM";
+                        }
+                        else if (hourOfDay == 12) {
+
+                            format = "PM";
+
+                        }
+                        else if (hourOfDay > 12) {
+
+                            hourOfDay -= 12;
+
+                            format = "PM";
+
+                        }
+                        else {
+
+                            format = "AM";
+                        }
+                        tvTime.setText(hourOfDay+":"+minute+" "+format );
+                    }
+
+                }, hour, minutes, false);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+            }
+        });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,10 +379,10 @@ public class MainActivity extends AppCompatActivity{
 
                if(TextUtils.isEmpty(etTitle.getText().toString())) {
                    Toast.makeText(con, "Event title empty!", Toast.LENGTH_SHORT).show();
-                }else if(TextUtils.isEmpty(etTime.getText().toString())){
+                }else if(TextUtils.isEmpty(tvTime.getText().toString())){
                    Toast.makeText(con, "Event time empty!", Toast.LENGTH_SHORT).show();
                }else {
-                   addEvent(date, etTitle.getText().toString().trim(),etTime.getText().toString().trim());
+                   addEvent(date, etTitle.getText().toString().trim(),tvTime.getText().toString().trim());
                }
 
             }
@@ -352,55 +413,6 @@ public class MainActivity extends AppCompatActivity{
 
         dialog.show();
 
-////
-////
-////        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-////        final EditText edittext = new EditText(this);
-////        alert.setView(edittext);
-////        alert.setCancelable(false);
-////        alert.setTitle("Add/Delete Your Event");
-////
-//
-//        for(int i = 0; i<resultsEvents.size();i++){
-//            if(date.toString().equalsIgnoreCase(resultsEvents.get(i).getEventDate().toString())){
-//                edittext.setText(resultsEvents.get(i).getEventTitle().toString());
-//            }
-//        }
-//
-//        alert.setPositiveButton("Add Event", new DialogInterface.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//
-//               final String YouEditTextValue = edittext.getText().toString();
-//                if(TextUtils.isEmpty(YouEditTextValue)){
-//                    Toast.makeText(con,"Add Event should not blank!",Toast.LENGTH_SHORT).show();
-//                    calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
-//
-//                }else if(resultsEvents.size()==0) {
-//                    addEvent(date, edittext.getText().toString().trim(),"");
-//
-//                }else {
-//                    for(int i = 0; i<resultsEvents.size();i++){
-//                        if(date.toString().equalsIgnoreCase(resultsEvents.get(i).getEventDate().toString())){
-//                            updateEvent(date,edittext.getText().toString().trim());
-//                        }else {
-//                            addEvent(date,edittext.getText().toString().trim(),"");
-//                        }
-//                    }
-//                }
-//                //dialog.dismiss();
-//            }
-//        });
-//
-//        alert.setNegativeButton("Delete Event", new DialogInterface.OnClickListener() {
-//            @RequiresApi(api = Build.VERSION_CODES.N)
-//            public void onClick(DialogInterface dialog, int whichButton) {
-//                deleteEvents(date);
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        alert.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -538,7 +550,7 @@ public class MainActivity extends AppCompatActivity{
                     boolean getaccount = grantResults[3] == PackageManager.PERMISSION_GRANTED;
 
 
-                    queryLabels();
+                    //queryLabels();
                     if (locationAccepted && cameraAccepted && readPhoneAccepted && getaccount) {
 
                         // Snackbar.make(view, "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
@@ -580,6 +592,20 @@ public class MainActivity extends AppCompatActivity{
                 .show();
     }
 
+
+    private void scheduleMultipleAlarms(){
+
+        Intent intent = new Intent(con, MainActivity.class);
+//        final int id = (int) System.currentTimeMillis();
+//        PendingIntent appIntent = PendingIntent.getBroadcast(this, id, intent,PendingIntent.FLAG_ONE_SHOT);
+
+//        intent.putExtra("row_id", id);
+//        final int alarmId = (int) System.currentTimeMillis();
+//        PendingIntent sender = PendingIntent.getBroadcast(a, alarmId, intent,
+//                PendingIntent.FLAG_UPDATE_CURRENT);
+//        AlarmManager am = (AlarmManager) a.getSystemService(a.ALARM_SERVICE);
+//        am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), sender);
+    }
 
 }
 

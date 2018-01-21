@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.customfonts.MyEditText;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistentUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,19 +36,23 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         con = this;
 
-        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (fUser != null) {
-            //Toast.makeText(getApplicationContext(), fUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
+        if(PersistentUser.isLogged(con)){
             startActivity(new Intent(con, MainActivity.class));
             finish();
         }
+//        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+//        if (fUser != null) {
+//            //Toast.makeText(getApplicationContext(), fUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(con, MainActivity.class));
+//            finish();
+//        }
 
 
         setContentView(R.layout.activity_login_logout);
 
 
         //get firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        //auth = FirebaseAuth.getInstance();
 
         signup = (TextView)findViewById(R.id.signup);
         tvBtnSignIn = (TextView)findViewById(R.id.tvBtnSignIn);
@@ -61,6 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         tvBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(con,MainActivity.class));
+
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
                 String username = nameEditTxt.getText().toString();
@@ -83,48 +90,50 @@ public class LoginActivity extends AppCompatActivity {
                 PersistData.setStringData(con,AppConstant.userName,username);
 
                 //authenticate user
-                auth.signInWithEmailAndPassword(userEmail, userPassword)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                progressBar.setVisibility(View.GONE);
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (password.length() < 6) {
-                                        Toast.makeText(LoginActivity.this, "Password must be 6 digit!", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Sign In failed! You may Sign up first.", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(con,SignUpActivity.class));
-                                    }
-                                } else {
-                                    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-                                    PersistData.setStringData(con,AppConstant.uid,fUser.getUid());
-                                    Toast.makeText(LoginActivity.this, "Sign In Successful!", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-                        });
+//                auth.signInWithEmailAndPassword(userEmail, userPassword)
+//                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<AuthResult> task) {
+//                                // If sign in fails, display a message to the user. If sign in succeeds
+//                                // the auth state listener will be notified and logic to handle the
+//                                // signed in user can be handled in the listener.
+//                                progressBar.setVisibility(View.GONE);
+//                                if (!task.isSuccessful()) {
+//                                    // there was an error
+//                                    if (password.length() < 6) {
+//                                        Toast.makeText(LoginActivity.this, "Password must be 6 digit!", Toast.LENGTH_LONG).show();
+//                                    } else {
+//                                        Toast.makeText(LoginActivity.this, "Sign In failed! You may Sign up first.", Toast.LENGTH_LONG).show();
+//                                        startActivity(new Intent(con,SignUpActivity.class));
+//                                    }
+//                                } else {
+//                                    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+//                                    PersistData.setStringData(con,AppConstant.uid,fUser.getUid());
+//                                    Toast.makeText(LoginActivity.this, "Sign In Successful!", Toast.LENGTH_LONG).show();
+//                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                            }
+//                        });
             }
         });
 
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent it = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(it);
-                finish();
-            }
-        });
+//        signup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent it = new Intent(LoginActivity.this, SignUpActivity.class);
+//                startActivity(it);
+//                finish();
+//            }
+//        });
 
 
 
     }
+
+
 
 
     @Override

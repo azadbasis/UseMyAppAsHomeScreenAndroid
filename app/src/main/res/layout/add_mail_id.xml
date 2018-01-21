@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:padding="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mtf_labelColor="#666"
+            app:mtf_image="@drawable/ic_email_black_24dp"
+            >
+
+            <EditText
+                android:id="@+id/etmYEmailID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_email"
+                android:textColor="#333"
+                android:textSize="15sp" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+    </android.support.v7.widget.CardView>

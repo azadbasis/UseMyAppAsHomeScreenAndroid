@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--      <android.support.design.widget.TextInputLayout
+                  android:visibility="visible"
+                  android:id="@+id/til_profile_address_1"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColorHint="#000000"
+                  app:hintTextAppearance="@style/HintAppearance">
+
+                  <android.support.design.widget.TextInputEditText
+                      android:id="@+id/tietxt_profile_address_1"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:drawableLeft="@drawable/ic_person_pin_black_24dp"
+                      android:drawablePadding="10dp"
+                      android:hint="@string/hint_chaired"
+                      android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textCapWords"
+                      android:textColor="#000000"
+                      android:backgroundTint="@color/black"
+                     />
+
+              </android.support.design.widget.TextInputLayout>
+              <android.support.design.widget.TextInputLayout
+                  android:visibility="visible"
+                  android:id="@+id/til_profile_address_"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColorHint="#000000"
+                  app:hintTextAppearance="@style/HintAppearance">
+
+                  <android.support.design.widget.TextInputEditText
+                      android:id="@+id/tietxt_profile_address_"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:drawableLeft="@drawable/ic_event_black_24dp"
+                      android:drawablePadding="10dp"
+                      android:hint="@string/hint_meeting_subject"
+                      android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textCapWords"
+                      android:textColor="#000000"
+                      android:backgroundTint="@color/black"
+                     />
+
+              </android.support.design.widget.TextInputLayout>
+              <android.support.design.widget.TextInputLayout
+                  android:visibility="visible"
+                  android:id="@+id/til_profile_addres"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:textColorHint="#000000"
+                  app:hintTextAppearance="@style/HintAppearance">
+
+                  <android.support.design.widget.TextInputEditText
+
+                      android:id="@+id/tietxt_profile_addres"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:drawableLeft="@drawable/ic_location_city_black_24dp"
+                      android:drawablePadding="10dp"
+                      android:hint="@string/hint_meeting_address_1"
+                      android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textCapWords"
+                      android:textColor="#000000"
+                      android:backgroundTint="@color/black"
+                     />
+
+              </android.support.design.widget.TextInputLayout>-->
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            app:mtf_image="@drawable/ic_person_pin_black_24dp"
+            app:mtf_labelColor="#666">
+
+            <EditText
+                android:id="@+id/etChairedBy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_chaired"
+                android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textCapWords"
+
+                android:textColor="#333"
+                android:textSize="15sp" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            app:mtf_image="@drawable/ic_event_black_24dp"
+            app:mtf_labelColor="#666">
+
+            <EditText
+                android:id="@+id/etMeetingSubject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_meeting_subject"
+                android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textCapWords"
+                android:textColor="#333"
+                android:textSize="15sp" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_5sdp"
+            app:mtf_image="@drawable/ic_location_city_black_24dp"
+            app:mtf_labelColor="#666">
+
+            <EditText
+                android:id="@+id/etMeetingAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_meeting_address_1"
+                android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textCapSentences|textCapWords"
+                android:textColor="#333"
+                android:textSize="15sp" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_weight=".9"
+                android:text="@string/hint_meeting_date_time"
+                android:textColor="@color/black" />
+
+
+            <TextView
+                android:id="@+id/tvMeetingSchedule"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/ic_today_black_24dp"
+                android:onClick="setMeetingDateTime"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

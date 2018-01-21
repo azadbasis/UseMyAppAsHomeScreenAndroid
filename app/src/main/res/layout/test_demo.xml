@@ -124,7 +124,6 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="#88C440"
-
             app:tsquare_headerTextColor="@color/black"
             app:tsquare_titleTextColor="@color/red"
             app:tsquare_dayTextColor="@color/black"
@@ -186,6 +185,7 @@
                 android:background="@color/blue_grey" />
 
             <TextView
+                android:id="@+id/tvMeetingNotice"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
