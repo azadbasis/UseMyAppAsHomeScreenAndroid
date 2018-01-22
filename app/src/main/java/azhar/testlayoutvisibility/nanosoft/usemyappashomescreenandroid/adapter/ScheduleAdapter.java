@@ -18,11 +18,12 @@ import java.util.List;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.R;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.database.Events;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.Chat;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.ScheduleEvents;
 
 
 public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Events> mEvents;
+    private List<ScheduleEvents> mEvents;
 
     private Context con;
 
@@ -31,7 +32,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return position;
     }
 
-    public ScheduleAdapter(Context con,List<Events> mEvents) {
+    public ScheduleAdapter(Context con,List<ScheduleEvents> mEvents) {
         this.con = con;
         this.mEvents = mEvents;
     }
@@ -60,10 +61,10 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return 0;
     }
     private void configureMyChatViewHolder(ScheduleAdapter.MyChatViewHolder myChatViewHolder, int position) {
-        Events event = mEvents.get(position);
+        ScheduleEvents event = mEvents.get(position);
 
-        myChatViewHolder.tvSchTitle.setText(event.getEventTitle());
-        myChatViewHolder.tvScTime.setText(event.getEventTime());
+        myChatViewHolder.tvSchTitle.setText(event.getTitle());
+        myChatViewHolder.tvScTime.setText(event.getFrom_time().toString());
         myChatViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

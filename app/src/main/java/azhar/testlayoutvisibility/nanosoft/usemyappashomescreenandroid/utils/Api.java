@@ -1,6 +1,7 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils;
 
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -16,16 +17,15 @@ public interface Api {
 
     //http://redb.sreda.gov.bd/home";
     //String BASE_URL = "http://192.168.0.119/renewableenergy/api/";
-    String BASE_URL = "http://redb.sreda.gov.bd/api/";
+    String BASE_URL = "http://192.168.0.115/sreda_api/";
 
 
-//    @FormUrlEncoded
-//    @POST("login")
-//    Call<Info_UserLoginResponse> getLoginUser(
-//            @Field("email") String email,
-//            @Field("password") String password
-//
-//    );
+    @FormUrlEncoded
+    @POST("login")
+    Call<LoginResponse> loginUser(
+            @Field("login_email") String email,
+            @Field("login_password") String password
+    );
 //
 //
 //    @GET("capacity_report")

@@ -57,6 +57,9 @@ import com.squareup.timessquare.DayViewAdapter;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +67,7 @@ import java.util.List;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.ChatRecyclerAdapter;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.ScheduleAdapter;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.database.Events;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.ScheduleEvents;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 import io.realm.Realm;
@@ -85,7 +89,8 @@ public class MainActivity extends AppCompatActivity{
     private CalendarPickerView calendar_view;
     private List<Date> eventDates = new ArrayList<>();
     private List<String> eventDetails = new ArrayList<>();
-    RealmResults<Events> resultsEvents;
+    //RealmResults<Events> resultsEvents;
+    List<ScheduleEvents> resultsEvents = new ArrayList<>();
     private Realm mRealm;
     private Calendar nextYear;
     private Date today;
@@ -146,8 +151,34 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onDateSelected(Date date) {
 
-                //Toast.makeText(getApplicationContext(),"Selected Date is : " +date.toString(),Toast.LENGTH_SHORT).show();
-                eventDialogue(date);
+
+                Date dob=date;//this will take date as Fri Jan 06 00:00:00 IST 2012
+
+                final String OLD_FORMAT = "yyyy-MM-dd";  //wants t convert date in this format
+                Date d = null;
+                SimpleDateFormat newDateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+                try {
+                     d =newDateFormat.parse(newDateFormat.format(dob));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                newDateFormat.applyPattern(OLD_FORMAT);
+                String new_date=newDateFormat.format(d);
+
+
+
+                Date todate = null;
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
+                try {
+                     todate = (Date)formatter.parse(String.valueOf(d));
+                     Log.e("todate",""+new_date);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                eventDialogue(new_date);
+                
             }
 
             @Override
@@ -163,9 +194,19 @@ public class MainActivity extends AppCompatActivity{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getEvents() {
-        resultsEvents = mRealm.where(Events.class).findAll();
+        //resultsEvents = mRealm.where(Events.class).findAll();
+        resultsEvents = AppConstant.loginResponse.getEvents();
         for(int i = 0; i<resultsEvents.size();i++){
-            eventDates.add(resultsEvents.get(i).getEventDate());
+            String stdate = resultsEvents.get(i).getFrom_time();
+            String[] parts = stdate.split(" ");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
+            try {
+                Date date = (Date)formatter.parse(parts[0]);
+                eventDates.add(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
         }
     }
@@ -311,23 +352,24 @@ public class MainActivity extends AppCompatActivity{
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void eventDialogue(final Date date){
+    private void eventDialogue(final String date){
 
-        int month = date.getMonth()+1;
-        int year = date.getYear()+1900;
-        String todate = date.getDate()+"/"+month+"/"+year;
+//        int month = date.getMonth()+1;
+//        int year = date.getYear()+1900;
+//        String todate = date.getDate()+"/"+month+"/"+year;
         final Dialog dialog = new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialogue_shedule);
         final TextView tvToday = (TextView)dialog.findViewById(R.id.tvToday);
-        tvToday.setText("Today ("+todate+") Events:");
+        tvToday.setText("Today ("+date+") Events:");
         final EditText etTitle = (EditText)dialog.findViewById(R.id.etTitle);
-        final TextView tvTime = (TextView)dialog.findViewById(R.id.tvTime);
+        final EditText etFromTime = (EditText)dialog.findViewById(R.id.etFromTime);
+        final EditText etToTime = (EditText)dialog.findViewById(R.id.etToTime);
         final TextInputLayout txtInputTime = (TextInputLayout)dialog.findViewById(R.id.txtInputTime);
         Button btnAdd = (Button)dialog.findViewById(R.id.btnAdd);
         Button btnCancel = (Button)dialog.findViewById(R.id.btnCancel);
-        tvTime.setOnClickListener(new View.OnClickListener() {
+        etFromTime.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -364,14 +406,61 @@ public class MainActivity extends AppCompatActivity{
 
                             format = "AM";
                         }
-                        tvTime.setText(hourOfDay+":"+minute+" "+format );
+                        etFromTime.setText(hourOfDay+":"+minute+" "+format );
                     }
 
                 }, hour, minutes, false);//Yes 24 hour time
-                mTimePicker.setTitle("Select Time");
+                mTimePicker.setTitle("Select From Time");
                 mTimePicker.show();
             }
         });
+
+        etToTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                final DateTime inspected_at = DateTime.now();
+                int hour    = inspected_at.getHourOfDay();
+                int minutes = inspected_at.getMinuteOfHour();
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(dialog.getContext(), new TimePickerDialog.OnTimeSetListener() {
+
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String format;
+
+                        if (hourOfDay == 0) {
+
+                            hourOfDay += 12;
+
+                            format = "AM";
+                        }
+                        else if (hourOfDay == 12) {
+
+                            format = "PM";
+
+                        }
+                        else if (hourOfDay > 12) {
+
+                            hourOfDay -= 12;
+
+                            format = "PM";
+
+                        }
+                        else {
+
+                            format = "AM";
+                        }
+                        etToTime.setText(hourOfDay+":"+minute+" "+format );
+                    }
+
+                }, hour, minutes, false);//Yes 24 hour time
+                mTimePicker.setTitle("Select To Time");
+                mTimePicker.show();
+            }
+        });
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -379,10 +468,10 @@ public class MainActivity extends AppCompatActivity{
 
                if(TextUtils.isEmpty(etTitle.getText().toString())) {
                    Toast.makeText(con, "Event title empty!", Toast.LENGTH_SHORT).show();
-                }else if(TextUtils.isEmpty(tvTime.getText().toString())){
+                }else if(TextUtils.isEmpty(etFromTime.getText().toString())){
                    Toast.makeText(con, "Event time empty!", Toast.LENGTH_SHORT).show();
                }else {
-                   addEvent(date, etTitle.getText().toString().trim(),tvTime.getText().toString().trim());
+                  // addEvent(date, etTitle.getText().toString().trim(),etFromTime.getText().toString().trim());
                }
 
             }
@@ -400,9 +489,12 @@ public class MainActivity extends AppCompatActivity{
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recycler_shedule.setLayoutManager(llm);
 
-        List <Events> todayEvents = new ArrayList<>();
+        List <ScheduleEvents> todayEvents = new ArrayList<>();
         for(int i = 0; i<resultsEvents.size();i++){
-            if(date.toString().equalsIgnoreCase(resultsEvents.get(i).getEventDate().toString())){
+            String stdate = resultsEvents.get(i).getFrom_time();
+            String[] parts = stdate.split(" ");
+
+            if(date.toString().equalsIgnoreCase(parts[0])){
                 todayEvents.add(resultsEvents.get(i));
             }
         }
@@ -415,78 +507,78 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void deleteEvents(final Date eventDate) {
-
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                eventDates.clear();
-                RealmResults<Events> rows = realm.where(Events.class).equalTo("eventDate", eventDate).findAll();
-                rows.clear();
-                resultsEvents = mRealm.where(Events.class).findAll();
-                if(resultsEvents.size()>0){
-                    for(int i =0; i<resultsEvents.size();i++){
-                        eventDates.add(resultsEvents.get(i).getEventDate());
-                    }
-                    calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
-                }else {
-                    calendar_view.init(today, nextYear.getTime())
-                            .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
-                }
-
-            }
-        });
-
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void addEvent(Date eventDate, String eventTitle,String time) {
-        mRealm.beginTransaction();
-        Events events = mRealm.createObject(Events.class);
-        events.setEventTitle(eventTitle);
-        events.setEventTime(time);
-        events.setEventDate(eventDate);
-        mRealm.commitTransaction();
-        resultsEvents = mRealm.where(Events.class).findAll();
-
-        List <Events> todayEvents = new ArrayList<>();
-        for(int i =0; i<resultsEvents.size();i++){
-            eventDates.add(resultsEvents.get(i).getEventDate());
-                if(eventDate.toString().equalsIgnoreCase(resultsEvents.get(i).getEventDate().toString())){
-                    todayEvents.add(resultsEvents.get(i));
-                }
-        }
-        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(con,todayEvents);
-        recycler_shedule.setAdapter(scheduleAdapter);
-        calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
-        calendar_view.setSelector(R.drawable.circle_accent);
-        Toast.makeText(con,"Event Added!",Toast.LENGTH_SHORT).show();
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void updateEvent(Date eventDate, String eventTitle) {
-        Events editPersonDetails = mRealm.where(Events.class).equalTo("eventDate", eventDate).findFirst();
-        mRealm.beginTransaction();
-        editPersonDetails.setEventTitle(eventTitle);
-        editPersonDetails.setEventDate(eventDate);
-        mRealm.commitTransaction();
-        resultsEvents = mRealm.where(Events.class).findAll();
-
-        for(int i =0; i<resultsEvents.size();i++){
-            eventDates.add(resultsEvents.get(i).getEventDate());
-        }
-        calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
-
-//        new Handler().postDelayed(new Runnable() {
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    private void deleteEvents(final Date eventDate) {
+//
+//        mRealm.executeTransaction(new Realm.Transaction() {
 //            @Override
-//            public void run() {
+//            public void execute(Realm realm) {
+//                eventDates.clear();
+//                RealmResults<Events> rows = realm.where(Events.class).equalTo("eventDate", eventDate).findAll();
+//                rows.clear();
+//                resultsEvents = mRealm.where(Events.class).findAll();
+//                if(resultsEvents.size()>0){
+//                    for(int i =0; i<resultsEvents.size();i++){
+//                        eventDates.add(resultsEvents.get(i).getEventDate());
+//                    }
+//                    calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
+//                }else {
+//                    calendar_view.init(today, nextYear.getTime())
+//                            .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
+//                }
 //
 //            }
-//        },500);
-    }
+//        });
+//
+//
+//    }
+
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    private void addEvent(Date eventDate, String eventTitle,String time) {
+//        mRealm.beginTransaction();
+//        Events events = mRealm.createObject(Events.class);
+//        events.setEventTitle(eventTitle);
+//        events.setEventTime(time);
+//        events.setEventDate(eventDate);
+//        mRealm.commitTransaction();
+//        resultsEvents = mRealm.where(Events.class).findAll();
+//
+//        List <Events> todayEvents = new ArrayList<>();
+//        for(int i =0; i<resultsEvents.size();i++){
+//            eventDates.add(resultsEvents.get(i).getEventDate());
+//                if(eventDate.toString().equalsIgnoreCase(resultsEvents.get(i).getEventDate().toString())){
+//                    todayEvents.add(resultsEvents.get(i));
+//                }
+//        }
+//        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(con,todayEvents);
+//        recycler_shedule.setAdapter(scheduleAdapter);
+//        calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
+//        calendar_view.setSelector(R.drawable.circle_accent);
+//        Toast.makeText(con,"Event Added!",Toast.LENGTH_SHORT).show();
+//    }
+
+
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    public void updateEvent(Date eventDate, String eventTitle) {
+//        Events editPersonDetails = mRealm.where(Events.class).equalTo("eventDate", eventDate).findFirst();
+//        mRealm.beginTransaction();
+//        editPersonDetails.setEventTitle(eventTitle);
+//        editPersonDetails.setEventDate(eventDate);
+//        mRealm.commitTransaction();
+//        resultsEvents = mRealm.where(Events.class).findAll();
+//
+//        for(int i =0; i<resultsEvents.size();i++){
+//            eventDates.add(resultsEvents.get(i).getEventDate());
+//        }
+//        calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
+//
+////        new Handler().postDelayed(new Runnable() {
+////            @Override
+////            public void run() {
+////
+////            }
+////        },500);
+//    }
 
     // Get the account list, and pick the first one
     final String ACCOUNT_TYPE_GOOGLE = "com.google";

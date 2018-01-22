@@ -84,6 +84,7 @@
     <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.customfonts.MyEditText
         android:id="@+id/nameEditTxt"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:hint="Name"
         android:inputType="text"
@@ -96,7 +97,6 @@
         android:layout_marginRight="20dp"
         android:drawableLeft="@drawable/ic_shapes_2"
         android:drawablePadding="16dp"
-
         />
 
 

@@ -5,6 +5,7 @@ package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.User;
 
 public class AppConstant {
@@ -28,4 +29,5 @@ public class AppConstant {
     public static List<String> registraion_ids = new ArrayList<>();
 
 
+    public static LoginResponse loginResponse = new LoginResponse();
 }

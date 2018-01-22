@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -19,9 +20,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.customfonts.MyEditText;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistentUser;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -66,16 +74,16 @@ public class LoginActivity extends AppCompatActivity {
         tvBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(con,MainActivity.class));
+               // startActivity(new Intent(con,MainActivity.class));
 
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
                 String username = nameEditTxt.getText().toString();
 
-                if (TextUtils.isEmpty(username)) {
-                    Toast.makeText(getApplicationContext(), "Enter use name!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (TextUtils.isEmpty(username)) {
+//                    Toast.makeText(getApplicationContext(), "Enter use name!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (TextUtils.isEmpty(userEmail)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
                     return;
@@ -86,8 +94,11 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
+                loginWithServer(userEmail,userPassword);
+
+
                 progressBar.setVisibility(View.VISIBLE);
-                PersistData.setStringData(con,AppConstant.userName,username);
+
 
                 //authenticate user
 //                auth.signInWithEmailAndPassword(userEmail, userPassword)
@@ -133,7 +144,36 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    private void loginWithServer(String userEmail, String userPassword) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
 
+        Api api = retrofit.create(Api.class);
+        Call<LoginResponse> call = api.loginUser(userEmail,userPassword);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                progressBar.setVisibility(View.GONE);
+                LoginResponse loginResponse = response.body();
+
+                if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                    AppConstant.loginResponse = loginResponse;
+                    PersistData.setStringData(con,AppConstant.uid,loginResponse.getEmployee_info().getEmployee_id());
+                    Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
+                    startActivity(new Intent(con,MainActivity.class));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
 
 
     @Override
