@@ -21,7 +21,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.Cha
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.ScheduleEvents;
 
 
-public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyChatViewHolder> {
 
     private List<ScheduleEvents> mEvents;
 
@@ -38,17 +38,24 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        RecyclerView.ViewHolder viewHolder = null;
-        View viewChatMine = layoutInflater.inflate(R.layout.raw_schedule, parent, false);
-        viewHolder = new MyChatViewHolder(viewChatMine);
+    public MyChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return viewHolder;
+        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.raw_schedule, null, false);
+        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        rootView.setLayoutParams(lp);
+        return new MyChatViewHolder(rootView);
+
+//        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+//        RecyclerView.ViewHolder viewHolder = null;
+//        RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        View viewChatMine = layoutInflater.inflate(R.layout.raw_schedule, null, false);
+//        viewChatMine.setLayoutParams(lp);
+//        viewHolder = new MyChatViewHolder(viewChatMine);
+//        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(MyChatViewHolder holder, int position) {
         configureMyChatViewHolder((ScheduleAdapter.MyChatViewHolder) holder, position);
     }
 
@@ -62,27 +69,28 @@ public class ScheduleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
     private void configureMyChatViewHolder(ScheduleAdapter.MyChatViewHolder myChatViewHolder, int position) {
         ScheduleEvents event = mEvents.get(position);
+        String[] partstot = event.getTo_time().split(" ");
+        String[] partsfrom = event.getFrom_time().split(" ");
+
+        String fromtime = partsfrom[1];
+        String totime = partstot[1];
 
         myChatViewHolder.tvSchTitle.setText(event.getTitle());
-        myChatViewHolder.tvScTime.setText(event.getFrom_time().toString());
-        myChatViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        myChatViewHolder.tvFromTime.setText(fromtime);
+        myChatViewHolder.tvToTime.setText(totime);
 
-            }
-        });
+
 
     }
 
-    private static class MyChatViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvSchTitle, tvScTime;
-        private ImageView imgDelete;
+   class MyChatViewHolder extends RecyclerView.ViewHolder {
+        private TextView tvSchTitle, tvFromTime,tvToTime;
 
         public MyChatViewHolder(View itemView) {
             super(itemView);
             tvSchTitle = (TextView) itemView.findViewById(R.id.tvSchTitle);
-            tvScTime = (TextView) itemView.findViewById(R.id.tvScTime);
-            imgDelete = (ImageView) itemView.findViewById(R.id.imgDelete);
+            tvFromTime = (TextView) itemView.findViewById(R.id.tvFromTime);
+            tvToTime = (TextView) itemView.findViewById(R.id.tvToTime);
         }
     }
 

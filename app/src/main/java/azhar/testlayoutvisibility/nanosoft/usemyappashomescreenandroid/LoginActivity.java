@@ -45,8 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         con = this;
 
         if(PersistentUser.isLogged(con)){
-            startActivity(new Intent(con, MainActivity.class));
-            finish();
+            loginWithServer(PersistData.getStringData(con,AppConstant.userEmail),PersistData.getStringData(con,AppConstant.userPassword));
         }
 //        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 //        if (fUser != null) {
@@ -144,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void loginWithServer(String userEmail, String userPassword) {
+    private void loginWithServer(final String userEmail, final String userPassword) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
@@ -160,10 +159,14 @@ public class LoginActivity extends AppCompatActivity {
                 LoginResponse loginResponse = response.body();
 
                 if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                    PersistentUser.setLogin(con);
                     AppConstant.loginResponse = loginResponse;
-                    PersistData.setStringData(con,AppConstant.uid,loginResponse.getEmployee_info().getEmployee_id());
+                    PersistData.setStringData(con,AppConstant.employee_id,loginResponse.getEmployee_info().getEmployee_id());
+                    PersistData.setStringData(con,AppConstant.userEmail,userEmail);
+                    PersistData.setStringData(con,AppConstant.userPassword,userPassword);
                     Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
                     startActivity(new Intent(con,MainActivity.class));
+                    finish();
                 }
 
             }

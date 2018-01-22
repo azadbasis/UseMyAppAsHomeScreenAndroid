@@ -17,6 +17,9 @@ public class AppConstant {
     public static String ARG_RECEIVER_UID = "";
     public static String ARG_RECEIVER_FIREBASE_TOKEN = "";
 
+    public static String employee_id ="employee_id";
+    public static String userEmail ="userEmail";
+    public static String userPassword ="userPassword";
     public static String uid ="uid";
     public static String userName ="userName";
     public static String lat ="lat";

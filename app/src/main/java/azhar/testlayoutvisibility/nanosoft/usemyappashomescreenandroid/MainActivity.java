@@ -32,6 +32,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
@@ -67,16 +68,24 @@ import java.util.List;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.ChatRecyclerAdapter;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.ScheduleAdapter;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.database.Events;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.ScheduleEvents;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.GET_ACCOUNTS;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission_group.CAMERA;
+import static android.widget.LinearLayout.VERTICAL;
 import static com.squareup.timessquare.CalendarPickerView.SelectionMode.MULTIPLE;
 
 public class MainActivity extends AppCompatActivity{
@@ -95,6 +104,9 @@ public class MainActivity extends AppCompatActivity{
     private Calendar nextYear;
     private Date today;
     private RecyclerView recycler_shedule;
+    private String fromHourMin;
+    private String toHourMin;
+    private Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,18 +177,6 @@ public class MainActivity extends AppCompatActivity{
                 newDateFormat.applyPattern(OLD_FORMAT);
                 String new_date=newDateFormat.format(d);
 
-
-
-                Date todate = null;
-                DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
-                try {
-                     todate = (Date)formatter.parse(String.valueOf(d));
-                     Log.e("todate",""+new_date);
-
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
                 eventDialogue(new_date);
                 
             }
@@ -188,21 +188,30 @@ public class MainActivity extends AppCompatActivity{
                 //Toast.makeText(getApplicationContext(),"UnSelected Date is : " +date.toString(),Toast.LENGTH_SHORT).show();
             }
         });
-
-        getEvents();
+        resultsEvents = AppConstant.loginResponse.getEvents();
+        getEvents(resultsEvents);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void getEvents() {
-        //resultsEvents = mRealm.where(Events.class).findAll();
-        resultsEvents = AppConstant.loginResponse.getEvents();
-        for(int i = 0; i<resultsEvents.size();i++){
-            String stdate = resultsEvents.get(i).getFrom_time();
+    private void getEvents(List<ScheduleEvents> listEvents) {
+
+
+
+        int todaymilis= (int) today.getTime();
+
+        for(int i = 0; i<listEvents.size();i++){
+            String stdate = listEvents.get(i).getFrom_time();
+
             String[] parts = stdate.split(" ");
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
             try {
                 Date date = (Date)formatter.parse(parts[0]);
-                eventDates.add(date);
+                int listodaymilis= (int) date.getTime();
+                if(listodaymilis>todaymilis){
+                    eventDates.add(date);
+                }
+
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -357,7 +366,7 @@ public class MainActivity extends AppCompatActivity{
 //        int month = date.getMonth()+1;
 //        int year = date.getYear()+1900;
 //        String todate = date.getDate()+"/"+month+"/"+year;
-        final Dialog dialog = new Dialog(MainActivity.this);
+        dialog = new Dialog(MainActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialogue_shedule);
@@ -407,6 +416,7 @@ public class MainActivity extends AppCompatActivity{
                             format = "AM";
                         }
                         etFromTime.setText(hourOfDay+":"+minute+" "+format );
+                        fromHourMin = hourOfDay+":"+minute+":"+"00";
                     }
 
                 }, hour, minutes, false);//Yes 24 hour time
@@ -453,6 +463,7 @@ public class MainActivity extends AppCompatActivity{
                             format = "AM";
                         }
                         etToTime.setText(hourOfDay+":"+minute+" "+format );
+                        toHourMin = hourOfDay+":"+minute+":"+"00";
                     }
 
                 }, hour, minutes, false);//Yes 24 hour time
@@ -469,10 +480,18 @@ public class MainActivity extends AppCompatActivity{
                if(TextUtils.isEmpty(etTitle.getText().toString())) {
                    Toast.makeText(con, "Event title empty!", Toast.LENGTH_SHORT).show();
                 }else if(TextUtils.isEmpty(etFromTime.getText().toString())){
-                   Toast.makeText(con, "Event time empty!", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(con, "From time empty!", Toast.LENGTH_SHORT).show();
+               }else if(TextUtils.isEmpty(etToTime.getText().toString())){
+                   Toast.makeText(con, "To time empty!", Toast.LENGTH_SHORT).show();
                }else {
-                  // addEvent(date, etTitle.getText().toString().trim(),etFromTime.getText().toString().trim());
+
+                   String from = date+" "+fromHourMin;
+                   String to = date+" "+toHourMin;
+
+                   saveEventToServer(PersistData.getStringData(con,AppConstant.employee_id),
+                           etTitle.getText().toString(),from,to,"");
                }
+
 
             }
         });
@@ -487,6 +506,9 @@ public class MainActivity extends AppCompatActivity{
 
         LinearLayoutManager llm = new LinearLayoutManager(con);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
+        DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), VERTICAL);
+
+        recycler_shedule.addItemDecoration(decoration);
         recycler_shedule.setLayoutManager(llm);
 
         List <ScheduleEvents> todayEvents = new ArrayList<>();
@@ -504,6 +526,41 @@ public class MainActivity extends AppCompatActivity{
         recycler_shedule.setAdapter(scheduleAdapter);
 
         dialog.show();
+
+    }
+
+    private void saveEventToServer(String employee_id,String title,String from_time,
+                                   String to_time,String description) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<LoginResponse> call = api.saveEvents(employee_id,title,from_time,to_time,description);
+        call.enqueue(new Callback<LoginResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                LoginResponse loginResponse = response.body();
+                if(loginResponse!=null){
+                    if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                        Toast.makeText(con, "Event save to server.", Toast.LENGTH_SHORT).show();
+                        resultsEvents = loginResponse.getEvents();
+                        getEvents(loginResponse.getEvents());
+                        dialog.dismiss();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
 
     }
 

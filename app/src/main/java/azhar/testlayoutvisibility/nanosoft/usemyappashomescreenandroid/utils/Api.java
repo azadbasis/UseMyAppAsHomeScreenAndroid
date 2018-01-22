@@ -26,6 +26,16 @@ public interface Api {
             @Field("login_email") String email,
             @Field("login_password") String password
     );
+
+    @FormUrlEncoded
+    @POST("save-events")
+    Call<LoginResponse> saveEvents(
+            @Field("employee_id") String employee_id,
+            @Field("title") String title,
+            @Field("from_time") String from_time,
+            @Field("to_time") String to_time,
+            @Field("description") String description
+    );
 //
 //
 //    @GET("capacity_report")
