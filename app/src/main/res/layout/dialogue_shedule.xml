@@ -4,14 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:gravity="center"
+    android:layout_margin="@dimen/_15sdp"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/_10sdp"
-        >
+
 
         <TextView
             android:id="@+id/tvToday"
@@ -78,12 +74,22 @@
                 />
 
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:orientation="vertical"
+        >
+
         <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/_5sdp"
             android:id="@+id/recycler_shedule"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp">
+            android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
 
 
 
@@ -173,7 +179,6 @@
                 android:layout_alignParentRight="true"
                 />
         </RelativeLayout>
-    </LinearLayout>
 
 
 </LinearLayout>

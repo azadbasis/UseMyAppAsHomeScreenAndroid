@@ -40,7 +40,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.MyChat
     @Override
     public MyChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.raw_schedule, null, false);
+
+
+
+
+
+        View rootView = LayoutInflater.from(con).inflate(R.layout.raw_schedule, null, false);
         RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         rootView.setLayoutParams(lp);
         return new MyChatViewHolder(rootView);
