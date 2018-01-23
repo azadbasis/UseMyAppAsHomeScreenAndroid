@@ -44,9 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         con = this;
 
-        if(PersistentUser.isLogged(con)){
-            loginWithServer(PersistData.getStringData(con,AppConstant.userEmail),PersistData.getStringData(con,AppConstant.userPassword));
-        }
+
 //        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 //        if (fUser != null) {
 //            //Toast.makeText(getApplicationContext(), fUser.getEmail().toString(), Toast.LENGTH_SHORT).show();

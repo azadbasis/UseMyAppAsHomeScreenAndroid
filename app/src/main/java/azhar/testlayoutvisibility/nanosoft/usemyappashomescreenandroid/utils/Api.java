@@ -2,6 +2,7 @@ package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils;
 
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.MeetingRoomResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -36,14 +37,12 @@ public interface Api {
             @Field("to_time") String to_time,
             @Field("description") String description
     );
-//
-//
-//    @GET("capacity_report")
-//    Call<Info_CapacityResponse> getCapacity(
-//            @Query("email") String email,
-//            @Query("password") String password
-//
-//    );
+
+
+    @GET("meeting-room-booking")
+    Call<MeetingRoomResponse> getRoomList(
+
+    );
 //
 //    @GET("fuel_generation_report")
 //    Call<Info_FuelGenResponse> getFuel(

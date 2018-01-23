@@ -72,6 +72,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.Log
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.ScheduleEvents;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -756,6 +757,13 @@ public class MainActivity extends AppCompatActivity{
 //        am.set(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), sender);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
 }
 
 
