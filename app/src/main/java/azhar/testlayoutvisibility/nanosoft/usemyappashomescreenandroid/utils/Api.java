@@ -18,7 +18,7 @@ public interface Api {
 
     //http://redb.sreda.gov.bd/home";
     //String BASE_URL = "http://192.168.0.119/renewableenergy/api/";
-    String BASE_URL = "http://192.168.0.115/sreda_api/";
+    String BASE_URL = "http://192.168.0.116/sreda_api/";
 
 
     @FormUrlEncoded
@@ -36,6 +36,26 @@ public interface Api {
             @Field("from_time") String from_time,
             @Field("to_time") String to_time,
             @Field("description") String description
+    );
+
+    @FormUrlEncoded
+    @POST("save-meeting-room-booking")
+    Call<LoginResponse> saveMeetingRoomBooking(
+            @Field("employee_id") String employee_id,
+            @Field("reference_no") String reference_no,
+            @Field("room_id") String room_id,
+            @Field("booking_type") String booking_type,
+            @Field("booking_date") String booking_date,
+            @Field("booking_start_time") String booking_start_time,
+            @Field("booking_end_time") String booking_end_time,
+            @Field("chairperson_name") String chairperson_name,
+            @Field("number_of_member") String number_of_member,
+            @Field("subject") String subject,
+            @Field("preference_no") String preference_no,
+            @Field("issue_no") String issue_no,
+            @Field("booking_purpose") String booking_purpose,
+            @Field("notice") String notice
+
     );
 
 

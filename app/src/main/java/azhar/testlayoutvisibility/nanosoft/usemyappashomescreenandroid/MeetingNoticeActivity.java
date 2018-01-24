@@ -49,7 +49,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
     private ArrayList<String> mEntries;
     OffecialBeanAdapter offecialBeanAdapter;
     EditText etmYEmailID, etMeetingAddress, etChairedBy, etMeetingSubject, etMeetingDiscussion;
-    TextView tvMeetingDateTime,tvMeetingSchedule;
+    TextView tvMeetingDateTime,tvMeetingDate,tvStartTime,tvEndTime;
     String date_time = "";
     int mYear, mMonth, mDay, mHour, mMinute;
     int cYear, cMonth, cDay, cHour, cMinute;
@@ -74,13 +74,15 @@ public class MeetingNoticeActivity extends AppCompatActivity {
         etMeetingSubject = (EditText) findViewById(R.id.etMeetingSubject);
         etMeetingDiscussion = (EditText) findViewById(R.id.etMeetingDiscussion);
         tvMeetingDateTime = (TextView) findViewById(R.id.tvMeetingDateTime);
-        tvMeetingSchedule = (TextView) findViewById(R.id.tvMeetingSchedule);
+        tvMeetingDate = (TextView) findViewById(R.id.tvMeetingDate);
+        tvStartTime = (TextView) findViewById(R.id.tvStartTime);
+        tvEndTime = (TextView) findViewById(R.id.tvEndTime);
         DateFormat dateFormatter = new SimpleDateFormat("dd-M-yyyy hh:mm");
         dateFormatter.setLenient(false);
         Date today = new Date();
         dateTime = dateFormatter.format(today);
         tvMeetingDateTime.setText(dateTime);
-        tvMeetingSchedule.setText(dateTime);
+        //tvMeetingDate.setText(dateTime);
 
 
     }
@@ -212,10 +214,17 @@ public class MeetingNoticeActivity extends AppCompatActivity {
         sendEmail();
     }
 
-    public void setMeetingDateTime(View view) {
+    public void setMeetingDate(View view) {
         datePicker();
     }
 
+    public void setMeetingStartTime(View view) {
+        tiemPicker(tvStartTime);
+    }
+
+    public void setMeetingEndTime(View view) {
+        tiemPicker(tvEndTime);
+    }
     private void datePicker() {
 
 // Get Current Date
@@ -230,20 +239,20 @@ public class MeetingNoticeActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                        date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                       // date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
 //*************Call Time Picker Here ********************
 
                         cYear = year;
                         cMonth = monthOfYear + 1;
                         cDay = dayOfMonth;
-
-                        tiemPicker();
+                        tvMeetingDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        //tiemPicker();
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
 
-    private void tiemPicker() {
+    private void tiemPicker(final TextView tvTime) {
 
         final Calendar c = Calendar.getInstance();
         mHour = c.get(Calendar.HOUR_OF_DAY);
@@ -278,10 +287,10 @@ public class MeetingNoticeActivity extends AppCompatActivity {
 
                             format = "AM";
                         }
-                        dateTime = date_time + " " + hourOfDay + ":" + minute + " " + format;
+                        //dateTime = hourOfDay + ":" + minute + " " + format;
 
-                        tvMeetingDateTime.setText(dateTime);
-                        tvMeetingSchedule.setText(dateTime);
+                        tvTime.setText(hourOfDay + ":" + minute + " " + format);
+
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();

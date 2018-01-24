@@ -112,4 +112,33 @@ public class Operation {
     }
 
 
+    private void meetingRoomRequisition(String employee_id,String reference_no,String room_id,
+                                        String booking_type,String booking_date, String booking_start_time,
+                                        String booking_end_time,String chairperson_name,String number_of_member,
+                                        String subject,String preference_no,String issue_no,String booking_purpose,
+                                        String notice){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<LoginResponse> call = api.saveMeetingRoomBooking(employee_id, reference_no,
+                room_id,booking_type,booking_date,booking_start_time,booking_end_time,chairperson_name,
+                number_of_member,subject,preference_no,issue_no,booking_purpose,notice);
+
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
 }

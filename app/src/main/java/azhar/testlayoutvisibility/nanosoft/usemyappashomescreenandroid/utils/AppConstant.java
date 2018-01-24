@@ -20,6 +20,7 @@ public class AppConstant {
     public static String employee_id ="employee_id";
     public static String userEmail ="userEmail";
     public static String userPassword ="userPassword";
+    public static String photo ="photo";
     public static String uid ="uid";
     public static String userName ="userName";
     public static String lat ="lat";

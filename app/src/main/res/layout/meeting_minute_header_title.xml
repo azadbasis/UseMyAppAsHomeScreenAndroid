@@ -35,7 +35,6 @@
                     android:layout_gravity="center"
                     android:drawablePadding="@dimen/_5sdp"
                     android:drawableRight="@drawable/ic_today_black_24dp"
-                    android:onClick="setMeetingDateTime"
                     android:paddingLeft="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/black" />

@@ -17,7 +17,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Per
 
 public class SplashScreen extends AppCompatActivity{
 
-    private static int SPLASH_TIME_OUT = 5000;
+    private static int SPLASH_TIME_OUT = 4000;
     Context con;
 
     @Override

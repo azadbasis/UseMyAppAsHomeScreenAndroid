@@ -7,8 +7,15 @@ package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model;
 public class EmployeeInfo {
     private String employee_id,first_name,middle_name,last_name,date_of_birth,place_of_birth,
     religion_name,nationality,sex,blood_group,marital_status,national_id_no,father_name,
-            mother_name,father_occupation,mother_occupation;
+            mother_name,father_occupation,mother_occupation,photo;
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public String getEmployee_id() {
         return employee_id;
