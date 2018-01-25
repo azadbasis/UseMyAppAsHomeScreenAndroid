@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.hardware.Camera;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -76,6 +77,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Ope
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity{
 
     Context con;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private TextView tvChat,tvMeetingNotice;
+    private TextView tvChat,tvMeetingNotice,tvCamera;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private CalendarPickerView calendar_view;
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity{
     private String fromHourMin;
     private String toHourMin;
     private Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +136,7 @@ public class MainActivity extends AppCompatActivity{
     private void initialize() {
 
         tvChat = (TextView)findViewById(R.id.tvChat);
+        tvCamera = (TextView)findViewById(R.id.tvCamera);
         tvMeetingNotice = (TextView)findViewById(R.id.tvMeetingNotice);
 
 
@@ -311,8 +315,8 @@ public class MainActivity extends AppCompatActivity{
             /*Intent photo= new Intent("android.media.action.IMAGE_CAPTURE");
             startActivityForResult(photo, CAMERA_PIC_REQUEST);*/
 
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, IMAGE_CAPTURE);
+//            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            startActivityForResult(intent, IMAGE_CAPTURE);
         }
 
         if (id == R.id.tvLoginLogout) {
