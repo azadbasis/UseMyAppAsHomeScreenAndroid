@@ -20,6 +20,23 @@ Power Division</b>\n <u>Car Requisition Form(govt./personal purpose)</u></string
     <string name="hint_address_1">Address 1</string>
     <string name="hint_city">City</string>
 
+    <string name="hint_reference_no">Reference No*</string>
+    <string name="hint_room">Room*</string>
+    <string name="hint_booking_type">Booking Type*</string>
+    <string name="hint_chairperson_name">Chairperson Name*</string>
+    <string name="hint_no_of_member">No Of Member*</string>
+    <string name="hint_subject">Subject</string>
+    <string name="hint_prefernce_no">Preference No</string>
+    <string name="hint_notice">Notice</string>
+    <string name="hint_issue_no">Issue No</string>
+    <string name="hint_end_date_time">End Date Time*</string>
+    <string name="hint_start_date_time">Start Date Time*</string>
+    <string name="hint_fee">Fee*</string>
+    <string name="hint_discount">Discount</string>
+    <string name="hint_total_amount">Total Amount*</string>
+    <string name="hint_booking_purpose">Booking Purpose*</string>
+    <string name="label_payment_panel">Payment Pannel</string>
+    <string name="label_from">From</string>
 
     <!--notice-->
 

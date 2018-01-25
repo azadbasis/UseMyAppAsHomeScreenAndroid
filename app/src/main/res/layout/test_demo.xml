@@ -208,6 +208,7 @@
                 android:background="@drawable/corners"
                 android:clickable="true"
                 android:gravity="center"
+                android:onClick="showMeetingMinute"
                 android:text="MEETING MINUTES"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold" />
