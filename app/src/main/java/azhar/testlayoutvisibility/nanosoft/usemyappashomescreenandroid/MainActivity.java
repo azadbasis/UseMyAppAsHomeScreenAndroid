@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
               //  startActivity(new Intent(con,UserListActivity.class));
-                setContentView(R.layout.meeting_room_booking);
+              //  setContentView(R.layout.meeting_room_booking);
+                startActivity(new Intent(con,MeetingRoomBookingActivity.class));
             }
         });
 

@@ -9,12 +9,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="com.google.android.gm.permission.READ_GMAIL"/>
+    <uses-permission android:name="com.google.android.gm.permission.READ_GMAIL" />
     <!-- Enables retrieval of the account list -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
 
     <!-- Enables access to Gmail's content provider -->
     <uses-permission android:name="com.google.android.gm.permission.READ_CONTENT_PROVIDER" />
@@ -33,24 +32,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".fcm.MyFirebaseInstanceIDService"
-            android:exported="false"
-            >
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".fcm.MyFirebaseMessagingService"
             android:enabled="true"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <receiver android:name=".HomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -62,18 +60,14 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MeetingNoticeActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".CarActivity"></activity>
-
-        <activity android:name=".UserListActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-        <activity android:name=".ChatActivity"
-            android:screenOrientation="portrait"
-            ></activity>
-
-
-
-
+        <activity android:name=".CarActivity" />
+        <activity
+            android:name=".UserListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MeetingRoomBookingActivity"></activity>
     </application>
 
 </manifest>
