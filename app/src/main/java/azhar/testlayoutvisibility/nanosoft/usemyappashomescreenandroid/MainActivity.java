@@ -1,14 +1,7 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.accounts.AccountManagerCallback;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.annotation.TargetApi;
-import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -18,14 +11,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.hardware.Camera;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
@@ -36,8 +26,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.TelephonyManager;
-import android.text.Editable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -50,15 +38,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.squareup.timessquare.CalendarCellDecorator;
-import com.squareup.timessquare.CalendarCellView;
 import com.squareup.timessquare.CalendarPickerView;
-import com.squareup.timessquare.DayViewAdapter;
 
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,9 +49,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.ChatRecyclerAdapter;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.ScheduleAdapter;
-import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.database.Events;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.ScheduleEvents;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api;
@@ -76,8 +57,6 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.App
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 import io.realm.Realm;
-import io.realm.RealmResults;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -95,7 +74,7 @@ public class MainActivity extends AppCompatActivity{
 
     Context con;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private TextView tvChat,tvMeetingNotice,tvCamera;
+    private TextView tvChat,tvMeetingNotice;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private CalendarPickerView calendar_view;
@@ -110,7 +89,6 @@ public class MainActivity extends AppCompatActivity{
     private String fromHourMin;
     private String toHourMin;
     private Dialog dialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,14 +114,14 @@ public class MainActivity extends AppCompatActivity{
     private void initialize() {
 
         tvChat = (TextView)findViewById(R.id.tvChat);
-        tvCamera = (TextView)findViewById(R.id.tvCamera);
         tvMeetingNotice = (TextView)findViewById(R.id.tvMeetingNotice);
 
 
         tvChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(con,UserListActivity.class));
+              //  startActivity(new Intent(con,UserListActivity.class));
+                setContentView(R.layout.meeting_room_booking);
             }
         });
 
@@ -315,8 +293,8 @@ public class MainActivity extends AppCompatActivity{
             /*Intent photo= new Intent("android.media.action.IMAGE_CAPTURE");
             startActivityForResult(photo, CAMERA_PIC_REQUEST);*/
 
-//            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//            startActivityForResult(intent, IMAGE_CAPTURE);
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, IMAGE_CAPTURE);
         }
 
         if (id == R.id.tvLoginLogout) {
@@ -648,6 +626,10 @@ public class MainActivity extends AppCompatActivity{
     final String[] FEATURES_MAIL = {
             "service_mail"
     };
+
+    public void showMeetingMinute(View view) {
+        setContentView(R.layout.meeting_minute);
+    }
 
 
     public static final class LabelColumns {
