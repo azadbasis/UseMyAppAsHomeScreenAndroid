@@ -124,7 +124,8 @@ public class MainActivity extends AppCompatActivity{
         }else if(!checkPermission()){
             requestPermission();
         }
-
+        Operation operation = new Operation(con);
+        operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),PersistData.getStringData(con, AppConstant.userPassword));
         initialize();
     }
 
