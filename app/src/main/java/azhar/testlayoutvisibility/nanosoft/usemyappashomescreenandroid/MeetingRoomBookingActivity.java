@@ -28,7 +28,7 @@ public class MeetingRoomBookingActivity extends AppCompatActivity  implements Ap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room_booking_main);
+        setContentView(R.layout.meeting_room_booking_main);
 
         bindActivity();
 

@@ -42,7 +42,6 @@
     <color name="endblue">#0bcce6</color>
     <color name="graylight">#fafafa</color>
     <color name="startblue">#09c6df</color>
-    <color name="primary">#785447</color>
     <!--color-->
 
     <color name="transparent">#00000000</color>
@@ -203,4 +202,6 @@
     <color name="calendar_text_active">#DE5347</color>
     <color name="calendar_text_selected">#ffffffff</color>
     <color name="calendar_text_unselectable">#7f778088</color>
+
+    <color name="primary">#785447</color>
 </resources>

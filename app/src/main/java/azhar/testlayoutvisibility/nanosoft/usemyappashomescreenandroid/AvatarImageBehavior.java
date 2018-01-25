@@ -1,4 +1,4 @@
-package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.widgets;
+package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 
-import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @SuppressWarnings("unused")

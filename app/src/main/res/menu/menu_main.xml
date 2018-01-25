@@ -10,7 +10,7 @@
         android:title="Settings" />
 
     <item android:id="@+id/menu_share"
-        android:icon="@drawable/ic_heart_outline_white_24dp"
+        android:icon="@drawable/ic_check_black_24dp"
         app:showAsAction="always"
         android:title="Favorite" />
 </menu>
