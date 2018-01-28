@@ -202,4 +202,6 @@
     <color name="calendar_text_active">#DE5347</color>
     <color name="calendar_text_selected">#ffffffff</color>
     <color name="calendar_text_unselectable">#7f778088</color>
+
+    <color name="primary">#785447</color>
 </resources>

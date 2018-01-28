@@ -132,8 +132,9 @@ public class MainActivity extends AppCompatActivity{
         tvChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  startActivity(new Intent(con,UserListActivity.class));
-                setContentView(R.layout.meeting_room_booking);
+                startActivity(new Intent(con,MeetingRoomBookingActivity.class));
+
+
             }
         });
 

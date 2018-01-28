@@ -7,7 +7,8 @@
     <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.widgets.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:text="@string/label_payment_panel"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text_red_3"
