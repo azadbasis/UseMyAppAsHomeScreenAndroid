@@ -66,6 +66,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CarActivity"></activity>
         <activity android:name=".QrCodeScannerActivity"></activity>
+        <activity android:name=".ScanActivity"></activity>
+        <activity android:name=".FloatingMainActivity"></activity>
 
         <activity android:name=".UserListActivity"
             android:screenOrientation="portrait"

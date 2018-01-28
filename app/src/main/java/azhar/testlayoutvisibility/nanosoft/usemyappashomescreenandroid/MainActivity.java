@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +32,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,6 +40,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.sa90.materialarcmenu.ArcMenu;
+import com.sa90.materialarcmenu.StateChangeListener;
 import com.squareup.timessquare.CalendarPickerView;
 
 import org.joda.time.DateTime;
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity{
 
     Context con;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private TextView tvChat,tvMeetingNotice;
+    private TextView tvChat,tvMeetingNotice,tvCamera;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private CalendarPickerView calendar_view;
@@ -114,9 +118,17 @@ public class MainActivity extends AppCompatActivity{
     private void initialize() {
 
         tvChat = (TextView)findViewById(R.id.tvChat);
+        tvCamera = (TextView)findViewById(R.id.tvCamera);
         tvMeetingNotice = (TextView)findViewById(R.id.tvMeetingNotice);
 
-
+        tvCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //scanButtonDialogue();
+                startActivity(new Intent(con,ScanActivity.class));
+                startActivity(new Intent(con,QrCodeScannerActivity.class));
+            }
+        });
         tvChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,6 +186,9 @@ public class MainActivity extends AppCompatActivity{
         });
         resultsEvents = AppConstant.loginResponse.getEvents();
         getEvents(resultsEvents);
+
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -286,16 +301,7 @@ public class MainActivity extends AppCompatActivity{
             sms_intent.putExtra("", "");
             startActivity(sms_intent);
         }
-        if (id == R.id.tvCamera) {
 
-//            Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-//            startActivityForResult(intent, VIDEO_CAPTURE);
-            /*Intent photo= new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivityForResult(photo, CAMERA_PIC_REQUEST);*/
-
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, IMAGE_CAPTURE);
-        }
 
         if (id == R.id.tvLoginLogout) {
             logOutDialogue();
@@ -748,9 +754,33 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+    }
 
+    private void scanButtonDialogue(){
+
+        Dialog dialogScan = new Dialog(con);
+        dialogScan.setContentView(R.layout.scan_buttons);
+        dialogScan.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+        ArcMenu arcMenu;
+        arcMenu = (ArcMenu) dialogScan.findViewById(R.id.arcMenu);
+        arcMenu.setBackgroundResource(R.drawable.scanbg);
+        arcMenu.setRadius(getResources().getDimension(R.dimen._200sdp));
+        arcMenu.setStateChangeListener(new StateChangeListener() {
+            @Override
+            public void onMenuOpened() {
+                //Snackbar.make(arcMenu, "Menu Opened", Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onMenuClosed() {
+                //Snackbar.make(arcMenu, "Menu Closed", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        dialogScan.show();
 
     }
+
 }
 
 

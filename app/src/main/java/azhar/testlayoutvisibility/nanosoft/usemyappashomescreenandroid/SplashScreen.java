@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
-import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
-import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistentUser;
 
 /**
@@ -17,7 +14,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Per
 
 public class SplashScreen extends AppCompatActivity{
 
-    private static int SPLASH_TIME_OUT = 4000;
+    private static int SPLASH_TIME_OUT = 3000;
     Context con;
 
     @Override
@@ -34,10 +31,10 @@ public class SplashScreen extends AppCompatActivity{
                 if(PersistentUser.isLogged(con)){
 //                    Operation operation = new Operation(con);
 //                    operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),PersistData.getStringData(con, AppConstant.userPassword));
-                    startActivity(new Intent(con,MainActivity.class));
+                    startActivity(new Intent(con,FloatingMainActivity.class));
                     finish();
                 }else {
-                    Intent i = new Intent(SplashScreen.this, LoginActivity.class);
+                    Intent i = new Intent(SplashScreen.this, FloatingMainActivity.class);
                     startActivity(i);
                     finish();
                 }
