@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:paddingBottom="50dp"
     android:paddingTop="40dp">
+
     <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.widgets.CustomTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,34 +17,35 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/text_red_3"
         android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_refer"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_refer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:hintTextAppearance="@style/HintAppearance">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/tietxt_reference_no"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintTextAppearance="@style/HintAppearance">
+                android:background="@drawable/dotted_line"
+                android:hint="@string/hint_reference_no"
+                android:inputType="textPostalAddress|textCapWords"
+                android:minHeight="40dp"
+                android:textColor="@color/text_2" />
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/tietxt_reference_no"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/dotted_line"
-                    android:hint="@string/hint_reference_no"
-                    android:inputType="textPostalAddress|textCapWords"
-                    android:minHeight="40dp"
-                    android:textColor="@color/text_2" />
-
-            </android.support.design.widget.TextInputLayout>
-
+        </android.support.design.widget.TextInputLayout>
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,11 +54,11 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/dotted_line"
-            android:paddingTop="15dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="15dp">
 
             <Spinner
                 android:id="@+id/spinnerTh"
@@ -69,25 +71,27 @@
         </LinearLayout>
 
 
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dotted_line"
-        android:paddingTop="15dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="15dp">
 
-            <Spinner
-                android:id="@+id/spinnerThana"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+        <Spinner
+            android:id="@+id/spinnerThana"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-                />
+            />
 
 
     </LinearLayout>
-<include  layout="@layout/booking_room_payment"/>
+
+    <include layout="@layout/booking_room_payment" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -153,6 +157,7 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -178,6 +183,7 @@
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -205,11 +211,11 @@
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
 
 
         <android.support.design.widget.TextInputLayout
@@ -224,14 +230,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_line"
-
                 android:hint="@string/hint_subject"
                 android:inputType="textPostalAddress|textCapWords"
+                android:lines="2"
                 android:minHeight="40dp"
                 android:textColor="@color/text_2" />
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -277,6 +284,7 @@
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -294,20 +302,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_line"
-
                 android:hint="@string/hint_booking_purpose"
                 android:inputType="textPostalAddress|textCapWords"
+                android:lines="3"
                 android:minHeight="40dp"
                 android:textColor="@color/text_2" />
 
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
 
 
         <android.support.design.widget.TextInputLayout
@@ -322,9 +330,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_line"
-
                 android:hint="@string/hint_notice"
                 android:inputType="textPostalAddress|textCapWords"
+                android:lines="2"
                 android:minHeight="40dp"
                 android:textColor="@color/text_2" />
 
