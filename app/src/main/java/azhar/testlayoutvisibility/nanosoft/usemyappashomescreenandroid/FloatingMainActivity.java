@@ -189,7 +189,7 @@ public class FloatingMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO something when floating action menu second item clicked
 
-                startActivity(new Intent(con,MeetingNoticeActivity.class));
+                startActivity(new Intent(con,MeetingRoomBookingActivity.class));
             }
         });
     }
