@@ -64,6 +64,7 @@
                 android:id="@+id/spinnerRoomName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:prompt="@string/title"
 
                 />
 
@@ -84,12 +85,16 @@
             android:id="@+id/spinnerBookingType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:prompt="@string/title"
             />
 
 
     </LinearLayout>
 
-    <include layout="@layout/booking_room_payment" />
+    <include
+        android:visibility="gone"
+        android:id="@+id/layoutPayment"
+        layout="@layout/booking_room_payment" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -115,12 +120,12 @@
                 android:id="@+id/tvStartDate"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
-                android:layout_gravity="left"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/dotted_line"
                 android:drawableRight="@drawable/ic_today_black_24dp"
                 android:hint="@string/hint_start_date_time"
-                android:onClick="setMeetingDateTime"
+                android:onClick="setMeetingStartDateTime"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
 
@@ -147,10 +152,11 @@
                 android:layout_height="40dp"
                 android:layout_gravity="left"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@drawable/dotted_line"
                 android:drawableRight="@drawable/ic_today_black_24dp"
                 android:hint="@string/hint_end_date_time"
-                android:onClick="setMeetingDateTime"
+                android:onClick="setMeetingEndDateTime"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black" />
 
