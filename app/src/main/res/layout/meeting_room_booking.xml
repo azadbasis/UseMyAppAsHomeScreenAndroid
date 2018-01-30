@@ -61,7 +61,7 @@
             android:paddingTop="15dp">
 
             <Spinner
-                android:id="@+id/spinnerTh"
+                android:id="@+id/spinnerRoomName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -81,10 +81,9 @@
         android:paddingTop="15dp">
 
         <Spinner
-            android:id="@+id/spinnerThana"
+            android:id="@+id/spinnerBookingType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             />
 
 
@@ -100,7 +99,7 @@
         <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.widgets.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/label_from"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/text_red_3"
@@ -130,7 +129,7 @@
         <azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.widgets.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:text="@string/label_to"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/text_red_3"
@@ -231,8 +230,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_line"
                 android:hint="@string/hint_subject"
-                android:inputType="textPostalAddress|textCapWords"
+                android:inputType="textMultiLine|textPostalAddress|textCapWords"
                 android:lines="2"
+                android:gravity="top|start"
                 android:minHeight="40dp"
                 android:textColor="@color/text_2" />
 
@@ -256,7 +256,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_line"
-
                 android:hint="@string/hint_prefernce_no"
                 android:inputType="textPostalAddress|textCapWords"
                 android:minHeight="40dp"
@@ -303,8 +302,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_line"
                 android:hint="@string/hint_booking_purpose"
-                android:inputType="textPostalAddress|textCapWords"
+                android:inputType="textMultiLine|textPostalAddress|textCapWords"
                 android:lines="3"
+                android:gravity="top|start"
                 android:minHeight="40dp"
                 android:textColor="@color/text_2" />
 
@@ -331,8 +331,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/dotted_line"
                 android:hint="@string/hint_notice"
-                android:inputType="textPostalAddress|textCapWords"
-                android:lines="2"
+                android:inputType="textMultiLine|textPostalAddress|textCapWords"
+                android:lines="3"
+                android:gravity="top|start"
                 android:minHeight="40dp"
                 android:textColor="@color/text_2" />
 
