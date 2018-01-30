@@ -1,0 +1,50 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+    <item
+    android:id="@+id/action_meeting_notice"
+    android:orderInCategory="100"
+    app:showAsAction="never"
+    android:title="Meeting Notice" />
+    <item
+        android:id="@+id/action_meeting_room"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Meeting Room" />
+
+    <item
+        android:id="@+id/action_meeting_minute"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Meeting Minute" />
+    <item
+        android:id="@+id/action_leave"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Leave" />
+
+    <item
+        android:id="@+id/action_car"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Car" />
+
+    <item
+        android:id="@+id/action_visit"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Visit" />
+
+    <item
+        android:id="@+id/action_profile"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        android:title="Profile" />
+
+    <!--<item android:id="@+id/menu_share"-->
+        <!--android:icon="@drawable/ic_heart_outline_white_24dp"-->
+        <!--app:showAsAction="always"-->
+        <!--android:title="Favorite" />-->
+</menu>

@@ -66,6 +66,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CarActivity" />
         <activity android:name=".FloatingMainActivity" />
+        <activity android:name=".LeaveActivity" />
 
         <activity android:name=".QrCodeScannerActivity" />
         <activity
