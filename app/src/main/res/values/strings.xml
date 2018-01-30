@@ -428,6 +428,20 @@ Power Division</b>\n <u>Car Requisition Form(govt./personal purpose)</u></string
     <string name="hint_decision">Decision</string>
     <string name="hint_discussion">Discussion</string>
 
+    <string-array name="leave_array">
+        <item>Select leave type</item>
+        <item>Earn leave with full pay</item>
+        <item>Earn leave with half pay</item>
+        <item>CL</item>
+        <item>Spacial Leave</item>
+        <item>Quarantine</item>
+        <item>Maternity</item>
+        <item>Educational</item>
+
+    </string-array>
+
+
+
     <string-array name="country_codes">
         <item>+1</item>
         <item>+91</item>

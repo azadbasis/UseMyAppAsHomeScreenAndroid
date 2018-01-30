@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8E8E8"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_15sdp"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:background="@drawable/bannersreda"
+        android:text="Leave Application"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_margin="@dimen/_20sdp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#B7B7B7"
+            android:padding="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="vertical"
+            >
+            <Spinner
+                android:id="@+id/spinnerLeaveType"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_1sdp"
+                android:entries="@array/leave_array"
+                 />
+            <View
+                android:layout_width="match_parent"
+                android:background="#000"
+                android:layout_height="@dimen/_1sdp"/>
+        </LinearLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:background="#B7B7B7"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etCurrentBalance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="Current Balance"
+                android:inputType="time"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:padding="@dimen/_8sdp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/txtInputTime"
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:background="#B7B7B7"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etFromDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="From Date"
+                android:inputType="time"
+                android:drawableRight="@drawable/ic_today_black_24dp"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:padding="@dimen/_8sdp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:background="#B7B7B7"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etToDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="To Date"
+                android:inputType="time"
+                android:drawableRight="@drawable/ic_today_black_24dp"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:padding="@dimen/_8sdp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:background="#B7B7B7"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etNumberOfday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="Number of day"
+                android:inputType="time"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:padding="@dimen/_8sdp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/Base.TextAppearance.AppCompat"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="#B7B7B7"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etPurpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|start"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="Purpose"
+                android:inputType="textCapSentences|textMultiLine"
+                android:cursorVisible="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/_8sdp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/Base.TextAppearance.AppCompat"
+            android:background="#B7B7B7"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etEmergencyContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|start"
+                android:textSize="@dimen/_15sdp"
+                android:textColor="#000"
+                android:hint="Emergency Contact(if any)"
+                android:inputType="textCapSentences|textMultiLine"
+                android:cursorVisible="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/_8sdp"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/btnSendLeave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="#fff"
+            android:padding="@dimen/_10sdp"
+            android:background="#74A3CC"
+            android:text="Send Application"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
+            />
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

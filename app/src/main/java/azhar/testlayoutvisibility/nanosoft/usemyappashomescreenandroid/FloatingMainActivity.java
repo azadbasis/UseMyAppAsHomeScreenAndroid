@@ -19,11 +19,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -71,7 +75,6 @@ public class FloatingMainActivity extends AppCompatActivity {
 
     Context con;
     private static final int PERMISSION_REQUEST_CODE = 200;
-    private TextView tvChat,tvMeetingNotice,tvCamera;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private CalendarPickerView calendar_view;
@@ -86,8 +89,8 @@ public class FloatingMainActivity extends AppCompatActivity {
     private String fromHourMin;
     private String toHourMin;
     private Dialog dialog;
-    FloatingActionMenu flbMenuScan;
-    FloatingActionButton flbQrCode, flbCamera,flbMeetingNotice,flbMeetingRoom,flbMeetingMinutes;
+    private ImageView imgCall,imgCam,imgMsg,imgEmail,imgChat;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -106,20 +109,22 @@ public class FloatingMainActivity extends AppCompatActivity {
         operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),PersistData.getStringData(con, AppConstant.userPassword));
         initUi();
 
-
-
     }
 
     @TargetApi(Build.VERSION_CODES.N)
     private void initUi() {
-        calendar_view = (CalendarPickerView) findViewById(R.id.calendar_view);
 
-        //getting current
+
+        imgCall = (ImageView)findViewById(R.id.imgCall);
+        imgCam = (ImageView)findViewById(R.id.imgCam);
+        imgMsg = (ImageView)findViewById(R.id.imgMsg);
+        imgEmail = (ImageView)findViewById(R.id.imgEmail);
+        imgChat = (ImageView)findViewById(R.id.imgChat);
+
+        calendar_view = (CalendarPickerView) findViewById(R.id.calendar_view);
         nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
         today = new Date();
-
-//add one year to calendar from todays date
         calendar_view.init(today, nextYear.getTime())
                 .inMode(CalendarPickerView.SelectionMode.MULTIPLE);
 
@@ -155,43 +160,37 @@ public class FloatingMainActivity extends AppCompatActivity {
         resultsEvents = AppConstant.loginResponse.getEvents();
         getEvents(resultsEvents);
 
+        initToolBar();
 
+    }
 
-
-        flbMenuScan = (FloatingActionMenu) findViewById(R.id.flbMenuScan);
-        flbQrCode = (FloatingActionButton) findViewById(R.id.flbQrCode);
-        flbCamera = (FloatingActionButton) findViewById(R.id.flbCamera);
-        flbMeetingNotice = (FloatingActionButton) findViewById(R.id.flbMeetingNotice);
-        flbMeetingRoom = (FloatingActionButton) findViewById(R.id.flbMeetingRoom);
-        flbMeetingMinutes = (FloatingActionButton) findViewById(R.id.flbMeetingMinutes);
-
-        flbCamera.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu first item clicked
-
+    private void initToolBar() {
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("SREDA OFFICE");
+        toolbar.inflateMenu(R.menu.toolbar_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.action_meeting_notice:
+                        startActivity(new Intent(con,MeetingNoticeActivity.class));
+                        break;
+                    case R.id.action_meeting_room:
+                        startActivity(new Intent(con,MeetingRoomBookingActivity.class));
+                        break;
+                    case R.id.action_meeting_minute:
+                        startActivity(new Intent(con,MeetingNoticeActivity.class));
+                        break;
+                    case R.id.action_leave:
+                        startActivity(new Intent(con,LeaveActivity.class));
+                        
+                        return true;
+                }
+                return false;
             }
         });
-        flbQrCode.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu second item clicked
 
-                startActivity(new Intent(con,QrCodeScannerActivity.class));
-            }
-        });
-        flbMeetingNotice.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu second item clicked
 
-                startActivity(new Intent(con,MeetingNoticeActivity.class));
-            }
-        });
-        flbMeetingRoom.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //TODO something when floating action menu second item clicked
-
-                startActivity(new Intent(con,MeetingNoticeActivity.class));
-            }
-        });
     }
 
     private boolean checkPermission() {
@@ -489,4 +488,12 @@ public class FloatingMainActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 }

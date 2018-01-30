@@ -164,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                     PersistData.setStringData(con,AppConstant.userPassword,userPassword);
                     PersistData.setStringData(con,AppConstant.photo,loginResponse.getEmployee_info().getPhoto());
                     Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
-                    startActivity(new Intent(con,MainActivity.class));
+                    startActivity(new Intent(con,FloatingMainActivity.class));
                     finish();
                 }
 
