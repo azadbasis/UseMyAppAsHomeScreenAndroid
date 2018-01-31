@@ -8,7 +8,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /**
  * Created by Sadi on 11/18/2017.
@@ -18,7 +17,8 @@ public interface Api {
 
     //http://redb.sreda.gov.bd/home";
     //String BASE_URL = "http://192.168.0.119/renewableenergy/api/";
-    String BASE_URL = "http://192.168.0.115/sreda_api/";
+  //  String BASE_URL = "http://192.168.0.115/sreda_api/";
+    String BASE_URL = "http://192.168.0.116/sreda_api/";
 
 
     @FormUrlEncoded
