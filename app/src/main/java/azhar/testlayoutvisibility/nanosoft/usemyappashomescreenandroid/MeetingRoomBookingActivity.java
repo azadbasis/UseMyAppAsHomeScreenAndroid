@@ -6,22 +6,35 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 
 public class MeetingRoomBookingActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
 
@@ -42,23 +55,74 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
     ArrayList<String> bookingTypeStrings = new ArrayList<>();
     LinearLayout layoutPayment;
 
-    TextView tvStartDate,tvEndDate;
+    TextView tvStartDate, tvEndDate;
     int mYear, mMonth, mDay, mHour, mMinute;
     int cYear, cMonth, cDay, cHour, cMinute;
     String dateTime;
 
 
+    EditText tietxt_reference_no, tietxt_chairperson_name, tietxt_number_of_member, tietxt_subject, tietxt_preference_no, tietxt_issue_no, tietxt_booking_purpose, tietxt_notice;
+    private String myReferenceNo, myChairpersonName, myNumberOfMember, mySubject, myPrefernceNo, myIssueNo, myBookingPurpose, myNotice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meeting_room_booking_main);
-
         bindActivity();
-
         mAppBarLayout.addOnOffsetChangedListener(this);
-
         mToolbar.inflateMenu(R.menu.menu_main);
         startAlphaAnimation(mTitle, 0, View.INVISIBLE);
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==R.id.menu_share){
+                 SubmitRoomBookingInfo();
+                }
+                return false;
+            }
+        });
+
+        getTextFromInterface();
+        getRoomBookingInfo();
+    }
+private static final String   ROOM_INFO_URL="http://192.168.0.116/sreda_api/meeting_room";
+    private void getRoomBookingInfo() {
+
+        JsonObjectRequest objectRequest=new JsonObjectRequest(ROOM_INFO_URL, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("room_info",response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(objectRequest);
+    }
+
+    private void SubmitRoomBookingInfo() {
+        Operation operation=new Operation(this);
+        String employee_id=operation.getString("employee_id","");
+        /*String employee_id,String ,String room_id,
+                                        String booking_type,String booking_date, String booking_start_time,
+                                        String booking_end_time,String chairperson_name,String number_of_member,
+                                        String subject,String preference_no,String issue_no,String booking_purpose,
+                                        String notice*/
+      //  operation.meetingRoomRequisition(employee_id,myReferenceNo,my);
+    }
+
+    private void getTextFromInterface() {
+        myReferenceNo = tietxt_reference_no.getText().toString();
+        myChairpersonName = tietxt_chairperson_name.getText().toString();
+        myNumberOfMember = tietxt_number_of_member.getText().toString();
+        mySubject = tietxt_subject.getText().toString();
+        myPrefernceNo = tietxt_preference_no.getText().toString();
+        myIssueNo = tietxt_issue_no.getText().toString();
+        myBookingPurpose = tietxt_booking_purpose.getText().toString();
+        myNotice = tietxt_notice.getText().toString();
     }
 
     private void bindActivity() {
@@ -66,7 +130,17 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
         mTitle = (TextView) findViewById(R.id.main_textview_title);
         mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.main_appbar);
-        layoutPayment = (LinearLayout) findViewById(R.id.layoutPayment);
+
+
+        tietxt_reference_no = (EditText) findViewById(R.id.tietxt_reference_no);
+        tietxt_chairperson_name = (EditText) findViewById(R.id.tietxt_chairperson_name);
+        tietxt_number_of_member = (EditText) findViewById(R.id.tietxt_number_of_member);
+        tietxt_subject = (EditText) findViewById(R.id.tietxt_subject);
+        tietxt_preference_no = (EditText) findViewById(R.id.tietxt_preference_no);
+        tietxt_issue_no = (EditText) findViewById(R.id.tietxt_issue_no);
+        tietxt_booking_purpose = (EditText) findViewById(R.id.tietxt_booking_purpose);
+        tietxt_notice = (EditText) findViewById(R.id.tietxt_notice);
+
         roomNameStrings.add("--please select--");
         roomNameStrings.add("Mohananda");
         roomNameStrings.add("Chondona");
@@ -102,8 +176,8 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
 
             }
         });
-        tvStartDate=(TextView)findViewById(R.id.tvStartDate);
-        tvEndDate=(TextView)findViewById(R.id.tvEndDate);
+        tvStartDate = (TextView) findViewById(R.id.tvStartDate);
+        tvEndDate = (TextView) findViewById(R.id.tvEndDate);
         DateFormat dateFormatter = new SimpleDateFormat("dd-M-yyyy hh:mm");
         dateFormatter.setLenient(false);
         Date today = new Date();
@@ -112,12 +186,15 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
         tvEndDate.setText(dateTime);
 
     }
-
+    MenuItem menu_share;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        menu_share=menu.findItem(R.id.menu_share);
+        return super.onCreateOptionsMenu(menu);
     }
+
+
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
@@ -172,8 +249,9 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
     }
 
     public void setMeetingStartDateTime(View view) {
-datePicker(tvStartDate);
+        datePicker(tvStartDate);
     }
+
     private void datePicker(final TextView textViewDate) {
 
 // Get Current Date
@@ -192,7 +270,7 @@ datePicker(tvStartDate);
                         cMonth = monthOfYear + 1;
                         cDay = dayOfMonth;
                         dateTime = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                       // textViewDate.setText(dateTime);
+                        // textViewDate.setText(dateTime);
                         tiemPicker(textViewDate);
 
                     }
@@ -200,6 +278,7 @@ datePicker(tvStartDate);
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
+
     private void tiemPicker(final TextView textViewTime) {
 
         final Calendar c = Calendar.getInstance();
