@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -120,6 +121,50 @@ public class FloatingMainActivity extends AppCompatActivity {
         imgMsg = (ImageView)findViewById(R.id.imgMsg);
         imgEmail = (ImageView)findViewById(R.id.imgEmail);
         imgChat = (ImageView)findViewById(R.id.imgChat);
+
+        imgCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_APP_CONTACTS);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        imgCam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,QrCodeScannerActivity.class));
+            }
+        });
+
+        imgMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri sms_uri = Uri.parse("smsto:");
+                Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+                sms_intent.putExtra("", "");
+                startActivity(sms_intent);
+            }
+        });
+
+        imgEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
+        imgChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,ChatActivity.class));
+            }
+        });
 
         calendar_view = (CalendarPickerView) findViewById(R.id.calendar_view);
         nextYear = Calendar.getInstance();

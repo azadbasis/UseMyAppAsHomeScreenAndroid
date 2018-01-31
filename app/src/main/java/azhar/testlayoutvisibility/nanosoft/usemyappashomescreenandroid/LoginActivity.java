@@ -45,7 +45,23 @@ public class LoginActivity extends AppCompatActivity {
         con = this;
 
 
-//        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(PersistentUser.isLogged(con)){
+            startActivity(new Intent(con,FloatingMainActivity.class));
+            finish();
+        }else {
+            startActivity(new Intent(con,FloatingMainActivity.class));
+            finish();
+            //initUi();
+        }
+
+
+
+
+    }
+
+    private void initUi() {
+
+        //        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 //        if (fUser != null) {
 //            //Toast.makeText(getApplicationContext(), fUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
 //            startActivity(new Intent(con, MainActivity.class));
@@ -71,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         tvBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // startActivity(new Intent(con,MainActivity.class));
+                // startActivity(new Intent(con,MainActivity.class));
 
                 String userEmail = email.getText().toString();
                 String userPassword = password.getText().toString();
@@ -136,9 +152,6 @@ public class LoginActivity extends AppCompatActivity {
 //                finish();
 //            }
 //        });
-
-
-
     }
 
     private void loginWithServer(final String userEmail, final String userPassword) {
