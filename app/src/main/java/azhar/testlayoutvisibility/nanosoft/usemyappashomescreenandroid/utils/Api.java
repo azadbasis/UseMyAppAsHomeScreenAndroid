@@ -63,6 +63,20 @@ public interface Api {
     Call<MeetingRoomResponse> getRoomList(
 
     );
+
+    @FormUrlEncoded
+    @POST("add_leave_application")
+    Call<LoginResponse> leaveApplication(
+            @Field("employee_id") String employee_id,
+            @Field("leave_type_id") String leave_type_id,
+            @Field("request_from_date") String request_from_date,
+            @Field("request_to_date") String request_to_date,
+            @Field("number_of_days") String number_of_days,
+            @Field("purpose") String purpose,
+            @Field("emergency_contact_details") String emergency_contact_details,
+            @Field("application_date") String application_date
+    );
+
 //
 //    @GET("fuel_generation_report")
 //    Call<Info_FuelGenResponse> getFuel(

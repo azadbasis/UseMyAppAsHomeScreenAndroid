@@ -5,6 +5,7 @@
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,7 +15,6 @@
     <uses-permission android:name="com.google.android.gm.permission.READ_GMAIL" />
     <!-- Enables retrieval of the account list -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -63,6 +63,7 @@
         <activity android:name=".SplashScreen" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MeetingNoticeActivity" />
+        <activity android:name=".MeetingMinutesActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CarActivity" />
         <activity android:name=".FloatingMainActivity" />
