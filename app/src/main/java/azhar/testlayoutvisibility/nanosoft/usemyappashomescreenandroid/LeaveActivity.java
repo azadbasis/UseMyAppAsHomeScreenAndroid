@@ -7,12 +7,16 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by NanoSoft on 1/29/2018.
@@ -21,6 +25,7 @@ import java.util.Calendar;
 public class LeaveActivity extends AppCompatActivity {
     Context con;
 
+    private List<String> listLeaveType = new ArrayList<>();
     private Spinner spinnerLeaveType;
     private Button btnSendLeave;
     private EditText etCurrentBalance,etFromDate,etToDate,etNumberOfday,etPurpose,etEmergencyContact;
@@ -48,6 +53,18 @@ public class LeaveActivity extends AppCompatActivity {
         etNumberOfday = (EditText)findViewById(R.id.etNumberOfday);
         etPurpose = (EditText)findViewById(R.id.etPurpose);
         etEmergencyContact = (EditText)findViewById(R.id.etEmergencyContact);
+        spinnerLeaveType = (Spinner)findViewById(R.id.spinnerLeaveType);
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listLeaveType);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLeaveType.setAdapter(dataAdapter);
+        spinnerLeaveType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               // if()
+            }
+        });
+
 
         etFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +83,7 @@ public class LeaveActivity extends AppCompatActivity {
         btnSendLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
             }
         });
