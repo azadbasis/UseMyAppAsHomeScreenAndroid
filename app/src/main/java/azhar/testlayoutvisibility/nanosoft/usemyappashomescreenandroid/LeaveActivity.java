@@ -74,7 +74,6 @@ public class LeaveActivity extends AppCompatActivity {
 
     private void datePicker(final EditText etdate){
 
-// Get Current Date
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
@@ -82,13 +81,10 @@ public class LeaveActivity extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 new DatePickerDialog.OnDateSetListener() {
-
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
                         date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
                         etdate.setText(date_time);
-
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();

@@ -63,6 +63,7 @@
         <activity android:name=".SplashScreen" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MeetingNoticeActivity" />
+        <activity android:name=".MeetingMinutesActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CarActivity" />
         <activity android:name=".FloatingMainActivity" />

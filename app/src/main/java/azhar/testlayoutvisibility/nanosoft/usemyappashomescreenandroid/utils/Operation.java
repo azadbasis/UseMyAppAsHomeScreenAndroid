@@ -147,4 +147,35 @@ public class Operation {
         });
     }
 
+
+    private void sendLeaveApplication(String employee_id,String leave_type_id,String request_from_date,
+                                        String request_to_date,String number_of_days, String purpose,
+                                        String emergency_contact_details,String application_date){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<LoginResponse> call = api.leaveApplication(employee_id, leave_type_id,
+                request_from_date,request_to_date,number_of_days,purpose,emergency_contact_details,application_date);
+
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+
+                if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                    Toast.makeText(context, "Meeting room requisition done!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+
+            }
+        });
+    }
 }

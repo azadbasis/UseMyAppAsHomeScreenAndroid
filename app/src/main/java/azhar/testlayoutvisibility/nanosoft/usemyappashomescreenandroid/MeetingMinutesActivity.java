@@ -38,7 +38,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.O
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.OfficialBean;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 
-public class MeetingNoticeActivity extends AppCompatActivity {
+public class MeetingMinutesActivity extends AppCompatActivity {
 
     ArrayList<OfficialBean> officialBeanArrayList;
     private RecyclerView recyclerViewOffecial;
@@ -46,7 +46,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
     public static final String JSON_URL = "http://sreda.gov.bd/sreda_api/users";
     private ArrayList<String> mEntries;
     OffecialBeanAdapter offecialBeanAdapter;
-    EditText etmYEmailID, etMeetingAddress, etChairedBy, etMeetingSubject, etMeetingDiscussion,etsignatureBy;
+    EditText etmYEmailID, etMeetingAddress, etChairedBy, etMeetingSubject, etMeetingDiscussion;
     TextView tvMeetingDateTime,tvMeetingDate,tvStartTime,tvEndTime;
     String date_time = "";
     int mYear, mMonth, mDay, mHour, mMinute;
@@ -56,7 +56,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.meeting_notice_fragment);
+        setContentView(R.layout.meeting_minute);
         recyclerViewOffecial = (RecyclerView) findViewById(R.id.recyclerViewOffecial);
         mEntries = new ArrayList<>();
         officialBeanArrayList = new ArrayList<>();
@@ -69,7 +69,6 @@ public class MeetingNoticeActivity extends AppCompatActivity {
         etmYEmailID = (EditText) findViewById(R.id.etmYEmailID);
         etMeetingAddress = (EditText) findViewById(R.id.etMeetingAddress);
         etChairedBy = (EditText) findViewById(R.id.etChairedBy);
-        etsignatureBy = (EditText) findViewById(R.id.etsignatureBy);
         etMeetingSubject = (EditText) findViewById(R.id.etMeetingSubject);
         etMeetingDiscussion = (EditText) findViewById(R.id.etMeetingDiscussion);
         tvMeetingDateTime = (TextView) findViewById(R.id.tvMeetingDateTime);
@@ -98,7 +97,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MeetingNoticeActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MeetingMinutesActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -133,7 +132,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
                                 mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
                                 recyclerViewOffecial.setLayoutManager(mLayoutManager);
-                                offecialBeanAdapter = new OffecialBeanAdapter(MeetingNoticeActivity.this, officialBeanArrayList);
+                                offecialBeanAdapter = new OffecialBeanAdapter(MeetingMinutesActivity.this, officialBeanArrayList);
 
                                 recyclerViewOffecial.setAdapter(offecialBeanAdapter);
 //                                Toast.makeText(getApplicationContext(), "JSON_OBJECT" + name + "\n" + email + "\n" + phone + "\n" + mobile + "\n" + image + "\n" + designation, Toast.LENGTH_SHORT).show();
@@ -148,7 +147,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MeetingNoticeActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MeetingMinutesActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -163,16 +162,16 @@ public class MeetingNoticeActivity extends AppCompatActivity {
         Operation operation = new Operation(this);
         String myEmail = operation.getString("filteredEmail", "") + "," + etmYEmailID.getText().toString();
 
-        String subject = etMeetingSubject.getText().toString();
-        String heading = etChairedBy.getText().toString();
-        String discussion = etMeetingDiscussion.getText().toString();
 
+        String subject = etMeetingSubject.getText().toString();
+        String heading = etChairedBy.getText().toString() + "\n" + etMeetingAddress.getText().toString() + "\n" + dateTime;
+        String discussion = etMeetingDiscussion.getText().toString();
+        String discussionForm = heading + "\n" + "\n" + discussion;
         String mailbody= "Hi dear,"+ "\n"+"You are requested to attend this meeting" +
                 " chair by "+heading+" about "+subject+" will held ,at "+etMeetingAddress.getText().toString()
                 +"on "+tvMeetingDate.getText().toString()+" from "+tvStartTime.getText().toString()
                 +" to "+tvEndTime.getText().toString()+"."+"\n"+"\n"+"Best Regards"+"\n"
-                +etsignatureBy.getText().toString();
-        String discussionForm = heading + "\n" + "\n" + discussion;
+                +etChairedBy.getText().toString();
         String[] TO = {myEmail};
         String[] CC = {""};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -189,7 +188,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
             finish();
             Log.i("Finished sending email...", "");
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MeetingNoticeActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MeetingMinutesActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -246,8 +246,9 @@ public class FloatingMainActivity extends AppCompatActivity {
                         startActivity(new Intent(con,MeetingRoomBookingActivity.class));
                         break;
                     case R.id.action_meeting_minute:
-                        startActivity(new Intent(con,MeetingNoticeActivity.class));
+                        startActivity(new Intent(con,MeetingMinutesActivity.class));
                         break;
+
                     case R.id.action_leave:
                         startActivity(new Intent(con,LeaveActivity.class));
                         

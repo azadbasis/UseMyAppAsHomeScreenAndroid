@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_margin="@dimen/_15sdp"
+    android:layout_height="match_parent">
+
+
+
+        <TextView
+            android:id="@+id/tvToday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Today Events"
+            android:layout_marginBottom="@dimen/_3sdp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/tvSchTitle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Room name"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/rounded_corner1"
+                android:textColor="@color/black"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:id="@+id/tvFromTime"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="From Time"
+                android:enabled="false"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/rounded_corner1"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/tvToTime"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="To Time"
+                android:enabled="false"
+                android:padding="@dimen/_10sdp"
+                android:background="@drawable/rounded_corner1"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:textColor="@color/black"
+                />
+            <ImageView
+                android:id="@+id/imgDelete"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="right"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/ic_delete"
+                />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_300sdp"
+        android:orientation="vertical"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/recycler_shedule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                />
+        </RelativeLayout>
+
+
+</LinearLayout>
