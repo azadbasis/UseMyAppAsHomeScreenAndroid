@@ -26,6 +26,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -33,7 +35,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.RoomNameInfo;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 
 public class MeetingRoomBookingActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
@@ -51,8 +55,10 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
     private Toolbar mToolbar;
 
     private Spinner spinnerRoomName, spinnerBookingType;
-    ArrayList<String> roomNameStrings = new ArrayList<>();
-    ArrayList<String> bookingTypeStrings = new ArrayList<>();
+    List<String> roomNameStrings = new ArrayList<>();
+    List<String> bookingTypeStrings = new ArrayList<>();
+    List<String> roomMoneyString = new ArrayList<>();
+    List<String> roomNoStrings = new ArrayList<>();
     LinearLayout layoutPayment;
 
     TextView tvStartDate, tvEndDate;
@@ -60,7 +66,10 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
     int cYear, cMonth, cDay, cHour, cMinute;
     String dateTime;
 
-
+    private static final String   ROOM_INFO_URL="http://192.168.0.116/sreda_api/meeting_room";
+    private String id,room_number,room_title,create_date,create_by,update_by,status,amount;
+    RoomNameInfo roomNameInfo;
+    List<RoomNameInfo> roomNameInfoList=new ArrayList<>();
     EditText tietxt_reference_no, tietxt_chairperson_name, tietxt_number_of_member, tietxt_subject, tietxt_preference_no, tietxt_issue_no, tietxt_booking_purpose, tietxt_notice;
     private String myReferenceNo, myChairpersonName, myNumberOfMember, mySubject, myPrefernceNo, myIssueNo, myBookingPurpose, myNotice;
 
@@ -68,6 +77,7 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meeting_room_booking_main);
+
         bindActivity();
         mAppBarLayout.addOnOffsetChangedListener(this);
         mToolbar.inflateMenu(R.menu.menu_main);
@@ -83,25 +93,9 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
         });
 
         getTextFromInterface();
-        getRoomBookingInfo();
-    }
-private static final String   ROOM_INFO_URL="http://192.168.0.116/sreda_api/meeting_room";
-    private void getRoomBookingInfo() {
 
-        JsonObjectRequest objectRequest=new JsonObjectRequest(ROOM_INFO_URL, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.d("room_info",response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(objectRequest);
     }
+
 
     private void SubmitRoomBookingInfo() {
         Operation operation=new Operation(this);
@@ -124,13 +118,60 @@ private static final String   ROOM_INFO_URL="http://192.168.0.116/sreda_api/meet
         myBookingPurpose = tietxt_booking_purpose.getText().toString();
         myNotice = tietxt_notice.getText().toString();
     }
+    private void getRoomBookingInfo() {
 
+        JsonObjectRequest objectRequest=new JsonObjectRequest(ROOM_INFO_URL, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("room_info",response.toString());
+
+                try {
+                    JSONObject object=new JSONObject(String.valueOf(response));
+                    JSONArray array=new JSONArray(object.getString("meeting_room"));
+                    for(int i=0;i<array.length();i++){
+                        JSONObject object1= (JSONObject) array.get(i);
+                        String id=object1.getString("id");
+                        String room_number=object1.getString("room_number");
+                        String room_title=object1.getString("room_title");
+                        String create_date=object1.getString("create_date");
+                        String update_by=object1.getString("update_by");
+                        String status=object1.getString("status");
+                        String amount=object1.getString("amount");
+
+                        roomNameInfo=new RoomNameInfo( id,  room_number,  room_title,  create_date,  create_by,  update_by,  status,  amount);
+                        roomNameInfoList.add(roomNameInfo);
+                        for(int j=0;j<roomNameInfoList.size();j++){
+                            roomNameStrings.add(roomNameInfoList.get(j).getRoom_title());
+
+                        }
+                        for(int k=0;k<roomNameInfoList.size();k++){
+                            roomMoneyString.add(roomNameInfoList.get(k).getAmount());
+                        }
+                        for(int l=0;l<roomNameInfoList.size();l++){
+                            roomNoStrings.add(roomNameInfoList.get(l).getId());
+                        }
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(objectRequest);
+    }
     private void bindActivity() {
         mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         mTitle = (TextView) findViewById(R.id.main_textview_title);
         mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.main_appbar);
-
+        layoutPayment = (LinearLayout) findViewById(R.id.layoutPayment);
 
         tietxt_reference_no = (EditText) findViewById(R.id.tietxt_reference_no);
         tietxt_chairperson_name = (EditText) findViewById(R.id.tietxt_chairperson_name);
@@ -140,17 +181,15 @@ private static final String   ROOM_INFO_URL="http://192.168.0.116/sreda_api/meet
         tietxt_issue_no = (EditText) findViewById(R.id.tietxt_issue_no);
         tietxt_booking_purpose = (EditText) findViewById(R.id.tietxt_booking_purpose);
         tietxt_notice = (EditText) findViewById(R.id.tietxt_notice);
-
+        getRoomBookingInfo();
         roomNameStrings.add("--please select--");
-        roomNameStrings.add("Mohananda");
-        roomNameStrings.add("Chondona");
-        roomNameStrings.add("Gomoti");
         ArrayAdapter<String> roomNameAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, roomNameStrings);
         spinnerRoomName = (Spinner) findViewById(R.id.spinnerRoomName);
         spinnerRoomName.setAdapter(roomNameAdapter);
         bookingTypeStrings.add("--please select--");
         bookingTypeStrings.add("Internal");
         bookingTypeStrings.add("External");
+
         ArrayAdapter<String> bookingTypeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, bookingTypeStrings);
         spinnerBookingType = (Spinner) findViewById(R.id.spinnerBookingType);
         spinnerBookingType.setAdapter(bookingTypeAdapter);
@@ -163,6 +202,8 @@ private static final String   ROOM_INFO_URL="http://192.168.0.116/sreda_api/meet
                     String text = spinnerBookingType.getSelectedItem().toString();
                     if (text.equalsIgnoreCase("External")) {
                         layoutPayment.setVisibility(View.VISIBLE);
+
+
                     } else {
                         layoutPayment.setVisibility(View.GONE);
                     }
