@@ -203,9 +203,12 @@ public class Operation {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
 
-                if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
-                    Toast.makeText(context, "Meeting room requisition done!", Toast.LENGTH_SHORT).show();
+                if(loginResponse!=null){
+                    if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                        Toast.makeText(context, "Leave application submitted!", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
 
             }
 
