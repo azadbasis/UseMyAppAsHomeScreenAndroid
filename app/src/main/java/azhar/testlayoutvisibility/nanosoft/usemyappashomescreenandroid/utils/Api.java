@@ -18,8 +18,8 @@ public interface Api {
 
     //http://redb.sreda.gov.bd/home";
     //String BASE_URL = "http://192.168.0.119/renewableenergy/api/";
-  //  String BASE_URL = "http://192.168.0.115/sreda_api/";
-    String BASE_URL = "http://192.168.0.115/sreda_api/";
+    String BASE_URL = "http://sreda.gov.bd/sreda_api/";
+    //String BASE_URL = "http://192.168.0.115/sreda_api/";
 
 
     @FormUrlEncoded

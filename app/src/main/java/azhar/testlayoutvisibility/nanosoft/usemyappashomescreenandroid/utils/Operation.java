@@ -64,16 +64,19 @@ public class Operation {
                // progressBar.setVisibility(View.GONE);
                 LoginResponse loginResponse = response.body();
 
-                if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
-                    PersistentUser.setLogin(con);
-                    AppConstant.loginResponse = loginResponse;
-                    PersistData.setStringData(con,AppConstant.employee_id,loginResponse.getEmployee_info().getEmployee_id());
-                    PersistData.setStringData(con,AppConstant.userEmail,userEmail);
-                    PersistData.setStringData(con,AppConstant.userPassword,userPassword);
-                    Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
+                if(loginResponse!=null){
+                    if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                        PersistentUser.setLogin(con);
+                        AppConstant.loginResponse = loginResponse;
+                        PersistData.setStringData(con,AppConstant.employee_id,loginResponse.getEmployee_info().getEmployee_id());
+                        PersistData.setStringData(con,AppConstant.userEmail,userEmail);
+                        PersistData.setStringData(con,AppConstant.userPassword,userPassword);
+                        Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
 //                    activity.startActivity(new Intent(con,MainActivity.class));
 //                    activity.finish();
+                    }
                 }
+
 
             }
 
@@ -165,14 +168,17 @@ public class Operation {
 
                 LeaveTypeResponse leaveTypeResponse = response.body();
 
-                AppConstant.leaveTypeName.add(0,"select Leave Type.");
-                for(int i=0; i<leaveTypeResponse.getLeave_types().size();i++){
+                if(leaveTypeResponse!=null){
 
-                    AppConstant.leaveTypeName.add(leaveTypeResponse.getLeave_types().get(i).getName());
+                    for(int i=0; i<leaveTypeResponse.getLeave_types().size();i++){
+
+                        AppConstant.leaveTypeName.add(leaveTypeResponse.getLeave_types().get(i).getName());
+                    }
+
+                    AppConstant.liveTypeList = leaveTypeResponse.getLeave_types();
+                    Log.e("type id",""+leaveTypeResponse.getLeave_types().get(0).getId());
                 }
 
-                AppConstant.liveTypeList = leaveTypeResponse.getLeave_types();
-                Log.e("type id",""+leaveTypeResponse.getLeave_types().get(0).getId());
             }
 
             @Override

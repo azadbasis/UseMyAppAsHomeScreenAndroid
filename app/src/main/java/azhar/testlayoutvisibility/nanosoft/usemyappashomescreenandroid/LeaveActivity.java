@@ -50,7 +50,7 @@ public class LeaveActivity extends AppCompatActivity {
     }
 
     private void initUi() {
-
+        AppConstant.leaveTypeName.add(0,"select Leave Type.");
 
         operation.getLeaveType();
 
