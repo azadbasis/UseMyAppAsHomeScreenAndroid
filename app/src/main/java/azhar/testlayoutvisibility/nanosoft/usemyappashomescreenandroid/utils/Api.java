@@ -1,6 +1,7 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils;
 
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LeaveTypeResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.MeetingRoomResponse;
 import retrofit2.Call;
@@ -18,7 +19,7 @@ public interface Api {
     //http://redb.sreda.gov.bd/home";
     //String BASE_URL = "http://192.168.0.119/renewableenergy/api/";
   //  String BASE_URL = "http://192.168.0.115/sreda_api/";
-    String BASE_URL = "http://192.168.0.116/sreda_api/";
+    String BASE_URL = "http://192.168.0.115/sreda_api/";
 
 
     @FormUrlEncoded
@@ -75,6 +76,13 @@ public interface Api {
             @Field("purpose") String purpose,
             @Field("emergency_contact_details") String emergency_contact_details,
             @Field("application_date") String application_date
+    );
+
+
+
+    @GET("leave_types")
+    Call<LeaveTypeResponse> getLeave_types(
+
     );
 
 //

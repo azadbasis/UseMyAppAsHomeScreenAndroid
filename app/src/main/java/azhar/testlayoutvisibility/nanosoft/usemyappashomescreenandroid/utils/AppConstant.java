@@ -5,6 +5,7 @@ package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LeaveTypeInfo;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.User;
 
@@ -34,4 +35,6 @@ public class AppConstant {
 
 
     public static LoginResponse loginResponse = new LoginResponse();
+    public static List<LeaveTypeInfo> liveTypeList = new ArrayList<>();
+    public static List<String> leaveTypeName = new ArrayList<>();
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MainActivity;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LeaveTypeResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.MeetingRoomResponse;
 import retrofit2.Call;
@@ -148,9 +149,43 @@ public class Operation {
     }
 
 
-    private void sendLeaveApplication(String employee_id,String leave_type_id,String request_from_date,
-                                        String request_to_date,String number_of_days, String purpose,
-                                        String emergency_contact_details,String application_date){
+    public void getLeaveType(){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<LeaveTypeResponse> call = api.getLeave_types();
+
+        call.enqueue(new Callback<LeaveTypeResponse>() {
+            @Override
+            public void onResponse(Call<LeaveTypeResponse> call, Response<LeaveTypeResponse> response) {
+
+                LeaveTypeResponse leaveTypeResponse = response.body();
+
+                AppConstant.leaveTypeName.add(0,"select Leave Type.");
+                for(int i=0; i<leaveTypeResponse.getLeave_types().size();i++){
+
+                    AppConstant.leaveTypeName.add(leaveTypeResponse.getLeave_types().get(i).getName());
+                }
+
+                AppConstant.liveTypeList = leaveTypeResponse.getLeave_types();
+                Log.e("type id",""+leaveTypeResponse.getLeave_types().get(0).getId());
+            }
+
+            @Override
+            public void onFailure(Call<LeaveTypeResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    public void sendLeaveApplication(String employee_id, String leave_type_id, String request_from_date,
+                                     String request_to_date, String number_of_days, String purpose,
+                                     String emergency_contact_details, String application_date){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object

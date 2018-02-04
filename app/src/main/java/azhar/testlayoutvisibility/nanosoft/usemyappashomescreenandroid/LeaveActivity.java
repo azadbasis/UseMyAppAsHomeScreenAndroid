@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
+
 /**
  * Created by NanoSoft on 1/29/2018.
  */
@@ -25,7 +29,6 @@ import java.util.List;
 public class LeaveActivity extends AppCompatActivity {
     Context con;
 
-    private List<String> listLeaveType = new ArrayList<>();
     private Spinner spinnerLeaveType;
     private Button btnSendLeave;
     private EditText etCurrentBalance,etFromDate,etToDate,etNumberOfday,etPurpose,etEmergencyContact;
@@ -35,6 +38,8 @@ public class LeaveActivity extends AppCompatActivity {
     int mDay;
     int mHour;
     int mMinute;
+    String type_id,currntbalace,fromdate,todate,numberofdays,purpose,emergencycontact;
+    Operation operation = new Operation(con);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,9 @@ public class LeaveActivity extends AppCompatActivity {
 
     private void initUi() {
 
+
+        operation.getLeaveType();
+
         btnSendLeave = (Button)findViewById(R.id.btnSendLeave);
         etCurrentBalance = (EditText)findViewById(R.id.etToDate);
         etFromDate = (EditText)findViewById(R.id.etFromDate);
@@ -55,13 +63,29 @@ public class LeaveActivity extends AppCompatActivity {
         etEmergencyContact = (EditText)findViewById(R.id.etEmergencyContact);
         spinnerLeaveType = (Spinner)findViewById(R.id.spinnerLeaveType);
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listLeaveType);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, AppConstant.leaveTypeName);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLeaveType.setAdapter(dataAdapter);
-        spinnerLeaveType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinnerLeaveType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // if()
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                String typeName = spinnerLeaveType.getSelectedItem().toString();
+
+                if(position>0){
+                    for(int i=0; i<AppConstant.liveTypeList.size();i++){
+
+                        if(AppConstant.liveTypeList.get(i).getName().equalsIgnoreCase(typeName)){
+                            type_id = AppConstant.liveTypeList.get(i).getId();
+                        }
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -84,10 +108,15 @@ public class LeaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
+                        todate,numberofdays, purpose,
+                        emergencycontact,"today");
             }
         });
+
+
     }
+
 
 
     private void datePicker(final EditText etdate){
@@ -107,6 +136,8 @@ public class LeaveActivity extends AppCompatActivity {
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
     }
+
+
 
 
 }
