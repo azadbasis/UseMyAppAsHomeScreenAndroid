@@ -49,9 +49,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(con,FloatingMainActivity.class));
             finish();
         }else {
-            startActivity(new Intent(con,FloatingMainActivity.class));
-            finish();
-            //initUi();
+//            startActivity(new Intent(con,FloatingMainActivity.class));
+//            finish();
+            initUi();
         }
 
 
@@ -61,12 +61,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initUi() {
 
-                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (fUser != null) {
-            //Toast.makeText(getApplicationContext(), fUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(con, MainActivity.class));
-            finish();
-        }
+//                FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+//        if (fUser != null) {
+//            //Toast.makeText(getApplicationContext(), fUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(con, MainActivity.class));
+//            finish();
+//        }
 
 
         setContentView(R.layout.activity_login_logout);
