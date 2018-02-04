@@ -109,7 +109,7 @@ private String roomName,roomId,roomMoney, mtime;
     private void SubmitRoomBookingInfo() {
         mEmployeeId= PersistData.getStringData(this,"employee_id");
         new Operation(this).meetingRoomRequisition("118",myReferenceNo,roomId,mBookingType,mBookingDate,mBookingStartTime,mBookingEndTime,myChairpersonName,myNumberOfMember,mySubject,myPrefernceNo,myIssueNo,myBookingPurpose,myNotice);
-        Toast.makeText(this, "submit data"+roomName+"\n"+roomMoney+"\n"+roomId+"\n"+mEmployeeId, Toast.LENGTH_SHORT).show();
+
 
     }
 
