@@ -39,6 +39,8 @@ import java.util.Date;
 import java.util.List;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.RoomNameInfo;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 
 public class MeetingRoomBookingActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener {
@@ -68,7 +70,8 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
     String dateTime;
 
 //    private static final String ROOM_INFO_URL = "http://192.168.0.116/sreda_api/meeting_room";
-    private static final String ROOM_INFO_URL = "http://192.168.0.115/sreda_api/meeting_room";
+    //private static final String ROOM_INFO_URL = "http://192.168.0.115/sreda_api/meeting_room";
+    private static final String ROOM_INFO_URL = Api.BASE_URL+"meeting_room";
     private String id, room_number, room_title, create_date, create_by, update_by, status, amount;
     RoomNameInfo roomNameInfo;
     List<RoomNameInfo> roomNameInfoList = new ArrayList<>();
@@ -105,8 +108,8 @@ private String roomName,roomId,roomMoney, mtime;
 
     private void SubmitRoomBookingInfo() {
         mEmployeeId= PersistData.getStringData(this,"employee_id");
+        new Operation(this).meetingRoomRequisition("118",myReferenceNo,roomId,mBookingType,mBookingDate,mBookingStartTime,mBookingEndTime,myChairpersonName,myNumberOfMember,mySubject,myPrefernceNo,myIssueNo,myBookingPurpose,myNotice);
         Toast.makeText(this, "submit data"+roomName+"\n"+roomMoney+"\n"+roomId+"\n"+mEmployeeId, Toast.LENGTH_SHORT).show();
-
 
     }
 
@@ -175,8 +178,6 @@ private String roomName,roomId,roomMoney, mtime;
         mTitleContainer = (LinearLayout) findViewById(R.id.main_linearlayout_title);
         mAppBarLayout = (AppBarLayout) findViewById(R.id.main_appbar);
         layoutPayment = (LinearLayout) findViewById(R.id.layoutPayment);
-
-
 
 
         tietxt_total_amount = (EditText) findViewById(R.id.tietxt_total_amount);

@@ -1,14 +1,10 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MainActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LeaveTypeResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.MeetingRoomResponse;
@@ -117,11 +113,11 @@ public class Operation {
     }
 
 
-    private void meetingRoomRequisition(String employee_id,String reference_no,String room_id,
-                                        String booking_type,String booking_date, String booking_start_time,
-                                        String booking_end_time,String chairperson_name,String number_of_member,
-                                        String subject,String preference_no,String issue_no,String booking_purpose,
-                                        String notice){
+    public void meetingRoomRequisition(String employee_id, String reference_no, String room_id,
+                                       String booking_type, String booking_date, String booking_start_time,
+                                       String booking_end_time, String chairperson_name, String number_of_member,
+                                       String subject, String preference_no, String issue_no, String booking_purpose,
+                                       String notice){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
