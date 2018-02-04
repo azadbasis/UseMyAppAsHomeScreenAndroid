@@ -36,8 +36,8 @@ public class LeaveActivity extends AppCompatActivity {
     int mYear;
     int mMonth;
     int mDay;
-    int mHour;
-    int mMinute;
+    int maxDay;
+    int minDay;
     String type_id,currntbalace,fromdate,todate,numberofdays,purpose,emergencycontact;
     Operation operation = new Operation(con);
     @Override
@@ -94,6 +94,7 @@ public class LeaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 datePicker(etFromDate);
+
             }
         });
 
