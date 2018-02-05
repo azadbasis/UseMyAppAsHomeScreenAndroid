@@ -6,7 +6,7 @@ package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model;
 
 public class RoomInfo {
 
-//    "id": "15",
+
 //            "room_id": "15",
 //            "employee_id": "2",
 //            "booking_start_time": "02:30 PM",

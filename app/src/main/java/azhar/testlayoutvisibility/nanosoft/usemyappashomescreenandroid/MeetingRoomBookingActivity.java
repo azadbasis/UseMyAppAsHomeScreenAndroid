@@ -77,7 +77,7 @@ public class MeetingRoomBookingActivity extends AppCompatActivity implements App
     List<RoomNameInfo> roomNameInfoList = new ArrayList<>();
     EditText tietxt_reference_no, tietxt_chairperson_name, tietxt_number_of_member, tietxt_subject,tietxt_fee,tietxt_discount,tietxt_total_amount, tietxt_preference_no, tietxt_issue_no, tietxt_booking_purpose, tietxt_notice;
     private String mEmployeeId,myReferenceNo, myChairpersonName, myNumberOfMember, mySubject, myPrefernceNo, myIssueNo, myBookingPurpose, myNotice,mBookingType,mBookingDate,mBookingStartTime,mBookingEndTime ;
-private String roomName,roomId,roomMoney, mtime;
+private String roomName,roomId, roomFee,roomDiscount,roomTotalAmount, mtime;
 
 
 
@@ -108,12 +108,14 @@ private String roomName,roomId,roomMoney, mtime;
 
     private void SubmitRoomBookingInfo() {
         mEmployeeId= PersistData.getStringData(this,"employee_id");
-        new Operation(this).meetingRoomRequisition("118",myReferenceNo,roomId,mBookingType,mBookingDate,mBookingStartTime,mBookingEndTime,myChairpersonName,myNumberOfMember,mySubject,myPrefernceNo,myIssueNo,myBookingPurpose,myNotice);
+        new Operation(this).meetingRoomRequisition("118",myReferenceNo,roomId,mBookingType, roomFee,roomDiscount,roomTotalAmount,mBookingDate,mBookingStartTime,mBookingEndTime,myChairpersonName,myNumberOfMember,mySubject,myPrefernceNo,myIssueNo,myBookingPurpose,myNotice);
 
 
     }
 
     private void getTextFromInterface() {
+        roomDiscount = tietxt_discount.getText().toString();
+        roomTotalAmount = tietxt_total_amount.getText().toString();
         myReferenceNo = tietxt_reference_no.getText().toString();
         myChairpersonName = tietxt_chairperson_name.getText().toString();
         myNumberOfMember = tietxt_number_of_member.getText().toString();
@@ -206,7 +208,7 @@ private String roomName,roomId,roomMoney, mtime;
 
                     roomName = spinnerRoomName.getSelectedItem().toString();
                      roomId=roomNoStrings.get(i-1).toString();
-                     roomMoney=roomMoneyString.get(i-1).toString();
+                     roomFee =roomMoneyString.get(i-1).toString();
 
 
                 }
@@ -235,7 +237,7 @@ private String roomName,roomId,roomMoney, mtime;
                      mBookingType = spinnerBookingType.getSelectedItem().toString();
                     if (mBookingType.equalsIgnoreCase("External")) {
                         layoutPayment.setVisibility(View.VISIBLE);
-                        tietxt_fee.setText(roomMoney);
+                        tietxt_fee.setText(roomFee);
 
                     } else {
                         layoutPayment.setVisibility(View.GONE);
