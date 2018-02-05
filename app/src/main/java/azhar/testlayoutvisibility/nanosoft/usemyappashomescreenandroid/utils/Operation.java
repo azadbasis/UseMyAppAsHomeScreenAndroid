@@ -29,7 +29,6 @@ public class Operation {
         this.context = context;
 
     }
-
     public void saveString(String key, String value) {
         sharedPreferences = context.getSharedPreferences("OFFICE_KIT", MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -45,6 +44,7 @@ public class Operation {
     }
 
 
+
     public void loginWithServer(final Context con, final String userEmail, final String userPassword) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -52,21 +52,21 @@ public class Operation {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<LoginResponse> call = api.loginUser(userEmail, userPassword);
+        Call<LoginResponse> call = api.loginUser(userEmail,userPassword);
 
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                // progressBar.setVisibility(View.GONE);
+               // progressBar.setVisibility(View.GONE);
                 LoginResponse loginResponse = response.body();
 
-                if (loginResponse != null) {
-                    if (loginResponse.getStatus_code().equalsIgnoreCase("200")) {
+                if(loginResponse!=null){
+                    if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
                         PersistentUser.setLogin(con);
                         AppConstant.loginResponse = loginResponse;
-                        PersistData.setStringData(con, AppConstant.employee_id, loginResponse.getEmployee_info().getEmployee_id());
-                        PersistData.setStringData(con, AppConstant.userEmail, userEmail);
-                        PersistData.setStringData(con, AppConstant.userPassword, userPassword);
+                        PersistData.setStringData(con,AppConstant.employee_id,loginResponse.getEmployee_info().getEmployee_id());
+                        PersistData.setStringData(con,AppConstant.userEmail,userEmail);
+                        PersistData.setStringData(con,AppConstant.userPassword,userPassword);
 //                        Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
 //                    activity.startActivity(new Intent(con,MainActivity.class));
 //                    activity.finish();
@@ -78,13 +78,14 @@ public class Operation {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                // progressBar.setVisibility(View.GONE);
+               // progressBar.setVisibility(View.GONE);
             }
         });
     }
 
 
-    public void meetingRoomGet() {
+
+    public void meetingRoomGet(){
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -101,7 +102,7 @@ public class Operation {
 
                 MeetingRoomResponse meetingRoomResponse = response.body();
 
-                Log.e("room", "" + meetingRoomResponse.getMeeting_room_booking().get(0).getRoom_title());
+                Log.e("room",""+meetingRoomResponse.getMeeting_room_booking().get(0).getRoom_title());
             }
 
             @Override
@@ -113,10 +114,10 @@ public class Operation {
 
 
     public void meetingRoomRequisition(String employee_id, String reference_no, String room_id,
-                                       String booking_type, String fee, String discount, String total_amount, String booking_date, String booking_start_time,
+                                       String booking_type, String booking_date, String booking_start_time,
                                        String booking_end_time, String chairperson_name, String number_of_member,
                                        String subject, String preference_no, String issue_no, String booking_purpose,
-                                       String notice) {
+                                       String notice){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
@@ -124,9 +125,8 @@ public class Operation {
 
         Api api = retrofit.create(Api.class);
         Call<LoginResponse> call = api.saveMeetingRoomBooking(employee_id, reference_no,
-                room_id, booking_type, fee
-                , discount, total_amount, booking_date, booking_start_time, booking_end_time, chairperson_name,
-                number_of_member, subject, preference_no, issue_no, booking_purpose, notice);
+                room_id,booking_type,booking_date,booking_start_time,booking_end_time,chairperson_name,
+                number_of_member,subject,preference_no,issue_no,booking_purpose,notice);
 
 
         call.enqueue(new Callback<LoginResponse>() {
@@ -134,7 +134,7 @@ public class Operation {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
 
-                if (loginResponse.getStatus_code().equalsIgnoreCase("200")) {
+                if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
                     Toast.makeText(context, "Meeting room requisition done!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -148,7 +148,7 @@ public class Operation {
     }
 
 
-    public void getLeaveType() {
+    public void getLeaveType(){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -164,15 +164,15 @@ public class Operation {
 
                 LeaveTypeResponse leaveTypeResponse = response.body();
 
-                if (leaveTypeResponse != null) {
+                if(leaveTypeResponse!=null){
 
-                    for (int i = 0; i < leaveTypeResponse.getLeave_types().size(); i++) {
+                    for(int i=0; i<leaveTypeResponse.getLeave_types().size();i++){
 
                         AppConstant.leaveTypeName.add(leaveTypeResponse.getLeave_types().get(i).getName());
                     }
 
                     AppConstant.liveTypeList = leaveTypeResponse.getLeave_types();
-                    Log.e("type id", "" + leaveTypeResponse.getLeave_types().get(0).getId());
+                    Log.e("type id",""+leaveTypeResponse.getLeave_types().get(0).getId());
                 }
 
             }
@@ -187,7 +187,7 @@ public class Operation {
 
     public void sendLeaveApplication(String employee_id, String leave_type_id, String request_from_date,
                                      String request_to_date, String number_of_days, String purpose,
-                                     String emergency_contact_details, String application_date) {
+                                     String emergency_contact_details, String application_date){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
@@ -195,7 +195,7 @@ public class Operation {
 
         Api api = retrofit.create(Api.class);
         Call<LoginResponse> call = api.leaveApplication(employee_id, leave_type_id,
-                request_from_date, request_to_date, number_of_days, purpose, emergency_contact_details, application_date);
+                request_from_date,request_to_date,number_of_days,purpose,emergency_contact_details,application_date);
 
 
         call.enqueue(new Callback<LoginResponse>() {
@@ -203,9 +203,12 @@ public class Operation {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
 
-                if (loginResponse.getStatus_code().equalsIgnoreCase("200")) {
-                    Toast.makeText(context, "Meeting room requisition done!", Toast.LENGTH_SHORT).show();
+                if(loginResponse!=null){
+                    if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                        Toast.makeText(context, "Leave application submitted!", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
 
             }
 

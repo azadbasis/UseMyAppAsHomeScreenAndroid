@@ -39,9 +39,34 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logout);
-
         con = this;
+        FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (fUser != null) {
+            //Toast.makeText(getApplicationContext(), fUser.getEmail().toString(), Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(con, UserListActivity.class));
+            finish();
+        }else {
+            initUi();
+        }
+
+
+
+//        signin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//                Intent it = new Intent(SignUpActivity.this, LoginActivity.class);
+//                startActivity(it);
+//                finish();
+//            }
+//        });
+
+    }
+
+    private void initUi() {
+
+        setContentView(R.layout.activity_logout);
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
@@ -50,7 +75,9 @@ public class SignUpActivity extends AppCompatActivity {
         fb = (TextView)findViewById(R.id.fb);
         account = (TextView)findViewById(R.id.account);
         email = (EditText)findViewById(R.id.email);
+        email.setText(PersistData.getStringData(con,AppConstant.userEmail));
         password = (EditText)findViewById(R.id.password);
+        password.setText(PersistData.getStringData(con,AppConstant.userPassword));
         user = (EditText)findViewById(R.id.user);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
 
@@ -126,7 +153,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                         if (task.isSuccessful()) {
                                                             Toast.makeText(con,"User added",Toast.LENGTH_SHORT).show();
                                                             progressBar.setVisibility(View.GONE);
-                                                            startActivity(new Intent(con,MainActivity.class));
+                                                            startActivity(new Intent(con,UserListActivity.class));
                                                             finish();
                                                         } else {
                                                             Toast.makeText(con,"User not added",Toast.LENGTH_SHORT).show();
@@ -143,18 +170,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
-
-        signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                Intent it = new Intent(SignUpActivity.this, LoginActivity.class);
-                startActivity(it);
-                finish();
-            }
-        });
-
     }
 
 

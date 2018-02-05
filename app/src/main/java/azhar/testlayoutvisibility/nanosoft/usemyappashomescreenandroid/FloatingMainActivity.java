@@ -184,7 +184,7 @@ public class FloatingMainActivity extends AppCompatActivity {
         imgChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(con,ChatActivity.class));
+                startActivity(new Intent(con,SignUpActivity.class));
             }
         });
 
@@ -486,6 +486,7 @@ public class FloatingMainActivity extends AppCompatActivity {
 
         dialog.show();
     }
+
 
     private void saveEventToServer(String employee_id,String title,String from_time,
                                    String to_time,String description) {
