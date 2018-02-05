@@ -427,7 +427,11 @@ Power Division</b>\n <u>Car Requisition Form(govt./personal purpose)</u></string
     <string name="hint_description">Description</string>
     <string name="hint_decision">Decision</string>
     <string name="hint_discussion">Discussion</string>
-
+    <string name="sendPhoto">Photo Camera</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="select_picture_title">Get Photo From</string>
+    <string name="sendPhotoGallery">Photo Gallery</string>
+    <string name="sendLocation">Send Location</string>
     <string-array name="leave_array">
         <item>Select leave type</item>
         <item>Earn leave with full pay</item>

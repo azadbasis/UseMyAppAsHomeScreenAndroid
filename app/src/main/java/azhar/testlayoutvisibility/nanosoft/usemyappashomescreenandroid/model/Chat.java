@@ -14,7 +14,10 @@ public class Chat {
     public Chat(){
 
     }
-
+    public Chat(String message,String senderUid){
+        this.message = message;
+        this.senderUid = senderUid;
+    }
     public Chat(String sender, String receiver, String senderUid, String receiverUid, String message){
         this.sender = sender;
         this.receiver = receiver;
