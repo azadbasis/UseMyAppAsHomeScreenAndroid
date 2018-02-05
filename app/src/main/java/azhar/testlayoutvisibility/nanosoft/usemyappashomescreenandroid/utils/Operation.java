@@ -114,7 +114,7 @@ public class Operation {
 
 
     public void meetingRoomRequisition(String employee_id, String reference_no, String room_id,
-                                       String booking_type, String booking_date, String booking_start_time,
+                                       String booking_type, String  fee,String discount, String total_amount,  String booking_date, String booking_start_time,
                                        String booking_end_time, String chairperson_name, String number_of_member,
                                        String subject, String preference_no, String issue_no, String booking_purpose,
                                        String notice){
@@ -125,7 +125,7 @@ public class Operation {
 
         Api api = retrofit.create(Api.class);
         Call<LoginResponse> call = api.saveMeetingRoomBooking(employee_id, reference_no,
-                room_id,booking_type,booking_date,booking_start_time,booking_end_time,chairperson_name,
+                room_id,booking_type,fee,discount,total_amount,booking_date,booking_start_time,booking_end_time,chairperson_name,
                 number_of_member,subject,preference_no,issue_no,booking_purpose,notice);
 
 
