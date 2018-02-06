@@ -68,7 +68,7 @@ public class Operation {
                         PersistData.setStringData(con,AppConstant.userEmail,userEmail);
                         PersistData.setStringData(con,AppConstant.userPassword,userPassword);
 //                        Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
-//                    activity.startActivity(new Intent(con,MainActivity.class));
+//                    activity.startActivity(new Intent(con,MainActivityChat.class));
 //                    activity.finish();
                     }
                 }

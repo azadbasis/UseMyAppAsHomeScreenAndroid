@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //
 //
-//                Intent it = new Intent(SignUpActivity.this, LoginActivity.class);
+//                Intent it = new Intent(SignUpActivity.this, LoginActivityChat.class);
 //                startActivity(it);
 //                finish();
 //            }

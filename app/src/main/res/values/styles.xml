@@ -12,7 +12,15 @@
     </style>
 
 
+    <style name="AppThemeFullScreenImage" parent="Theme.Design.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
+    <style name="FullScreen.TextAppearance.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 
     <style name="HintAppearance" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/text_red_2</item>
