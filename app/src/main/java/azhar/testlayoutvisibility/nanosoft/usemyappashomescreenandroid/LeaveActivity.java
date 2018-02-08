@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -109,9 +111,24 @@ public class LeaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
-                        todate,numberofdays, purpose,
-                        emergencycontact,"today");
+                if(TextUtils.isEmpty(type_id)){
+                    Toast.makeText(con, "Select leave type.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(fromdate)){
+                    Toast.makeText(con, "Insert from date.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(todate)){
+                    Toast.makeText(con, "Insert to date.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(numberofdays)){
+                    Toast.makeText(con, "Insert number of days.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(purpose)){
+                    Toast.makeText(con, "Insert leave purpose.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(emergencycontact)){
+                    Toast.makeText(con, "Insert emergency contact.", Toast.LENGTH_SHORT).show();
+                }else {
+                    operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
+                            todate,numberofdays, purpose,
+                            emergencycontact,"today");
+                }
+
             }
         });
 

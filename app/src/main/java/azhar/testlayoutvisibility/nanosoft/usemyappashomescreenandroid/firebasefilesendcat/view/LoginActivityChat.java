@@ -1,5 +1,6 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,11 +20,20 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.R;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.MainActivityChat;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.model.UserModel;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.util.Util;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 
 
 public class LoginActivityChat extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -32,39 +42,55 @@ public class LoginActivityChat extends AppCompatActivity implements View.OnClick
     private static final String TAG = LoginActivityChat.class.getSimpleName();
     private static final int RC_SIGN_IN = 9001;
 
+    Context con;
     //UI
     private SignInButton mSignInButton;
-
+    private UserModel userModel;
     //Firebase and GoogleApiClient
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+    private DatabaseReference mFirebaseDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        if (!Util.verificaConexao(this)){
-            Util.initToast(this,"Você não tem conexão com internet");
+        con = this;
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        if (mFirebaseUser != null){
+            startActivity(new Intent(this, MainActivityChat.class));
             finish();
+        }else{
+            setContentView(R.layout.activity_login);
+
+            if (!Util.verificaConexao(this)){
+                Util.initToast(this,"Você não tem conexão com internet");
+                finish();
+            }
+
+            mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
+            mSignInButton.setOnClickListener(this);
+
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this,this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
         }
 
-        mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        mSignInButton.setOnClickListener(this);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
 
-        // Initialize FirebaseAuth
-        mFirebaseAuth = FirebaseAuth.getInstance();
 
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -100,6 +126,8 @@ public class LoginActivityChat extends AppCompatActivity implements View.OnClick
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
+
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {

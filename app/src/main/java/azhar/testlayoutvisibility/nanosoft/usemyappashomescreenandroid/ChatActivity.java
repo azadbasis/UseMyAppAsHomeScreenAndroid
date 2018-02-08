@@ -223,12 +223,12 @@ public class ChatActivity extends AppCompatActivity {
                         receiverFirebaseToken);
 
 
-//                sendPushNotificationToReceiverMulti(chat.sender,
-//                        chat.message,
-//                        chat.senderUid,
-//                        PersistData.getStringData(con,AppConstant.fcm_token),
-//                        AppConstant.registraion_ids);
-                //getMessageFromFirebaseUser(chat.senderUid, chat.receiverUid);
+                sendPushNotificationToReceiverMulti(chat.sender,
+                        chat.message,
+                        chat.senderUid,
+                        PersistData.getStringData(con,AppConstant.fcm_token),
+                        AppConstant.registraion_ids);
+                getMessageFromFirebaseUser(chat.senderUid, chat.receiverUid);
             }
 
             @Override

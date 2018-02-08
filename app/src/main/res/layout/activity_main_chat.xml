@@ -39,24 +39,37 @@
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp">
+        android:padding="@dimen/_1sdp">
         <ImageView
             android:id="@+id/buttonEmoji"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="4dp"
             android:src="@drawable/smiley"
+            android:visibility="gone"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignBottom="@+id/editTextMessage"
             />
+
+        <ImageView
+            android:id="@+id/buttonFileAttach"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:padding="@dimen/_2sdp"
+            android:src="@drawable/camera"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignBottom="@+id/editTextMessage"
+            />
+
         <hani.momanii.supernova_emoji_library.Helper.EmojiconEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editTextMessage"
             android:layout_toStartOf="@+id/buttonMessage"
-            android:layout_toRightOf="@+id/buttonEmoji"
-            android:layout_toEndOf="@+id/buttonEmoji"
+            android:layout_toRightOf="@+id/buttonFileAttach"
+            android:layout_toEndOf="@+id/buttonFileAttach"
             emojicon:emojiconSize="28sp"/>
         <ImageView
             android:id="@+id/buttonMessage"

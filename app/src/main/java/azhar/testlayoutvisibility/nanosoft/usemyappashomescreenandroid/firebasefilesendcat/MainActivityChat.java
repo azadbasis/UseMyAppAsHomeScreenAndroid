@@ -1,5 +1,6 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,12 +14,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
@@ -32,6 +38,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -39,8 +48,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.BuildConfig;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.LeaveActivity;
@@ -48,6 +61,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MeetingMi
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MeetingNoticeActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MeetingRoomBookingActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.R;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.fcm.FcmNotificationBuilder;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.adapter.ChatFirebaseAdapter;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.adapter.ClickListenerChatFirebase;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.model.ChatModel;
@@ -57,6 +71,10 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasef
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.util.Util;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.view.FullScreenImageActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.view.LoginActivityChat;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.User;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.ReadAllFile;
 import hani.momanii.supernova_emoji_library.Actions.EmojIconActions;
 import hani.momanii.supernova_emoji_library.Helper.EmojiconEditText;
 
@@ -76,16 +94,18 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     private DatabaseReference mFirebaseDatabaseReference;
     FirebaseStorage storage = FirebaseStorage.getInstance();
 
+    Context con;
     //CLass Model
     private UserModel userModel;
-
+    String PathHolder;
     //Views UI
     private RecyclerView rvListMessage;
     private LinearLayoutManager mLinearLayoutManager;
-    private ImageView btSendMessage,btEmoji;
+    private ImageView btSendMessage,btEmoji,buttonFileAttach;
     private EmojiconEditText edMessage;
     private View contentRoot;
     private EmojIconActions emojIcon;
+    String email;
 
     //File
     private File filePathImageCamera;
@@ -101,6 +121,13 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chat);
+        con = this;
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+
 
         if (!Util.verificaConexao(this)){
             Util.initToast(this,"Você não tem conexão com internet");
@@ -154,13 +181,92 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
             }
         }
 
+        switch(requestCode) {
+
+            case 7:
+
+                if (resultCode == RESULT_OK) {
+
+                    Uri uri = data.getData();
+                    PathHolder = ReadAllFile.getPath(getApplicationContext(), uri);
+                    sendFileFirebase(storageRef, Uri.fromFile(new File(PathHolder)));
+                }
+                break;
+        }
+    }
+
+
+    List<ChatModel> messageList = new ArrayList<>();
+    ChatModel message = new ChatModel();
+    ChildEventListener childEventListener = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            ChatModel message = dataSnapshot.getValue(ChatModel.class);
+           // messageList.add(message);
+
+
+                Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
+                while (dataSnapshots.hasNext()) {
+                    DataSnapshot dataSnapshotChild = dataSnapshots.next();
+                    ChatModel user = dataSnapshotChild.getValue(ChatModel.class);
+                    messageList.add(user);
+
+                }
+
+            AppConstant.registraion_ids.clear();
+
+            if(messageList.size()>0){
+                for(int i=0;i<messageList.size();i++) {
+                    if(!TextUtils.isEmpty(messageList.get(i).getUserModel().getEmail())){
+                        if (!messageList.get(i).getUserModel().getEmail().equalsIgnoreCase(email)) {
+                            AppConstant.registraion_ids.add(messageList.get(i).getUserModel().getFirebaseToken());
+
+                        }
+                    }
+
+                }
+            }
+
+            Toast.makeText(con, ""+AppConstant.registraion_ids.size(), Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+
+
+
     }
 
 
     private void initToolBar() {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle("SREDA OFFICE");
-        toolbar.inflateMenu(R.menu.menu_chat);
+        toolbar.inflateMenu(R.menu.menu_logout);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -188,34 +294,6 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     }
 
 
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_chat, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()){
-//            case R.id.sendPhoto:
-//                verifyStoragePermissions();
-////                photoCameraIntent();
-//                break;
-//            case R.id.sendPhotoGallery:
-//                photoGalleryIntent();
-//                break;
-//            case R.id.sendLocation:
-//                locationPlacesIntent();
-//                break;
-//            case R.id.sign_out:
-//                signOut();
-//                break;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -352,7 +430,26 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         ChatModel model = new ChatModel(userModel,edMessage.getText().toString(), Calendar.getInstance().getTime().getTime()+"",null);
         mFirebaseDatabaseReference.child(CHAT_REFERENCE).push().setValue(model);
         edMessage.setText(null);
+        sendPushNotificationToReceiverMulti(mFirebaseUser.getDisplayName(),edMessage.getText().toString(),
+                mFirebaseUser.getUid(),PersistData.getStringData(con,AppConstant.fcm_token),AppConstant.registraion_ids);
     }
+
+    private void sendPushNotificationToReceiverMulti(String username,
+                                                     String message,
+                                                     String uid,
+                                                     String firebaseToken,
+                                                     List<String> regId) {
+        FcmNotificationBuilder.initialize()
+                .title(username)
+                .message(message)
+                .username(username)
+                .uid(uid)
+                .firebaseToken(firebaseToken)
+                .registrationId(regId)
+                .send();
+    }
+
+
 
     /**
      * Ler collections chatmodel Firebase
@@ -387,7 +484,9 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
             startActivity(new Intent(this, LoginActivityChat.class));
             finish();
         }else{
-            userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid() );
+            userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid(),mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
+            email = mFirebaseUser.getEmail();
+            mFirebaseDatabaseReference.addChildEventListener(childEventListener);
             lerMessagensFirebase();
         }
     }
@@ -401,12 +500,51 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         btSendMessage = (ImageView)findViewById(R.id.buttonMessage);
         btSendMessage.setOnClickListener(this);
         btEmoji = (ImageView)findViewById(R.id.buttonEmoji);
+        buttonFileAttach = (ImageView)findViewById(R.id.buttonFileAttach);
+        buttonFileAttach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(MainActivityChat.this, buttonFileAttach);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.menu_chat, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.sendPhoto:
+                                verifyStoragePermissions();
+//                photoCameraIntent();
+                                break;
+                            case R.id.sendPhotoGallery:
+                                photoGalleryIntent();
+                                break;
+                            case R.id.sendLocation:
+                                locationPlacesIntent();
+                                break;
+                            case R.id.sign_out:
+                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent.setType("*/*");
+                                startActivityForResult(intent, 7);
+
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+
+                popup.show();//showing popup menu
+            }
+
+        });
+
         emojIcon = new EmojIconActions(this,contentRoot,edMessage,btEmoji);
         emojIcon.ShowEmojIcon();
         rvListMessage = (RecyclerView)findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mLinearLayoutManager.setStackFromEnd(true);
     }
+
 
     /**
      * Sign Out no login

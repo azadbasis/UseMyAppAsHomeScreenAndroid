@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
 import android.media.MediaScannerConnection;
@@ -128,6 +129,9 @@ public class FloatingMainActivity extends AppCompatActivity {
 
     }
 
+
+
+
     @TargetApi(Build.VERSION_CODES.N)
     private void initUi() {
 
@@ -225,11 +229,22 @@ public class FloatingMainActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(),"UnSelected Date is : " +date.toString(),Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        initToolBar();
+        resultsEvents = AppConstant.loginResponse.getEvents();
+        getEvents(resultsEvents);
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    @Override
+    protected void onResume() {
+        Operation operation = new Operation(con);
+        operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),PersistData.getStringData(con, AppConstant.userPassword));
         resultsEvents = AppConstant.loginResponse.getEvents();
         getEvents(resultsEvents);
 
-        initToolBar();
-
+        super.onResume();
     }
 
     private void initToolBar() {
@@ -527,29 +542,31 @@ public class FloatingMainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getEvents(List<ScheduleEvents> listEvents) {
 
-
-
         int todaymilis= (int) today.getTime();
 
         for(int i = 0; i<listEvents.size();i++){
             String stdate = listEvents.get(i).getFrom_time();
 
             String[] parts = stdate.split(" ");
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+
             try {
                 Date date = (Date)formatter.parse(parts[0]);
                 int listodaymilis= (int) date.getTime();
-                if(listodaymilis>todaymilis){
+                if(listodaymilis>=todaymilis){
                     eventDates.add(date);
                 }
-
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
+
         }
+        //Toast.makeText(con, ""+eventDates.size(), Toast.LENGTH_SHORT).show();
+        calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
+        //calendar_view.highlightDates(eventDates);
     }
 
 

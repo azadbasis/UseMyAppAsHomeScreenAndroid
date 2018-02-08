@@ -10,14 +10,35 @@ public class UserModel {
     private String id;
     private String name;
     private String photo_profile;
+    private String email;
+    private String firebaseToken;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirebaseToken() {
+        return firebaseToken;
+    }
+
+    public void setFirebaseToken(String firebaseToken) {
+        this.firebaseToken = firebaseToken;
+    }
 
     public UserModel() {
     }
 
-    public UserModel(String name, String photo_profile, String id) {
+    public UserModel(String name, String photo_profile, String id,String email, String firebaseToken) {
         this.name = name;
         this.photo_profile = photo_profile;
         this.id = id;
+        this.firebaseToken = firebaseToken;
+        this.email = email;
+
     }
 
     public String getName() {
