@@ -106,6 +106,8 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     private View contentRoot;
     private EmojIconActions emojIcon;
     String email;
+    String matchEmail = "";
+    List<UserModel> userList = new ArrayList<>();
 
     //File
     private File filePathImageCamera;
@@ -196,37 +198,47 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     }
 
 
-    List<ChatModel> messageList = new ArrayList<>();
-    ChatModel message = new ChatModel();
+
     ChildEventListener childEventListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            ChatModel message = dataSnapshot.getValue(ChatModel.class);
-           // messageList.add(message);
-
-
                 Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
                 while (dataSnapshots.hasNext()) {
                     DataSnapshot dataSnapshotChild = dataSnapshots.next();
-                    ChatModel user = dataSnapshotChild.getValue(ChatModel.class);
-                    messageList.add(user);
+                    UserModel user = dataSnapshotChild.getValue(UserModel.class);
+                    userList.add(user);
 
                 }
 
             AppConstant.registraion_ids.clear();
 
-            if(messageList.size()>0){
-                for(int i=0;i<messageList.size();i++) {
-                    if(!TextUtils.isEmpty(messageList.get(i).getUserModel().getEmail())){
-                        if (!messageList.get(i).getUserModel().getEmail().equalsIgnoreCase(email)) {
-                            AppConstant.registraion_ids.add(messageList.get(i).getUserModel().getFirebaseToken());
+            if(userList.size()>0){
+                for(int i=0;i<userList.size();i++) {
+                    if(!TextUtils.isEmpty(userList.get(i).getEmail())){
+                        if (!userList.get(i).getEmail().equalsIgnoreCase(email)) {
+                            AppConstant.registraion_ids.add(userList.get(i).getFirebaseToken());
+
 
                         }
                     }
 
                 }
+
+
+                
             }
+
+//            for(int i=0;i<userList.size();i++){
+//                if(userList.get(i).getEmail().equalsIgnoreCase(email)){
+//                    matchEmail = userList.get(i).getEmail();
+//                }
+//            }
+//
+//            if(!email.equalsIgnoreCase(matchEmail)){
+//                UserModel userModel = new UserModel(mFirebaseUser.getDisplayName(),mFirebaseUser.getUid(),mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
+//                mFirebaseDatabaseReference.child("User").push().setValue(userModel);
+//            }
 
             Toast.makeText(con, ""+AppConstant.registraion_ids.size(), Toast.LENGTH_SHORT).show();
 
@@ -484,8 +496,10 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
             startActivity(new Intent(this, LoginActivityChat.class));
             finish();
         }else{
+
             userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid(),mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
             email = mFirebaseUser.getEmail();
+
             mFirebaseDatabaseReference.addChildEventListener(childEventListener);
             lerMessagensFirebase();
         }
