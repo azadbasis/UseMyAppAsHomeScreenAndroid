@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_room_booking_24dp"
+                android:src="@drawable/ic_directions_car_black_24dp"
                 android:tint="#11000000"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.9"
@@ -94,7 +94,7 @@
             app:contentPadding="16dp"
             >
 
-            <include layout="@layout/meeting_room_booking"/>
+            <include layout="@layout/car_requisition_info"/>
             <include
                 android:visibility="gone"
                 layout="@layout/activity_profile"/>

@@ -42,7 +42,7 @@ public class MeetingMinutesActivity extends AppCompatActivity {
 
     ArrayList<OfficialBean> officialBeanArrayList;
     private RecyclerView recyclerViewOffecial;
-//    public static final String JSON_URL = "http://192.168.0.115/sreda_api/users/";
+//    public static final String JSON_USER_URL = "http://192.168.0.115/sreda_api/users/";
     public static final String JSON_URL = "http://sreda.gov.bd/sreda_api/users";
     private ArrayList<String> mEntries;
     OffecialBeanAdapter offecialBeanAdapter;

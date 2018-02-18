@@ -89,7 +89,7 @@ public class FloatingMainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 200;
     String[] permissionsRequired = new String[]{CAMERA,
             ACCESS_FINE_LOCATION,
-            ACCESS_COARSE_LOCATION,READ_PHONE_STATE};
+            ACCESS_COARSE_LOCATION, READ_PHONE_STATE};
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -105,9 +105,10 @@ public class FloatingMainActivity extends AppCompatActivity {
     private String fromHourMin;
     private String toHourMin;
     private Dialog dialog;
-    private ImageView imgCall,imgCam,imgMsg,imgEmail,imgChat;
+    private ImageView imgCall, imgCam, imgMsg, imgEmail, imgChat;
 
     MagicalTakePhoto magicalTakePhoto;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,14 +116,14 @@ public class FloatingMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         con = this;
-        magicalTakePhoto =  new MagicalTakePhoto(this,100);
-        if(checkPermission()){
+        magicalTakePhoto = new MagicalTakePhoto(this, 100);
+        if (checkPermission()) {
 
-        }else if(!checkPermission()){
+        } else if (!checkPermission()) {
             requestPermission();
         }
         Operation operation = new Operation(con);
-        operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),PersistData.getStringData(con, AppConstant.userPassword));
+        operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail), PersistData.getStringData(con, AppConstant.userPassword));
         initUi();
 
     }
@@ -131,11 +132,11 @@ public class FloatingMainActivity extends AppCompatActivity {
     private void initUi() {
 
 
-        imgCall = (ImageView)findViewById(R.id.imgCall);
-        imgCam = (ImageView)findViewById(R.id.imgCam);
-        imgMsg = (ImageView)findViewById(R.id.imgMsg);
-        imgEmail = (ImageView)findViewById(R.id.imgEmail);
-        imgChat = (ImageView)findViewById(R.id.imgChat);
+        imgCall = (ImageView) findViewById(R.id.imgCall);
+        imgCam = (ImageView) findViewById(R.id.imgCam);
+        imgMsg = (ImageView) findViewById(R.id.imgMsg);
+        imgEmail = (ImageView) findViewById(R.id.imgEmail);
+        imgChat = (ImageView) findViewById(R.id.imgChat);
 
         imgCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,9 +152,9 @@ public class FloatingMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 photoDialogue();
-                if(checkPermission()){
+                if (checkPermission()) {
 
-                }else {
+                } else {
                     requestPermission();
                 }
 
@@ -184,7 +185,7 @@ public class FloatingMainActivity extends AppCompatActivity {
         imgChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(con,SignUpActivity.class));
+                startActivity(new Intent(con, SignUpActivity.class));
             }
         });
 
@@ -200,18 +201,18 @@ public class FloatingMainActivity extends AppCompatActivity {
             public void onDateSelected(Date date) {
 
 
-                Date dob=date;//this will take date as Fri Jan 06 00:00:00 IST 2012
+                Date dob = date;//this will take date as Fri Jan 06 00:00:00 IST 2012
 
                 final String OLD_FORMAT = "yyyy-MM-dd";  //wants t convert date in this format
                 Date d = null;
                 SimpleDateFormat newDateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
                 try {
-                    d =newDateFormat.parse(newDateFormat.format(dob));
+                    d = newDateFormat.parse(newDateFormat.format(dob));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 newDateFormat.applyPattern(OLD_FORMAT);
-                String new_date=newDateFormat.format(d);
+                String new_date = newDateFormat.format(d);
 
                 eventDialogue(new_date);
 
@@ -232,26 +233,28 @@ public class FloatingMainActivity extends AppCompatActivity {
     }
 
     private void initToolBar() {
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SREDA OFFICE");
         toolbar.inflateMenu(R.menu.toolbar_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.action_meeting_notice:
-                        startActivity(new Intent(con,MeetingNoticeActivity.class));
+                        startActivity(new Intent(con, MeetingNoticeActivity.class));
                         break;
                     case R.id.action_meeting_room:
-                        startActivity(new Intent(con,MeetingRoomBookingActivity.class));
+                        startActivity(new Intent(con, MeetingRoomBookingActivity.class));
                         break;
                     case R.id.action_meeting_minute:
-                        startActivity(new Intent(con,MeetingMinutesActivity.class));
+                        startActivity(new Intent(con, MeetingMinutesActivity.class));
+                        break;
+                    case R.id.action_car:
+                        startActivity(new Intent(con, CarActivity.class));
                         break;
 
                     case R.id.action_leave:
-                        startActivity(new Intent(con,LeaveActivity.class));
-                        
+                        startActivity(new Intent(con, LeaveActivity.class));
                         return true;
                 }
                 return false;
@@ -271,7 +274,7 @@ public class FloatingMainActivity extends AppCompatActivity {
 
     private void requestPermission() {
 
-        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION, CAMERA,READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{ACCESS_FINE_LOCATION, CAMERA, READ_PHONE_STATE}, PERMISSION_REQUEST_CODE);
 
     }
 
@@ -325,6 +328,7 @@ public class FloatingMainActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void eventDialogue(final String date) {
 
@@ -488,8 +492,8 @@ public class FloatingMainActivity extends AppCompatActivity {
     }
 
 
-    private void saveEventToServer(String employee_id,String title,String from_time,
-                                   String to_time,String description) {
+    private void saveEventToServer(String employee_id, String title, String from_time,
+                                   String to_time, String description) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
@@ -497,15 +501,15 @@ public class FloatingMainActivity extends AppCompatActivity {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<LoginResponse> call = api.saveEvents(employee_id,title,from_time,to_time,description);
+        Call<LoginResponse> call = api.saveEvents(employee_id, title, from_time, to_time, description);
         call.enqueue(new Callback<LoginResponse>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                 LoginResponse loginResponse = response.body();
-                if(loginResponse!=null){
-                    if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+                if (loginResponse != null) {
+                    if (loginResponse.getStatus_code().equalsIgnoreCase("200")) {
                         Toast.makeText(con, "Event save to server.", Toast.LENGTH_SHORT).show();
                         resultsEvents = loginResponse.getEvents();
                         getEvents(loginResponse.getEvents());
@@ -527,18 +531,17 @@ public class FloatingMainActivity extends AppCompatActivity {
     private void getEvents(List<ScheduleEvents> listEvents) {
 
 
+        int todaymilis = (int) today.getTime();
 
-        int todaymilis= (int) today.getTime();
-
-        for(int i = 0; i<listEvents.size();i++){
+        for (int i = 0; i < listEvents.size(); i++) {
             String stdate = listEvents.get(i).getFrom_time();
 
             String[] parts = stdate.split(" ");
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
             try {
-                Date date = (Date)formatter.parse(parts[0]);
-                int listodaymilis= (int) date.getTime();
-                if(listodaymilis>todaymilis){
+                Date date = (Date) formatter.parse(parts[0]);
+                int listodaymilis = (int) date.getTime();
+                if (listodaymilis > todaymilis) {
                     eventDates.add(date);
                 }
 
@@ -552,8 +555,7 @@ public class FloatingMainActivity extends AppCompatActivity {
     }
 
 
-
-   private void photoDialogue() {
+    private void photoDialogue() {
 
         final Dialog dialog = new Dialog(con);
 
@@ -574,11 +576,9 @@ public class FloatingMainActivity extends AppCompatActivity {
         Button btnCancel = (Button) dialog.findViewById(R.id.canceldialogbtn);
 
 
-
         dialog.getWindow().setLayout(LinearLayout.LayoutParams.FILL_PARENT,
 
                 LinearLayout.LayoutParams.FILL_PARENT);
-
 
 
         mCamerabtn.setOnClickListener(new View.OnClickListener() {
@@ -597,14 +597,13 @@ public class FloatingMainActivity extends AppCompatActivity {
         });
 
 
-
         mGallerybtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
 
             public void onClick(View v) {
 
-                startActivity(new Intent(con,QrCodeScannerActivity.class));
+                startActivity(new Intent(con, QrCodeScannerActivity.class));
                 dialog.cancel();
 
             }
@@ -625,14 +624,10 @@ public class FloatingMainActivity extends AppCompatActivity {
         });
 
 
-
         dialog.show();
 
 
-
     }
-
-
 
 
     @Override
@@ -645,12 +640,13 @@ public class FloatingMainActivity extends AppCompatActivity {
         //saveToInternalStorage(magicalTakePhoto.getMyPhoto());
         saveImageToExternalStorage(magicalTakePhoto.getMyPhoto());
     }
-    private String saveToInternalStorage(Bitmap bitmapImage){
+
+    private String saveToInternalStorage(Bitmap bitmapImage) {
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
+        File mypath = new File(directory, "profile.jpg");
 
         FileOutputStream fos = null;
         try {
@@ -708,8 +704,7 @@ public class FloatingMainActivity extends AppCompatActivity {
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
             out.flush();
             out.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

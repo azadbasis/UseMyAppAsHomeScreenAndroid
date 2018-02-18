@@ -478,4 +478,11 @@ Power Division</b>\n <u>Car Requisition Form(govt./personal purpose)</u></string
     </string>
     <string name="label_meeting_room_booking">Meeting Room Booking</string>
     <string name="title">Please Select</string>
+    <string name="label_vehicle_requisition">Vehicle Requisition</string>
+    <string name="label_employee_name">Employee Name *</string>
+    <string name="label_journey_purpose">Journey Purpose *</string>
+    <string name="label_journey_start">Journey Start Date *</string>
+    <string name="label_journey_end">Journey End Date *</string>
+    <string name="hint_location_from">Journey Location From *</string>
+    <string name="hint_journey_location_to">Journey Location To *</string>
 </resources>
