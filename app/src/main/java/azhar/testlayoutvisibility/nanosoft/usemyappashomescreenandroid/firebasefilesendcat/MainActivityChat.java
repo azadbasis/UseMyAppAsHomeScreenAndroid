@@ -427,12 +427,20 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     /**
      * Enviar foto pela galeria
      */
+
     private void photoGalleryIntent(){
         Intent intent = new Intent();
-        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
         startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture_title)), IMAGE_GALLERY_REQUEST);
     }
+
+//    private void photoGalleryIntent(){
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture_title)), IMAGE_GALLERY_REQUEST);
+//    }
 
     /**
      * Enviar msg de texto simples para chat
