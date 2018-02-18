@@ -7,7 +7,7 @@ import com.google.firebase.database.Exclude;
  */
 public class UserModel {
 
-    private String id;
+    private String userId;
     private String name;
     private String photo_profile;
     private String email;
@@ -32,19 +32,19 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(String name, String id,String email, String firebaseToken) {
+    public UserModel(String name, String userId,String email, String firebaseToken) {
         this.name = name;
-        this.id = id;
+        this.userId = userId;
         this.email = email;
         this.firebaseToken = firebaseToken;
 
 
     }
 
-    public UserModel(String name, String photo_profile, String id,String email, String firebaseToken) {
+    public UserModel(String name, String photo_profile, String userId,String email, String firebaseToken) {
         this.name = name;
         this.photo_profile = photo_profile;
-        this.id = id;
+        this.userId = userId;
         this.firebaseToken = firebaseToken;
         this.email = email;
 
@@ -66,12 +66,11 @@ public class UserModel {
         this.photo_profile = photo_profile;
     }
 
-    @Exclude
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
