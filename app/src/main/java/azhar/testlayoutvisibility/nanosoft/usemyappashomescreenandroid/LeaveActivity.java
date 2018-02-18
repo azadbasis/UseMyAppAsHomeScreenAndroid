@@ -45,7 +45,7 @@ public class LeaveActivity extends AppCompatActivity {
     int maxDay;
     int minDay;
     String type_id,currntbalace,fromdate,todate,numberofdays,purpose,emergencycontact;
-    Operation operation = new Operation(con);
+    Operation operation;
     private int fromDay=0;
     private int toDay=0;
 
@@ -59,6 +59,8 @@ public class LeaveActivity extends AppCompatActivity {
     }
 
     private void initUi() {
+        operation = new Operation(con,LeaveActivity.this);
+
         AppConstant.leaveTypeName.add(0,"select Leave Type.");
 
         operation.getLeaveType();
@@ -142,7 +144,7 @@ public class LeaveActivity extends AppCompatActivity {
                 }else {
                     operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
                             todate,numberofdays, purpose,
-                            emergencycontact,today);
+                            emergencycontact,today,numberofdays,"1");
                 }
 
             }

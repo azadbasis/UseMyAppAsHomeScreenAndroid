@@ -69,7 +69,7 @@ public interface Api {
     );
 
     @FormUrlEncoded
-    @POST("add_leave_application")
+    @POST("add_leave_applications")
     Call<LoginResponse> leaveApplication(
             @Field("employee_id") String employee_id,
             @Field("leave_type_id") String leave_type_id,
@@ -78,7 +78,9 @@ public interface Api {
             @Field("number_of_days") String number_of_days,
             @Field("purpose") String purpose,
             @Field("emergency_contact_details") String emergency_contact_details,
-            @Field("application_date") String application_date
+            @Field("application_date") String application_date,
+            @Field("workingDay") String workingDay,
+            @Field("unit_id") String unit_id
     );
 
 

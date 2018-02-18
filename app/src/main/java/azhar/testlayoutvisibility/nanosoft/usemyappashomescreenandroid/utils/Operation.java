@@ -1,5 +1,6 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -24,10 +25,16 @@ public class Operation {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Context context;
+    Activity activity;
+
+    public Operation(Context context,Activity activity) {
+        this.context = context;
+        this.activity = activity;
+
+    }
 
     public Operation(Context context) {
         this.context = context;
-
     }
     public void saveString(String key, String value) {
         sharedPreferences = context.getSharedPreferences("OFFICE_KIT", MODE_PRIVATE);
@@ -187,7 +194,7 @@ public class Operation {
 
     public void sendLeaveApplication(String employee_id, String leave_type_id, String request_from_date,
                                      String request_to_date, String number_of_days, String purpose,
-                                     String emergency_contact_details, String application_date){
+                                     String emergency_contact_details, String application_date,String workingDay,String unit_id){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Api.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
@@ -195,7 +202,7 @@ public class Operation {
 
         Api api = retrofit.create(Api.class);
         Call<LoginResponse> call = api.leaveApplication(employee_id, leave_type_id,
-                request_from_date,request_to_date,number_of_days,purpose,emergency_contact_details,application_date);
+                request_from_date,request_to_date,number_of_days,purpose,emergency_contact_details,application_date,workingDay,unit_id);
 
 
         call.enqueue(new Callback<LoginResponse>() {
@@ -206,6 +213,7 @@ public class Operation {
                 if(loginResponse!=null){
                     if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
                         Toast.makeText(context, "Leave application submitted!", Toast.LENGTH_SHORT).show();
+                        activity.finish();
                     }
                 }
 
