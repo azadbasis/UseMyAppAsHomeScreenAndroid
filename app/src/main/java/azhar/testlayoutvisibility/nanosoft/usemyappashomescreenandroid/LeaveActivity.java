@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,9 +14,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
@@ -40,6 +45,9 @@ public class LeaveActivity extends AppCompatActivity {
     int minDay;
     String type_id,currntbalace,fromdate,todate,numberofdays,purpose,emergencycontact;
     Operation operation = new Operation(con);
+    private int fromDay=0;
+    private int toDay=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +101,7 @@ public class LeaveActivity extends AppCompatActivity {
         etFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePicker(etFromDate);
+                datePickerFrom();
 
             }
         });
@@ -101,7 +109,7 @@ public class LeaveActivity extends AppCompatActivity {
         etToDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePicker(etToDate);
+                datePickerTo();
             }
         });
 
@@ -109,9 +117,29 @@ public class LeaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
-                        todate,numberofdays, purpose,
-                        emergencycontact,"today");
+                fromdate = etFromDate.getText().toString();
+                todate = etToDate.getText().toString();
+                numberofdays = etNumberOfday.getText().toString();
+                purpose = etPurpose.getText().toString();
+                emergencycontact = etEmergencyContact.getText().toString();
+                if(TextUtils.isEmpty(type_id)){
+                    Toast.makeText(con, "Select leave type.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(fromdate)){
+                    Toast.makeText(con, "Insert from date.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(todate)){
+                    Toast.makeText(con, "Insert to date.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(numberofdays)){
+                    Toast.makeText(con, "Insert number of days.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(purpose)){
+                    Toast.makeText(con, "Insert leave purpose.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(emergencycontact)){
+                    Toast.makeText(con, "Insert emergency contact.", Toast.LENGTH_SHORT).show();
+                }else {
+                    operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
+                            todate,numberofdays, purpose,
+                            emergencycontact,"today");
+                }
+
             }
         });
 
@@ -119,8 +147,7 @@ public class LeaveActivity extends AppCompatActivity {
     }
 
 
-
-    private void datePicker(final EditText etdate){
+    private void datePickerFrom(){
 
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -132,7 +159,40 @@ public class LeaveActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
-                        etdate.setText(date_time);
+                        etFromDate.setText(date_time);
+                        fromdate = date_time;
+                        if(!TextUtils.isEmpty(fromdate) && !TextUtils.isEmpty(todate)){
+                            calculateDay(todate,fromdate);
+                        }else {
+                           etNumberOfday.setText("");
+                        }
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
+    }
+
+    private void datePickerTo(){
+
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        date_time = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                        etToDate.setText(date_time);
+                        todate = date_time;
+
+                        if(!TextUtils.isEmpty(fromdate) && !TextUtils.isEmpty(todate)){
+                            calculateDay(todate,fromdate);
+                        }else {
+                            etNumberOfday.setText("");
+                        }
+
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -140,5 +200,30 @@ public class LeaveActivity extends AppCompatActivity {
 
 
 
+    private void calculateDay(String dayTo, String dayFrom){
+        SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
+//        String inputString1 = "23 01 1997";
+//        String inputString2 = "27 04 1997";
+
+        try {
+            Date date1 = myFormat.parse(dayFrom);
+            Date date2 = myFormat.parse(dayTo);
+
+            if(date2.getTime()>date1.getTime()){
+                long diff = date2.getTime() - date1.getTime();
+                int days = (int) (diff / (1000*60*60*24));
+                numberofdays = String.valueOf(days);
+                etNumberOfday.setText(numberofdays);
+            }else {
+                numberofdays = "";
+                etNumberOfday.setText(numberofdays);
+                etToDate.setText("");
+                Toast.makeText(con, "To date should be after from date", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

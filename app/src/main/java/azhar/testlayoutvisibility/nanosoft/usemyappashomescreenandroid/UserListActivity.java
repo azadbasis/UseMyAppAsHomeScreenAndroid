@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.MainActivityChat;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.User;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 
@@ -43,6 +45,7 @@ public class UserListActivity extends AppCompatActivity implements SwipeRefreshL
     private List<User> users = new ArrayList<>();
     private UserListingRecyclerAdapter mUserListingRecyclerAdapter;
     private ImageView imgGoBack;
+    private TextView tvBtnGo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,15 @@ public class UserListActivity extends AppCompatActivity implements SwipeRefreshL
     }
 
     private void initialize() {
+        tvBtnGo = (TextView)findViewById(R.id.tvBtnGo) ;
+
+        tvBtnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,MainActivityChat.class));
+            }
+        });
+
         imgGoBack = (ImageView)findViewById(R.id.imgGoBack);
         imgGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +171,7 @@ public class UserListActivity extends AppCompatActivity implements SwipeRefreshL
                     AppConstant.ARG_RECEIVER = user.name;
                     AppConstant.ARG_RECEIVER_FIREBASE_TOKEN = user.firebaseToken;
                     AppConstant.ARG_RECEIVER_UID = user.uid;
-                    startActivity(new Intent(con,ChatActivity.class));
+                    startActivity(new Intent(con,MainActivityChat.class));
                 }
             });
         }

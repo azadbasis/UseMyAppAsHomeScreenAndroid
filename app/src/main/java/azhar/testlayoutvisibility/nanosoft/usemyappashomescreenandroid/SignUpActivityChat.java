@@ -3,7 +3,6 @@ package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -21,11 +20,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.model.UserModel;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.User;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivityChat extends AppCompatActivity {
 
 
     Context con;
@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //
 //
-//                Intent it = new Intent(SignUpActivity.this, LoginActivity.class);
+//                Intent it = new Intent(SignUpActivityChat.this, LoginActivityChat.class);
 //                startActivity(it);
 //                finish();
 //            }
@@ -113,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 //create user
                 auth.createUserWithEmailAndPassword(userEmail, userPass)
-                        .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(SignUpActivityChat.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(con, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
@@ -141,9 +141,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         PersistData.setStringData(con,AppConstant.uid,fUser.getUid());
 
                                         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-                                        User userModel = new User(fUser.getUid(), fUser.getEmail(),
-                                                PersistData.getStringData(con,AppConstant.userName),
-                                                PersistData.getStringData(con,AppConstant.fcm_token));
+                                        UserModel userModel = new UserModel(PersistData.getStringData(con,AppConstant.userName),fUser.getPhotoUrl().toString(),fUser.getUid(),PersistData.getStringData(con,AppConstant.fcm_token), fUser.getEmail()
+                                                );
                                         database.child(AppConstant.ARG_USERS)
                                                 .child(fUser.getUid())
                                                 .setValue(userModel)

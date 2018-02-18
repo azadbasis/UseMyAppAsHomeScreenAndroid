@@ -100,6 +100,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
 
+
     public void getMessageFromFirebaseUser(String senderUid, String receiverUid) {
         final String room_type_1 = senderUid + "_" + receiverUid;
         final String room_type_2 = receiverUid + "_" + senderUid;
@@ -222,12 +223,12 @@ public class ChatActivity extends AppCompatActivity {
                         receiverFirebaseToken);
 
 
-//                sendPushNotificationToReceiverMulti(chat.sender,
-//                        chat.message,
-//                        chat.senderUid,
-//                        PersistData.getStringData(con,AppConstant.fcm_token),
-//                        AppConstant.registraion_ids);
-                //getMessageFromFirebaseUser(chat.senderUid, chat.receiverUid);
+                sendPushNotificationToReceiverMulti(chat.sender,
+                        chat.message,
+                        chat.senderUid,
+                        PersistData.getStringData(con,AppConstant.fcm_token),
+                        AppConstant.registraion_ids);
+                getMessageFromFirebaseUser(chat.senderUid, chat.receiverUid);
             }
 
             @Override

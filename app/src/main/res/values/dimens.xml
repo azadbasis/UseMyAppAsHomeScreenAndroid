@@ -7,7 +7,9 @@
     <dimen name="space_small">8dp</dimen>
     <dimen name="space_avg">16dp</dimen>
     <dimen name="space_big">32dp</dimen>
-
+    <dimen name="size_avatar_toolbar">40dp</dimen>
+    <dimen name="spacing_double">16dp</dimen>
+    <dimen name="elevation_header">4dp</dimen>
     <dimen name="padding_min">4dp</dimen>
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_avg">16dp</dimen>

@@ -3,6 +3,12 @@
     <color name="colorPrimary">#efefef</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="sinch_purple">#ff63029d</color>
+    <color name="off_white">#fffafafa</color>
+    <color name="dark_gray">#ffb3b3b3</color>
+    <color name="very_dark_gray">#636363</color>
+
+    <color name="background">#e9e3dd</color>
 
         <color name="red">#F6402C</color>
         <color name="pink">#EB1460</color>
@@ -191,15 +197,29 @@
     <color name="grayblack">#2B2B2B</color>
 
     <!--color-->
-<color name="calendar_active_month_bg">#fff5f7f9</color>
+<!--<color name="calendar_active_month_bg">#fff5f7f9</color>-->
+    <!--<color name="calendar_bg">#ffffffff</color>-->
+    <!--<color name="calendar_divider">#ffbababa</color>-->
+    <!--<color name="calendar_inactive_month_bg">#ffd7d9db</color>-->
+    <!--<color name="calendar_selected_day_bg">#ff379bff</color>-->
+    <!--<color name="calendar_highlighted_day_bg">#DE5347</color>-->
+    <!--<color name="calendar_selected_range_bg">#ff96caff</color>-->
+    <!--<color name="calendar_text_inactive">#40778088</color>-->
+    <!--<color name="calendar_text_active">#DE5347</color>-->
+    <!--<color name="calendar_text_selected">#ffffffff</color>-->
+    <!--<color name="calendar_text_unselectable">#7f778088</color>-->
+
+
+    <color name="calendar_highlighted_day_bg">#FF5505</color>
+
+    <color name="calendar_active_month_bg">#fff5f7f9</color>
     <color name="calendar_bg">#ffffffff</color>
     <color name="calendar_divider">#ffbababa</color>
     <color name="calendar_inactive_month_bg">#ffd7d9db</color>
     <color name="calendar_selected_day_bg">#ff379bff</color>
-    <color name="calendar_highlighted_day_bg">#DE5347</color>
     <color name="calendar_selected_range_bg">#ff96caff</color>
     <color name="calendar_text_inactive">#40778088</color>
-    <color name="calendar_text_active">#DE5347</color>
+    <color name="calendar_text_active">#ff778088</color>
     <color name="calendar_text_selected">#ffffffff</color>
     <color name="calendar_text_unselectable">#7f778088</color>
 

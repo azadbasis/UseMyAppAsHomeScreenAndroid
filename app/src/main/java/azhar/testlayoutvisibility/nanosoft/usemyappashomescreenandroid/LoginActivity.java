@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 //authenticate user
 //                auth.signInWithEmailAndPassword(userEmail, userPassword)
-//                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+//                        .addOnCompleteListener(LoginActivityChat.this, new OnCompleteListener<AuthResult>() {
 //                            @Override
 //                            public void onComplete(@NonNull Task<AuthResult> task) {
 //                                // If sign in fails, display a message to the user. If sign in succeeds
@@ -125,16 +125,16 @@ public class LoginActivity extends AppCompatActivity {
 //                                if (!task.isSuccessful()) {
 //                                    // there was an error
 //                                    if (password.length() < 6) {
-//                                        Toast.makeText(LoginActivity.this, "Password must be 6 digit!", Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(LoginActivityChat.this, "Password must be 6 digit!", Toast.LENGTH_LONG).show();
 //                                    } else {
-//                                        Toast.makeText(LoginActivity.this, "Sign In failed! You may Sign up first.", Toast.LENGTH_LONG).show();
-//                                        startActivity(new Intent(con,SignUpActivity.class));
+//                                        Toast.makeText(LoginActivityChat.this, "Sign In failed! You may Sign up first.", Toast.LENGTH_LONG).show();
+//                                        startActivity(new Intent(con,SignUpActivityChat.class));
 //                                    }
 //                                } else {
 //                                    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
 //                                    PersistData.setStringData(con,AppConstant.uid,fUser.getUid());
-//                                    Toast.makeText(LoginActivity.this, "Sign In Successful!", Toast.LENGTH_LONG).show();
-//                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                    Toast.makeText(LoginActivityChat.this, "Sign In Successful!", Toast.LENGTH_LONG).show();
+//                                    Intent intent = new Intent(LoginActivityChat.this, MainActivity.class);
 //                                    startActivity(intent);
 //                                    finish();
 //                                }
@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
 //            @Override
 //            public void onClick(View v) {
 //
-//                Intent it = new Intent(LoginActivity.this, SignUpActivity.class);
+//                Intent it = new Intent(LoginActivityChat.this, SignUpActivityChat.class);
 //                startActivity(it);
 //                finish();
 //            }
