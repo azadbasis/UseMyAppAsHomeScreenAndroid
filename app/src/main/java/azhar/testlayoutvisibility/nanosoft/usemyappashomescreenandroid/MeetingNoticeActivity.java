@@ -36,13 +36,14 @@ import java.util.Date;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.OffecialBeanAdapter;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.OfficialBean;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.App;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 
 public class MeetingNoticeActivity extends AppCompatActivity {
 
     ArrayList<OfficialBean> officialBeanArrayList;
     private RecyclerView recyclerViewOffecial;
-//    public static final String JSON_URL = "http://192.168.0.115/sreda_api/users/";
+//    public static final String JSON_USER_URL = "http://192.168.0.115/sreda_api/users/";
     public static final String JSON_URL = "http://sreda.gov.bd/sreda_api/users";
     private ArrayList<String> mEntries;
     OffecialBeanAdapter offecialBeanAdapter;
@@ -106,7 +107,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void volleyJsonArrayRequest() {
+    public void volleyJsonArrayRequest() {
 
         JsonArrayRequest arrayRequest = new JsonArrayRequest(JSON_URL,
                 new Response.Listener<JSONArray>() {
@@ -117,7 +118,7 @@ public class MeetingNoticeActivity extends AppCompatActivity {
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 jsonObject = response.getJSONObject(i);
-                                mEntries.add(jsonObject.toString());
+                              //  mEntries.add(jsonObject.toString());
                                 String name = jsonObject.getString("employee_name");
                                 String email = jsonObject.getString("employee_email");
                                 String phone = jsonObject.getString("employee_phone");
@@ -152,8 +153,10 @@ public class MeetingNoticeActivity extends AppCompatActivity {
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(arrayRequest);
+       // RequestQueue requestQueue = Volley.newRequestQueue(App.getAppContext());
+      //  requestQueue.add(arrayRequest);
+        App.getInstance().addToRequestQueue(arrayRequest);
+
     }
 
     @SuppressLint("LongLogTag")

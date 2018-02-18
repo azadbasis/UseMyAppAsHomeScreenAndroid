@@ -330,7 +330,11 @@ private String roomName,roomId, roomFee,roomDiscount,roomTotalAmount, mtime;
         mBookingStartTime=mtime;
         Toast.makeText(this, "mBookingStartTime"+mBookingStartTime, Toast.LENGTH_SHORT).show();
     }
+    public void setMeetingEndDateTime(View view) {
+        datePicker(tvEndDate);
+        mBookingEndTime=mtime;
 
+    }
     private void datePicker(final TextView textViewDate) {
 
 // Get Current Date
@@ -403,9 +407,5 @@ private String roomName,roomId, roomFee,roomDiscount,roomTotalAmount, mtime;
         timePickerDialog.show();
     }
 
-    public void setMeetingEndDateTime(View view) {
-        datePicker(tvEndDate);
-        mBookingEndTime=mtime;
 
-    }
 }
