@@ -541,21 +541,25 @@ public class FloatingMainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getEvents(List<ScheduleEvents> listEvents) {
+//        Date todate  = new Date();
+//        int todaymilis= (int) todate.getTime();
+        Calendar cal = Calendar.getInstance();
+        int day= cal.get(Calendar.DATE);
+        int month = cal.get(Calendar.MONTH+1);
+        int year = cal.get(Calendar.YEAR);
+        String dateToday = year+"-"+month+"-"+day;
 
-        int todaymilis= (int) today.getTime();
 
         for(int i = 0; i<listEvents.size();i++){
             String stdate = listEvents.get(i).getFrom_time();
 
             String[] parts = stdate.split(" ");
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-
             try {
-                Date date = (Date)formatter.parse(parts[0]);
-                int listodaymilis= (int) date.getTime();
-                if(listodaymilis>=todaymilis){
-                    eventDates.add(date);
+                Date dateEvent = (Date)formatter.parse(parts[0]);
+                Date dateCurrent = (Date)formatter.parse(dateToday);
+                if (dateEvent.compareTo(dateCurrent) > 0) {
+                    eventDates.add(dateEvent);
                 }
 
             } catch (ParseException e) {
@@ -563,10 +567,24 @@ public class FloatingMainActivity extends AppCompatActivity {
             }
 
 
+//            try {
+//                Date date = (Date)formatter.parse(parts[0]);
+//                int listodaymilis = (int) date.getTime();
+//                if(listodaymilis>todaymilis){
+//                    eventDates.add(date);
+//                }
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+
+
         }
-        //Toast.makeText(con, ""+eventDates.size(), Toast.LENGTH_SHORT).show();
-        calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
-        //calendar_view.highlightDates(eventDates);
+        if(eventDates.size()>0){
+            calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
+        }else {
+            calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE);
+        }
     }
 
 

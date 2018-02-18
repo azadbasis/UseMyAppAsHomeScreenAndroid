@@ -16,6 +16,12 @@ public class ChatModel {
     public ChatModel() {
     }
 
+    public ChatModel(String message, String timeStamp, FileModel file) {
+        this.message = message;
+        this.timeStamp = timeStamp;
+        this.file = file;
+    }
+
     public ChatModel(UserModel userModel, String message, String timeStamp, FileModel file) {
         this.userModel = userModel;
         this.message = message;

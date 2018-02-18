@@ -35,8 +35,9 @@ public class UserModel {
     public UserModel(String name, String id,String email, String firebaseToken) {
         this.name = name;
         this.id = id;
-        this.firebaseToken = firebaseToken;
         this.email = email;
+        this.firebaseToken = firebaseToken;
+
 
     }
 

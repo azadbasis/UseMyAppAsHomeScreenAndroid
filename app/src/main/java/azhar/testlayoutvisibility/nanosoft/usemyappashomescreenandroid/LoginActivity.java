@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                        Toast.makeText(LoginActivityChat.this, "Password must be 6 digit!", Toast.LENGTH_LONG).show();
 //                                    } else {
 //                                        Toast.makeText(LoginActivityChat.this, "Sign In failed! You may Sign up first.", Toast.LENGTH_LONG).show();
-//                                        startActivity(new Intent(con,SignUpActivity.class));
+//                                        startActivity(new Intent(con,SignUpActivityChat.class));
 //                                    }
 //                                } else {
 //                                    FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -147,7 +147,7 @@ public class LoginActivity extends AppCompatActivity {
 //            @Override
 //            public void onClick(View v) {
 //
-//                Intent it = new Intent(LoginActivityChat.this, SignUpActivity.class);
+//                Intent it = new Intent(LoginActivityChat.this, SignUpActivityChat.class);
 //                startActivity(it);
 //                finish();
 //            }

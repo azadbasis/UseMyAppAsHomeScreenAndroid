@@ -43,6 +43,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -146,6 +147,68 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         initToolBar();
     }
 
+
+
+    private void  getAllUsers() {
+        AppConstant.fUserList.clear();
+        AppConstant.registraion_ids.clear();
+        FirebaseDatabase.getInstance().getReference().child(AppConstant.ARG_USERS).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
+                while (dataSnapshots.hasNext()) {
+                    DataSnapshot dataSnapshotChild = dataSnapshots.next();
+                    UserModel user = dataSnapshotChild.getValue(UserModel.class);
+                    AppConstant.fUserList.add(user);
+                    AppConstant.registraion_ids.add(user.getId());
+                    Toast.makeText(con, "userid "+user.getId(), Toast.LENGTH_SHORT).show();
+                }
+
+                Toast.makeText(con, ""+AppConstant.fUserList.size(), Toast.LENGTH_SHORT).show();
+
+
+                userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
+
+                for (int i = 0; i <AppConstant.fUserList.size() ; i++) {
+                    if(AppConstant.fUserList.get(i).getEmail().equalsIgnoreCase(mFirebaseUser.getEmail())){
+
+                        matchEmail = AppConstant.fUserList.get(i).getEmail();
+                        break;
+                    }
+                }
+
+               // Toast.makeText(con, ""+AppConstant.fUserList.get(0).getEmail(), Toast.LENGTH_SHORT).show();
+                if(!matchEmail.equalsIgnoreCase(mFirebaseUser.getEmail())){
+                    mFirebaseDatabaseReference.child("users").push().setValue(userModel);
+                }
+                email = mFirebaseUser.getEmail();
+
+
+
+//                TinyDB tinydb = new TinyDB(con);
+//                tinydb.putListString("MyUsers", AppConstant.fUserList);
+                // tinydb.putList("MyUsers", AppConstant.fUserList);
+
+//                for (int i = 0; i <AppConstant.fUserList.size() ; i++) {
+//                    if(!AppConstant.fUserList.get(i).getEmail().equalsIgnoreCase(mFirebaseUser.getEmail())){
+//                        mFirebaseDatabaseReference.child("users").push().setValue(userModel);
+//                    }
+//                }
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -199,71 +262,7 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
 
 
 
-    ChildEventListener childEventListener = new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
-                while (dataSnapshots.hasNext()) {
-                    DataSnapshot dataSnapshotChild = dataSnapshots.next();
-                    UserModel user = dataSnapshotChild.getValue(UserModel.class);
-                    userList.add(user);
-
-                }
-
-            AppConstant.registraion_ids.clear();
-
-            if(userList.size()>0){
-                for(int i=0;i<userList.size();i++) {
-                    if(!TextUtils.isEmpty(userList.get(i).getEmail())){
-                        if (!userList.get(i).getEmail().equalsIgnoreCase(email)) {
-                            AppConstant.registraion_ids.add(userList.get(i).getFirebaseToken());
-
-
-                        }
-                    }
-
-                }
-
-
-                
-            }
-
-//            for(int i=0;i<userList.size();i++){
-//                if(userList.get(i).getEmail().equalsIgnoreCase(email)){
-//                    matchEmail = userList.get(i).getEmail();
-//                }
-//            }
-//
-//            if(!email.equalsIgnoreCase(matchEmail)){
-//                UserModel userModel = new UserModel(mFirebaseUser.getDisplayName(),mFirebaseUser.getUid(),mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
-//                mFirebaseDatabaseReference.child("User").push().setValue(userModel);
-//            }
-
-            Toast.makeText(con, ""+AppConstant.registraion_ids.size(), Toast.LENGTH_SHORT).show();
-
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
     @Override
     protected void onStart() {
         super.onStart();
@@ -492,18 +491,36 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     private void verificaUsuarioLogado(){
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
         if (mFirebaseUser == null){
             startActivity(new Intent(this, LoginActivityChat.class));
             finish();
         }else{
+            getAllUsers();
 
-            userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid(),mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
-            email = mFirebaseUser.getEmail();
+            Toast.makeText(con, ""+mFirebaseUser.getUid(), Toast.LENGTH_SHORT).show();
+            userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
 
-            mFirebaseDatabaseReference.addChildEventListener(childEventListener);
+//            for (int i = 0; i <AppConstant.fUserList.size() ; i++) {
+//                if(AppConstant.fUserList.get(i).getEmail().equalsIgnoreCase(mFirebaseUser.getEmail())){
+//
+//                    matchEmail = AppConstant.fUserList.get(i).getEmail();
+//                    break;
+//                }
+//            }
+//
+//            Toast.makeText(con, ""+AppConstant.fUserList.get(0).getEmail(), Toast.LENGTH_SHORT).show();
+//            if(!matchEmail.equalsIgnoreCase(mFirebaseUser.getEmail())){
+//                mFirebaseDatabaseReference.child("users").push().setValue(userModel);
+//            }  email = mFirebaseUser.getEmail();
+
+
             lerMessagensFirebase();
         }
     }
+
+
+
 
     /**
      * Vincular views com Java API

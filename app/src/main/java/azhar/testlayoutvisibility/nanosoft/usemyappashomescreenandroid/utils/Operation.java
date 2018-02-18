@@ -67,7 +67,7 @@ public class Operation {
                         PersistData.setStringData(con,AppConstant.employee_id,loginResponse.getEmployee_info().getEmployee_id());
                         PersistData.setStringData(con,AppConstant.userEmail,userEmail);
                         PersistData.setStringData(con,AppConstant.userPassword,userPassword);
-//                        Log.e("title",""+loginResponse.getEvents().get(0).getTitle());
+                        Log.e("title",""+loginResponse.getEvents().get(0).getFrom_time());
 //                    activity.startActivity(new Intent(con,MainActivityChat.class));
 //                    activity.finish();
                     }
@@ -165,7 +165,7 @@ public class Operation {
                 LeaveTypeResponse leaveTypeResponse = response.body();
 
                 if(leaveTypeResponse!=null){
-
+                    AppConstant.leaveTypeName.clear();
                     for(int i=0; i<leaveTypeResponse.getLeave_types().size();i++){
 
                         AppConstant.leaveTypeName.add(leaveTypeResponse.getLeave_types().get(i).getName());

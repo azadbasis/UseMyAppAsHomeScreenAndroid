@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -27,13 +29,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.R;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.MainActivityChat;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.model.UserModel;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.util.Util;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.User;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.TinyDB;
 
 
 public class LoginActivityChat extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -61,6 +70,8 @@ public class LoginActivityChat extends AppCompatActivity implements View.OnClick
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        //updateAdapter();
+        //getAllUsers();
         if (mFirebaseUser != null){
             startActivity(new Intent(this, MainActivityChat.class));
             finish();
@@ -83,6 +94,8 @@ public class LoginActivityChat extends AppCompatActivity implements View.OnClick
                     .enableAutoManage(this,this)
                     .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                     .build();
+
+
         }
 
 
@@ -100,6 +113,8 @@ public class LoginActivityChat extends AppCompatActivity implements View.OnClick
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+
+
             } else {
                 Log.e(TAG, "Google Sign In failed.");
             }
@@ -127,6 +142,8 @@ public class LoginActivityChat extends AppCompatActivity implements View.OnClick
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
 
+        //mFirebaseDatabaseReference.child("users").push().setValue(userModel);
+
 
     }
 
@@ -142,11 +159,61 @@ public class LoginActivityChat extends AppCompatActivity implements View.OnClick
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Util.initToast(LoginActivityChat.this,"Authentication failed");
                         } else {
+                            //verificaUsuarioLogado();
                             startActivity(new Intent(LoginActivityChat.this, MainActivityChat.class));
                             finish();
                         }
                     }
                 });
     }
+
+
+    private void verificaUsuarioLogado(){
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid(),mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
+        mFirebaseDatabaseReference.child("users").push().setValue(userModel);
+
+    }
+
+
+
+    private void  getAllUsers() {
+        AppConstant.fUserList.clear();
+        FirebaseDatabase.getInstance().getReference().child(AppConstant.ARG_USERS).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
+                while (dataSnapshots.hasNext()) {
+                    DataSnapshot dataSnapshotChild = dataSnapshots.next();
+                    UserModel user = dataSnapshotChild.getValue(UserModel.class);
+                    AppConstant.fUserList.add(user);
+
+                }
+
+//                TinyDB tinydb = new TinyDB(con);
+//                tinydb.putListString("MyUsers", AppConstant.fUserList);
+               // tinydb.putList("MyUsers", AppConstant.fUserList);
+
+//                for (int i = 0; i <AppConstant.fUserList.size() ; i++) {
+//                    if(!AppConstant.fUserList.get(i).getEmail().equalsIgnoreCase(mFirebaseUser.getEmail())){
+//                        mFirebaseDatabaseReference.child("users").push().setValue(userModel);
+//                    }
+//                }
+
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+
 
 }

@@ -35,12 +35,14 @@
         android:id="@+id/action_visit"
         android:orderInCategory="100"
         app:showAsAction="never"
+        android:visible="false"
         android:title="Visit" />
 
 
     <item
         android:id="@+id/action_profile"
         android:orderInCategory="100"
+        android:visible="false"
         app:showAsAction="never"
         android:title="Profile" />
 
