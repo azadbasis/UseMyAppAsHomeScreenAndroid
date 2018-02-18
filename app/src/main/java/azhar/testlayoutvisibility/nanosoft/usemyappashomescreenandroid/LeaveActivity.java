@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class LeaveActivity extends AppCompatActivity {
             }
         });
 
-        
+
 
         etFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +118,9 @@ public class LeaveActivity extends AppCompatActivity {
         btnSendLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Date date = Calendar.getInstance().getTime();
+                DateFormat formatter = new SimpleDateFormat("dd-MM-yyy");
+                String today = formatter.format(date);
 
                 fromdate = etFromDate.getText().toString();
                 todate = etToDate.getText().toString();
@@ -138,7 +142,7 @@ public class LeaveActivity extends AppCompatActivity {
                 }else {
                     operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
                             todate,numberofdays, purpose,
-                            emergencycontact,"today");
+                            emergencycontact,today);
                 }
 
             }
