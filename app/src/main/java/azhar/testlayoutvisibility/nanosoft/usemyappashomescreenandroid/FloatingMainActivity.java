@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Random;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.adapter.ScheduleAdapter;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.view.LoginActivityChat;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.LoginResponse;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.ScheduleEvents;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api;
@@ -185,7 +186,7 @@ public class FloatingMainActivity extends AppCompatActivity {
         imgChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(con, SignUpActivity.class));
+                startActivity(new Intent(con, LoginActivityChat.class));
             }
         });
 
@@ -530,27 +531,28 @@ public class FloatingMainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getEvents(List<ScheduleEvents> listEvents) {
 
+        Date date1 = java.util.Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatter.format(date1);
 
-        int todaymilis = (int) today.getTime();
+        //int todaymilis = (int) today.getTime();
 
         for (int i = 0; i < listEvents.size(); i++) {
             String stdate = listEvents.get(i).getFrom_time();
 
             String[] parts = stdate.split(" ");
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
             try {
-                Date date = (Date) formatter.parse(parts[0]);
-                int listodaymilis = (int) date.getTime();
-                if (listodaymilis > todaymilis) {
-                    eventDates.add(date);
+                Date date2 = (Date) formatter.parse(parts[0]);
+                //int listodaymilis = (int) date.getTime();
+                if(date2.getTime()>date1.getTime()){
+                    eventDates.add(date2);
                 }
-
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-            calendar_view.init(today, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
+            calendar_view.init(date1, nextYear.getTime()).inMode(MULTIPLE).withHighlightedDates(eventDates);
         }
     }
 
