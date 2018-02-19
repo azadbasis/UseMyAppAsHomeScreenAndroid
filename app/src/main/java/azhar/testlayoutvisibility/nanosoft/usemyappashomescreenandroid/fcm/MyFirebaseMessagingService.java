@@ -33,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d("", "From: " + remoteMessage.getFrom());
+        Log.e("", "From: " + remoteMessage.getFrom());
 
         if (remoteMessage.getData().size() > 0) {
             Log.e("", "Message data payload: " + remoteMessage.getData());
