@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class LeaveActivity extends AppCompatActivity {
     int maxDay;
     int minDay;
     String type_id,currntbalace,fromdate,todate,numberofdays,purpose,emergencycontact;
-    Operation operation = new Operation(con);
+    Operation operation;
     private int fromDay=0;
     private int toDay=0;
 
@@ -58,6 +59,8 @@ public class LeaveActivity extends AppCompatActivity {
     }
 
     private void initUi() {
+        operation = new Operation(con,LeaveActivity.this);
+
         AppConstant.leaveTypeName.add(0,"select Leave Type.");
 
         operation.getLeaveType();
@@ -98,6 +101,7 @@ public class LeaveActivity extends AppCompatActivity {
         });
 
 
+
         etFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +120,9 @@ public class LeaveActivity extends AppCompatActivity {
         btnSendLeave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Date date = Calendar.getInstance().getTime();
+                DateFormat formatter = new SimpleDateFormat("dd-MM-yyy");
+                String today = formatter.format(date);
 
                 fromdate = etFromDate.getText().toString();
                 todate = etToDate.getText().toString();
@@ -137,7 +144,7 @@ public class LeaveActivity extends AppCompatActivity {
                 }else {
                     operation.sendLeaveApplication(PersistData.getStringData(con,AppConstant.employee_id),type_id,fromdate,
                             todate,numberofdays, purpose,
-                            emergencycontact,"today");
+                            emergencycontact,today,numberofdays,"1");
                 }
 
             }

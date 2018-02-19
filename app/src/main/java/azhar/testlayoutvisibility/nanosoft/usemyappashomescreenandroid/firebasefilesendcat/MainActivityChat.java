@@ -160,14 +160,14 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
                     DataSnapshot dataSnapshotChild = dataSnapshots.next();
                     UserModel user = dataSnapshotChild.getValue(UserModel.class);
                     AppConstant.fUserList.add(user);
-                    AppConstant.registraion_ids.add(user.getId());
-                    Toast.makeText(con, "userid "+user.getId(), Toast.LENGTH_SHORT).show();
+                    AppConstant.registraion_ids.add(user.getUserId());
+                    //Toast.makeText(con, "userid "+user.getUserId(), Toast.LENGTH_SHORT).show();
                 }
 
-                Toast.makeText(con, ""+AppConstant.fUserList.size(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(con, "userid"+AppConstant.registraion_ids.get(0), Toast.LENGTH_SHORT).show();
 
 
-                userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
+                UserModel   userModel1 = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
 
                 for (int i = 0; i <AppConstant.fUserList.size() ; i++) {
                     if(AppConstant.fUserList.get(i).getEmail().equalsIgnoreCase(mFirebaseUser.getEmail())){
@@ -179,7 +179,7 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
 
                // Toast.makeText(con, ""+AppConstant.fUserList.get(0).getEmail(), Toast.LENGTH_SHORT).show();
                 if(!matchEmail.equalsIgnoreCase(mFirebaseUser.getEmail())){
-                    mFirebaseDatabaseReference.child("users").push().setValue(userModel);
+                    mFirebaseDatabaseReference.child("users").push().setValue(userModel1);
                 }
                 email = mFirebaseUser.getEmail();
 
@@ -427,6 +427,18 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     /**
      * Enviar foto pela galeria
      */
+
+    private void pdfFilesend(){
+
+    }
+
+    private void fileIntent(){
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture_title)), IMAGE_GALLERY_REQUEST);
+    }
+
     private void photoGalleryIntent(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -457,9 +469,8 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
                 .uid(uid)
                 .firebaseToken(firebaseToken)
                 .registrationId(regId)
-                .send();
+                .sendMulti();
     }
-
 
 
     /**
@@ -498,8 +509,8 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         }else{
             getAllUsers();
 
-            Toast.makeText(con, ""+mFirebaseUser.getUid(), Toast.LENGTH_SHORT).show();
-            userModel = new UserModel(mFirebaseUser.getDisplayName(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
+          //  Toast.makeText(con, ""+mFirebaseUser.getUid(), Toast.LENGTH_SHORT).show();
+            userModel = new UserModel(mFirebaseUser.getDisplayName(),mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
 
 //            for (int i = 0; i <AppConstant.fUserList.size() ; i++) {
 //                if(AppConstant.fUserList.get(i).getEmail().equalsIgnoreCase(mFirebaseUser.getEmail())){

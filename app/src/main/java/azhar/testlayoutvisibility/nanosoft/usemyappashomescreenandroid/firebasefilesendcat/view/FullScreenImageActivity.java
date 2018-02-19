@@ -77,11 +77,11 @@ public class FullScreenImageActivity extends AppCompatActivity {
         tvUser.setText(nameUser); // Name
         Glide.with(this).load(urlPhotoUser).centerCrop().transform(new CircleTransform(this)).override(40,40).into(ivUser);
 
-        Glide.with(this).load( urlPhotoClick).asBitmap().override(640,640).fitCenter().into(new SimpleTarget<Bitmap>() {
+        Glide.with(this).load( urlPhotoClick).asBitmap().override(520,520).fitCenter().into(new SimpleTarget<Bitmap>() {
 
             @Override
             public void onLoadStarted(Drawable placeholder) {
-                progressDialog.setMessage("Carregando Imagem...");
+                progressDialog.setMessage("Loading image...");
                 progressDialog.show();
             }
 

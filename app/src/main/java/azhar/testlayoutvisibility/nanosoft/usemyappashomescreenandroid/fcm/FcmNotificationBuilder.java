@@ -127,6 +127,7 @@ public class FcmNotificationBuilder {
         });
     }
 
+
     private JSONObject getValidJsonBody() throws JSONException {
         JSONObject jsonObjectBody = new JSONObject();
         jsonObjectBody.put(KEY_TO, mReceiverFirebaseToken);
@@ -141,6 +142,33 @@ public class FcmNotificationBuilder {
 
         return jsonObjectBody;
     }
+
+
+    public void sendMulti() {
+        RequestBody requestBody = null;
+        requestBody = RequestBody.create(MEDIA_TYPE_JSON, createJson());
+
+        Request request = new Request.Builder()
+                .addHeader(CONTENT_TYPE, APPLICATION_JSON)
+                .addHeader(AUTHORIZATION, AUTH_KEY)
+                .url(FCM_URL)
+                .post(requestBody)
+                .build();
+
+        Call call = new OkHttpClient().newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "onGetAllUsersFailure: " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e(TAG, "onResponse: " + response.body().string());
+            }
+        });
+    }
+
 
     private String createJson(){
         String json = "";
