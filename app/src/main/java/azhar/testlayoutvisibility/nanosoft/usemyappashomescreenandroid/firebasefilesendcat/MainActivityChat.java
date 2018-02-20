@@ -44,6 +44,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -452,9 +453,11 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     private void sendMessageFirebase(){
         ChatModel model = new ChatModel(userModel,edMessage.getText().toString(), Calendar.getInstance().getTime().getTime()+"",null);
         mFirebaseDatabaseReference.child(CHAT_REFERENCE).push().setValue(model);
-        edMessage.setText(null);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("news");
         sendPushNotificationToReceiverMulti(mFirebaseUser.getDisplayName(),edMessage.getText().toString(),
                 mFirebaseUser.getUid(),PersistData.getStringData(con,AppConstant.fcm_token),AppConstant.registraion_ids);
+        edMessage.setText("");
     }
 
     private void sendPushNotificationToReceiverMulti(String username,
@@ -509,6 +512,8 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         }else{
             getAllUsers();
 
+            PersistData.setStringData(con,AppConstant.userFcm,mFirebaseUser.getDisplayName());
+            PersistData.setStringData(con,AppConstant.activity,"chat");
           //  Toast.makeText(con, ""+mFirebaseUser.getUid(), Toast.LENGTH_SHORT).show();
             userModel = new UserModel(mFirebaseUser.getDisplayName(),mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
 

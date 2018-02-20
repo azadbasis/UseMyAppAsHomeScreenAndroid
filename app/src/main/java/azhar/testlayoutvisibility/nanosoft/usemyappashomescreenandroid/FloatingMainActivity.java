@@ -557,6 +557,24 @@ public class FloatingMainActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Operation operation = new Operation(con);
+        operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),
+                PersistData.getStringData(con, AppConstant.userPassword));
+        resultsEvents = AppConstant.loginResponse.getEvents();
+        getEvents(resultsEvents);
+        PersistData.setStringData(con,AppConstant.activity,"nochat");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        PersistData.setStringData(con,AppConstant.activity,"nochat");
+    }
+
     private void photoDialogue() {
 
         final Dialog dialog = new Dialog(con);

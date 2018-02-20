@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.Data;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.PushData;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.PushModel;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.model.Root;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -146,7 +148,7 @@ public class FcmNotificationBuilder {
 
     public void sendMulti() {
         RequestBody requestBody = null;
-        requestBody = RequestBody.create(MEDIA_TYPE_JSON, createJson());
+        requestBody = RequestBody.create(MEDIA_TYPE_JSON, pushData());
 
         Request request = new Request.Builder()
                 .addHeader(CONTENT_TYPE, APPLICATION_JSON)
@@ -169,6 +171,22 @@ public class FcmNotificationBuilder {
         });
     }
 
+
+    private String pushData(){
+        String json = "";
+        PushData pushData = new PushData();
+        pushData.setMessage(mMessage);
+        pushData.setUserName(mUsername);
+
+        Root root = new Root();
+        root.setTo("/topics/news");
+        root.setData(pushData);
+
+        Gson gson = new Gson();
+        json = gson.toJson(root);
+
+        return json;
+    }
 
     private String createJson(){
         String json = "";
