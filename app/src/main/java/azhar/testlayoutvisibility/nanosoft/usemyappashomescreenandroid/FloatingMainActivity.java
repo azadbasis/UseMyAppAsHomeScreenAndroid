@@ -66,6 +66,11 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.CarWeb;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.LeaveWeb;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.MeetingMinuteWeb;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.MeetingNoticeWeb;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.RomBookingWeb;
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -242,20 +247,25 @@ public class FloatingMainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.action_meeting_notice:
-                        startActivity(new Intent(con, MeetingNoticeActivity.class));
+                     //   startActivity(new Intent(con, MeetingNoticeActivity.class));
+                        startActivity(new Intent(con, MeetingNoticeWeb.class));
                         break;
                     case R.id.action_meeting_room:
-                        startActivity(new Intent(con, MeetingRoomBookingActivity.class));
+                      //  startActivity(new Intent(con, MeetingRoomBookingActivity.class));
+                        startActivity(new Intent(con, RomBookingWeb.class));
                         break;
                     case R.id.action_meeting_minute:
-                        startActivity(new Intent(con, MeetingMinutesActivity.class));
+                      //  startActivity(new Intent(con, MeetingMinutesActivity.class));
+                        startActivity(new Intent(con, MeetingMinuteWeb.class));
                         break;
                     case R.id.action_car:
-                        startActivity(new Intent(con, CarActivity.class));
+                     //   startActivity(new Intent(con, CarActivity.class));
+                        startActivity(new Intent(con, CarWeb.class));
                         break;
 
                     case R.id.action_leave:
-                        startActivity(new Intent(con, LeaveActivity.class));
+                      //  startActivity(new Intent(con, LeaveActivity.class));
+                        startActivity(new Intent(con, LeaveWeb.class));
                         return true;
                 }
                 return false;

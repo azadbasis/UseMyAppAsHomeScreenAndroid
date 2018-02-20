@@ -73,8 +73,7 @@ public class Operation {
                         AppConstant.loginResponse = loginResponse;
                         PersistData.setStringData(con,AppConstant.employee_id,loginResponse.getEmployee_info().getEmployee_id());
                         PersistData.setStringData(con,AppConstant.userEmail,userEmail);
-                        PersistData.setStringData(con,AppConstant.userPassword,userPassword);
-                        Log.e("title",""+loginResponse.getEvents().get(0).getFrom_time());
+                        PersistData.setStringData(con,AppConstant.userPassword,userPassword);Log.e("title",""+loginResponse.getEvents().get(0).getFrom_time());
 //                    activity.startActivity(new Intent(con,MainActivityChat.class));
 //                    activity.finish();
                     }
