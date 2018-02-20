@@ -1,6 +1,8 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -44,6 +46,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -450,12 +453,43 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
      * Enviar msg de texto simples para chat
      */
     private void sendMessageFirebase(){
-        ChatModel model = new ChatModel(userModel,edMessage.getText().toString(), Calendar.getInstance().getTime().getTime()+"",null);
-        mFirebaseDatabaseReference.child(CHAT_REFERENCE).push().setValue(model);
-        edMessage.setText(null);
-        sendPushNotificationToReceiverMulti(mFirebaseUser.getDisplayName(),edMessage.getText().toString(),
-                mFirebaseUser.getUid(),PersistData.getStringData(con,AppConstant.fcm_token),AppConstant.registraion_ids);
+
+        if(TextUtils.isEmpty(edMessage.getText().toString())){
+            Toast.makeText(con, "Input your message!", Toast.LENGTH_SHORT).show();
+        }else if(!TextUtils.isEmpty(edMessage.getText().toString())){
+            yesNoAlert();
+        }
+
     }
+
+    private void yesNoAlert() {
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        ChatModel model = new ChatModel(userModel,edMessage.getText().toString(), Calendar.getInstance().getTime().getTime()+"",null);
+                        mFirebaseDatabaseReference.child(CHAT_REFERENCE).push().setValue(model);
+
+                        FirebaseMessaging.getInstance().subscribeToTopic("news");
+                        sendPushNotificationToReceiverMulti(mFirebaseUser.getDisplayName(),edMessage.getText().toString(),
+                                mFirebaseUser.getUid(),PersistData.getStringData(con,AppConstant.fcm_token),AppConstant.registraion_ids);
+                        edMessage.setText("");
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        dialog.dismiss();
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(con);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
 
     private void sendPushNotificationToReceiverMulti(String username,
                                                      String message,
@@ -509,6 +543,8 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         }else{
             getAllUsers();
 
+            PersistData.setStringData(con,AppConstant.userFcm,mFirebaseUser.getDisplayName());
+            PersistData.setStringData(con,AppConstant.activity,"chat");
           //  Toast.makeText(con, ""+mFirebaseUser.getUid(), Toast.LENGTH_SHORT).show();
             userModel = new UserModel(mFirebaseUser.getDisplayName(),mFirebaseUser.getPhotoUrl().toString(), mFirebaseUser.getUid(), mFirebaseUser.getEmail(),PersistData.getStringData(con, AppConstant.fcm_token));
 

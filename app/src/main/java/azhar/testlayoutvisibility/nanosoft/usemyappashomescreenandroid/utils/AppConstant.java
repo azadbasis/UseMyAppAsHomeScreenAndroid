@@ -27,6 +27,8 @@ public class AppConstant {
     public static String userName ="userName";
     public static String lat ="lat";
     public static String lng ="lng";
+    public static String userFcm ="userFcm";
+    public static String activity ="activity";
     public static String fcm_token ="fcm_token";
     public static int CAMERA_RUNTIME_PERMISSION=2,WRITEEXTERNAL_PERMISSION_RUNTIME=3,LOCATION_PERMISSION=4;
     public static boolean isGallery=false;
