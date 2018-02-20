@@ -78,7 +78,7 @@ dependencies {
 
     //STORAGE FIREBASE
     compile 'com.google.firebase:firebase-storage:11.0.4'
-
+    compile 'com.joanzapata.pdfview:android-pdfview:1.0.4@aar'
     //Places SERVICES
     compile 'com.google.android.gms:play-services-places:11.0.4'
 

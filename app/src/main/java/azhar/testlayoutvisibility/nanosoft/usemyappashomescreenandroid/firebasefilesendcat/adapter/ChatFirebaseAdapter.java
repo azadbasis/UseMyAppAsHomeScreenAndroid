@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
+import com.joanzapata.pdfview.PDFView;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.R;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.model.ChatModel;
@@ -99,6 +100,7 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
         TextView tvTimestamp,tvLocation;
         EmojiconTextView txtMessage;
         ImageView ivUser,ivChatPhoto;
+        PDFView pdfView;
 
         public MyChatViewHolder(View itemView) {
             super(itemView);
@@ -106,6 +108,7 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
             txtMessage = (EmojiconTextView)itemView.findViewById(R.id.txtMessage);
             tvLocation = (TextView)itemView.findViewById(R.id.tvLocation);
             ivChatPhoto = (ImageView)itemView.findViewById(R.id.img_chat);
+            pdfView = (PDFView) itemView.findViewById(R.id.pdfview);
             ivUser = (ImageView)itemView.findViewById(R.id.ivUserChat);
         }
 
@@ -143,6 +146,16 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
                     .into(ivChatPhoto);
             ivChatPhoto.setOnClickListener(this);
         }
+
+        public void setIvChatPdf(String url){
+            pdfView.fromAsset(url)
+                    .pages(0, 2, 1, 3, 3, 3)
+                    .defaultPage(1)
+                    .showMinimap(false)
+                    .enableSwipe(true)
+                    .load();
+        }
+
 
         public void tvIsLocation(int visible){
             if (tvLocation == null)return;

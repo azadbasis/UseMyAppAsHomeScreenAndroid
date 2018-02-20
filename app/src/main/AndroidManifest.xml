@@ -81,6 +81,11 @@
             android:screenOrientation="portrait" />
         <activity android:name=".MeetingRoomBookingActivity" />
         <activity android:name=".firebasefilesendcat.view.LoginActivityChat" />
+        <activity android:name=".webView.CarWeb" />
+        <activity android:name=".webView.LeaveWeb" />
+        <activity android:name=".webView.MeetingMinuteWeb" />
+        <activity android:name=".webView.MeetingNoticeWeb" />
+        <activity android:name=".webView.RomBookingWeb" />
         <activity android:name=".firebasefilesendcat.MainActivityChat" />
         <activity
             android:name=".firebasefilesendcat.view.FullScreenImageActivity"

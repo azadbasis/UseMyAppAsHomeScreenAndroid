@@ -10,26 +10,111 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#007F00"
+        android:layout_height="@dimen/_50sdp"
+        android:background="#88C440"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="SREDA OFFICE"
+            android:textSize="@dimen/_15sdp"
+            android:textStyle="bold"
+            android:layout_gravity="left"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="right|center"
+            android:orientation="horizontal"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/imgErp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/ic_erp"
+                android:layout_margin="@dimen/_10sdp"
+                />
+            <ImageView
+                android:id="@+id/imgEvent"
+                android:visibility="gone"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_38sdp"
+                android:src="@drawable/ic_today_black_24dp"
+                />
+
+        </LinearLayout>
+
 
     </android.support.v7.widget.Toolbar>
 
     <com.squareup.timessquare.CalendarPickerView
-        android:id="@+id/calendar_view"
+        android:id="@+id/calendar_view1"
         android:layout_width="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="#88C440"
+        android:layout_below="@+id/toolbar"
         android:layout_above="@+id/layoutBelow"
         app:tsquare_headerTextColor="@color/black"
         app:tsquare_titleTextColor="@color/red"
         app:tsquare_dayTextColor="@color/black"
         />
 
+    <LinearLayout
+        android:id="@+id/home"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="#96CAFF"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/layoutBelow"
+        >
+        <AnalogClock
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:theme="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_height="@dimen/_70sdp" />
+
+        <DigitalClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <Button
+            android:id="@+id/btnActive"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_width="match_parent"
+            android:text="Tap to Active Event calender"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="#fff"
+            android:background="@android:color/holo_red_dark"
+            android:layout_height="wrap_content" />
+
+        <com.squareup.timessquare.CalendarPickerView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="#88C440"
+            android:layout_below="@+id/toolbar"
+            android:layout_above="@+id/layoutBelow"
+            app:tsquare_headerTextColor="@color/black"
+            app:tsquare_titleTextColor="@color/red"
+            app:tsquare_dayTextColor="@color/black"
+            />
+
+        <CalendarView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </CalendarView>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutBelow"

@@ -13,6 +13,7 @@ public class ChatModel {
     private FileModel file;
     private MapModel mapModel;
 
+
     public ChatModel() {
     }
 
@@ -28,6 +29,9 @@ public class ChatModel {
         this.timeStamp = timeStamp;
         this.file = file;
     }
+
+
+
 
     public ChatModel(UserModel userModel, String timeStamp, MapModel mapModel) {
         this.userModel = userModel;

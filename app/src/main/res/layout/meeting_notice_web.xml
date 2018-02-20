@@ -10,6 +10,7 @@
 
     <include
         android:id="@+id/main_activiy_bar"
+        android:visibility="gone"
         layout="@layout/myappbar" />
 
     <WebView

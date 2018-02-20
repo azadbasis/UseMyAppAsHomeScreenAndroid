@@ -1,16 +1,20 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,6 +94,7 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
 
     static final String TAG = MainActivityChat.class.getSimpleName();
     static final String CHAT_REFERENCE = "chatmodel";
+    final static int PICK_PDF_CODE = 2342;;
 
     //Firebase and GoogleApiClient
     private FirebaseAuth mFirebaseAuth;
@@ -261,6 +266,19 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
                 }
                 break;
         }
+
+
+        //when the user choses the file
+        if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            //if a file is selected
+            if (data.getData() != null) {
+                //uploading the file
+                //uploadFile(data.getData());
+                sendFileFirebase(storageRef,data.getData());
+            } else {
+                Toast.makeText(this, "No file chosen", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
@@ -285,16 +303,16 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.sendPhoto:
-                        verifyStoragePermissions();
-//                photoCameraIntent();
-                        break;
-                    case R.id.sendPhotoGallery:
-                        photoGalleryIntent();
-                        break;
-                    case R.id.sendLocation:
-                        locationPlacesIntent();
-                        break;
+//                    case R.id.sendPhoto:
+//                        verifyStoragePermissions();
+////                photoCameraIntent();
+//                        break;
+//                    case R.id.sendPhotoGallery:
+//                        photoGalleryIntent();
+//                        break;
+//                    case R.id.sendLocation:
+//                        locationPlacesIntent();
+//                        break;
                     case R.id.sign_out:
                         signOut();
 
@@ -371,6 +389,9 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
 
     }
 
+
+
+
     /**
      * Envia o arvquivo para o firebase
      */
@@ -441,6 +462,27 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         intent.setType("*/*");
         startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture_title)), IMAGE_GALLERY_REQUEST);
     }
+
+    //this function will get the pdf from the storage
+    private void getPDF() {
+        //for greater than lolipop versions we need the permissions asked on runtime
+        //so if the permission is not available user will go to the screen to allow storage permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+            return;
+        }
+
+        //creating an intent for file chooser
+        Intent intent = new Intent();
+        intent.setType("application/pdf");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_PDF_CODE);
+    }
+
 
     private void photoGalleryIntent(){
         Intent intent = new Intent();
@@ -596,6 +638,7 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
                                 break;
                             case R.id.sendPhotoGallery:
                                 photoGalleryIntent();
+                                //getPDF();
                                 break;
                             case R.id.sendLocation:
                                 locationPlacesIntent();

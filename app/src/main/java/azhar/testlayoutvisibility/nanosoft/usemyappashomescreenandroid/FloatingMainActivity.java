@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.util.Calendar;
 import android.media.MediaScannerConnection;
@@ -66,6 +67,7 @@ import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Api
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.AppConstant;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.Operation;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistData;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.utils.PersistentUser;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.CarWeb;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.LeaveWeb;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.webView.MeetingMinuteWeb;
@@ -111,7 +113,10 @@ public class FloatingMainActivity extends AppCompatActivity {
     private String fromHourMin;
     private String toHourMin;
     private Dialog dialog;
-    private ImageView imgCall, imgCam, imgMsg, imgEmail, imgChat;
+    private ImageView imgCall, imgCam, imgMsg, imgEmail, imgChat,imgErp,imgEvent;
+    private LinearLayout home;
+    private Button btnActive;
+    private boolean isActive;
 
     MagicalTakePhoto magicalTakePhoto;
 
@@ -137,12 +142,42 @@ public class FloatingMainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.N)
     private void initUi() {
 
-
+        calendar_view = (CalendarPickerView) findViewById(R.id.calendar_view);
         imgCall = (ImageView) findViewById(R.id.imgCall);
         imgCam = (ImageView) findViewById(R.id.imgCam);
         imgMsg = (ImageView) findViewById(R.id.imgMsg);
         imgEmail = (ImageView) findViewById(R.id.imgEmail);
         imgChat = (ImageView) findViewById(R.id.imgChat);
+        imgEvent = (ImageView) findViewById(R.id.imgEvent);
+        imgErp = (ImageView) findViewById(R.id.imgErp);
+        home = (LinearLayout) findViewById(R.id.home);
+        btnActive = (Button) findViewById(R.id.btnActive);
+
+        btnActive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(btnActive.getText().toString().equalsIgnoreCase("Tap to Active Event calender")){
+                    btnActive.setText("Tap to inactive Event calender");
+                    btnActive.setBackgroundColor(Color.parseColor("#367323"));
+                }else{
+                    btnActive.setText("Tap to Active Event calender");
+                    btnActive.setBackgroundColor(Color.parseColor("#CC0000"));
+                }
+
+
+                getEvents(PersistData.getStringData(con, AppConstant.userEmail), PersistData.getStringData(con, AppConstant.userPassword));
+            }
+        });
+
+        imgErp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,MeetingMinuteWeb.class));
+            }
+        });
+
+
 
         imgCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,7 +230,7 @@ public class FloatingMainActivity extends AppCompatActivity {
             }
         });
 
-        calendar_view = (CalendarPickerView) findViewById(R.id.calendar_view);
+
         nextYear = Calendar.getInstance();
         nextYear.add(Calendar.YEAR, 1);
         today = new Date();
@@ -220,7 +255,9 @@ public class FloatingMainActivity extends AppCompatActivity {
                 newDateFormat.applyPattern(OLD_FORMAT);
                 String new_date = newDateFormat.format(d);
 
-                eventDialogue(new_date);
+                if(btnActive.getText().toString().equalsIgnoreCase("Tap to inactive Event calender")){
+                    eventDialogue(new_date);
+                }
 
             }
 
@@ -241,36 +278,36 @@ public class FloatingMainActivity extends AppCompatActivity {
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("SREDA OFFICE");
-        toolbar.inflateMenu(R.menu.toolbar_menu);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.action_meeting_notice:
-                     //   startActivity(new Intent(con, MeetingNoticeActivity.class));
-                        startActivity(new Intent(con, MeetingNoticeWeb.class));
-                        break;
-                    case R.id.action_meeting_room:
-                      //  startActivity(new Intent(con, MeetingRoomBookingActivity.class));
-                        startActivity(new Intent(con, RomBookingWeb.class));
-                        break;
-                    case R.id.action_meeting_minute:
-                      //  startActivity(new Intent(con, MeetingMinutesActivity.class));
-                        startActivity(new Intent(con, MeetingMinuteWeb.class));
-                        break;
-                    case R.id.action_car:
-                     //   startActivity(new Intent(con, CarActivity.class));
-                        startActivity(new Intent(con, CarWeb.class));
-                        break;
-
-                    case R.id.action_leave:
-                      //  startActivity(new Intent(con, LeaveActivity.class));
-                        startActivity(new Intent(con, LeaveWeb.class));
-                        return true;
-                }
-                return false;
-            }
-        });
+//        toolbar.inflateMenu(R.menu.toolbar_menu);
+//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                switch (menuItem.getItemId()) {
+//                    case R.id.action_meeting_notice:
+//                     //   startActivity(new Intent(con, MeetingNoticeActivity.class));
+//                        startActivity(new Intent(con, MeetingNoticeWeb.class));
+//                        break;
+//                    case R.id.action_meeting_room:
+//                      //  startActivity(new Intent(con, MeetingRoomBookingActivity.class));
+//                        startActivity(new Intent(con, RomBookingWeb.class));
+//                        break;
+//                    case R.id.action_meeting_minute:
+//                      //  startActivity(new Intent(con, MeetingMinutesActivity.class));
+//                        startActivity(new Intent(con, MeetingMinuteWeb.class));
+//                        break;
+//                    case R.id.action_car:
+//                     //   startActivity(new Intent(con, CarActivity.class));
+//                        startActivity(new Intent(con, CarWeb.class));
+//                        break;
+//
+//                    case R.id.action_leave:
+//                      //  startActivity(new Intent(con, LeaveActivity.class));
+//                        startActivity(new Intent(con, LeaveWeb.class));
+//                        return true;
+//                }
+//                return false;
+//            }
+//        });
 
 
     }
@@ -524,6 +561,11 @@ public class FloatingMainActivity extends AppCompatActivity {
                         Toast.makeText(con, "Event save to server.", Toast.LENGTH_SHORT).show();
                         resultsEvents = loginResponse.getEvents();
                         getEvents(loginResponse.getEvents());
+//                        if(calendar_view.getVisibility()==View.VISIBLE){
+//                            calendar_view.setVisibility(View.GONE);
+//                            home.setVisibility(View.VISIBLE);
+//
+//                        }
                         dialog.dismiss();
                     }
                 }
@@ -571,11 +613,8 @@ public class FloatingMainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Operation operation = new Operation(con);
-        operation.loginWithServer(con, PersistData.getStringData(con, AppConstant.userEmail),
-                PersistData.getStringData(con, AppConstant.userPassword));
-        resultsEvents = AppConstant.loginResponse.getEvents();
-        getEvents(resultsEvents);
+        getEvents(PersistData.getStringData(con, AppConstant.userEmail), PersistData.getStringData(con, AppConstant.userPassword));
+
         PersistData.setStringData(con,AppConstant.activity,"nochat");
     }
 
@@ -749,5 +788,46 @@ public class FloatingMainActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+
+    public void getEvents(final String userEmail, final String userPassword) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Api.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create()) //Here we are using the GsonConverterFactory to directly convert json data to object
+                .build();
+
+        Api api = retrofit.create(Api.class);
+        Call<LoginResponse> call = api.loginUser(userEmail,userPassword);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                // progressBar.setVisibility(View.GONE);
+                LoginResponse loginResponse = response.body();
+
+                if(loginResponse!=null){
+                    if(loginResponse.getStatus_code().equalsIgnoreCase("200")){
+
+
+                        resultsEvents = AppConstant.loginResponse.getEvents();
+                        getEvents(resultsEvents);
+//                        PersistData.setStringData(con,AppConstant.employee_id,loginResponse.getEmployee_info().getEmployee_id());
+//                        PersistData.setStringData(con,AppConstant.userEmail,userEmail);
+//                        PersistData.setStringData(con,AppConstant.userPassword,userPassword);Log.e("title",""+loginResponse.getEvents().get(0).getFrom_time());
+//                    activity.startActivity(new Intent(con,MainActivityChat.class));
+//                    activity.finish();
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                // progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 }
