@@ -101,7 +101,11 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".webView.RomBookingWeb"></activity>
+        <activity android:name=".webView.RomBookingWeb"/>
+        <activity android:name=".webView.CarWeb"/>
+        <activity android:name=".webView.LeaveWeb"/>
+        <activity android:name=".webView.MeetingMinuteWeb"/>
+        <activity android:name=".webView.MeetingNoticeWeb"/>
     </application>
 
 </manifest>
