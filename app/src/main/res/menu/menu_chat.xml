@@ -14,9 +14,9 @@
         app:showAsAction="never"/>
 
     <item
-        android:title="@string/sendLocation"
-        android:id="@+id/sendLocation"
-        android:visible="false"
+        android:title="@string/sendFile"
+        android:id="@+id/sendFile"
+        android:visible="true"
         app:showAsAction="never"/>
 
     <item

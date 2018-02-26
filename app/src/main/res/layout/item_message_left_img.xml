@@ -21,7 +21,7 @@
         android:id="@+id/contentMessageChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cmv_backgroundColor="#fff"
+        app:cmv_backgroundColor="@color/calendar_divider"
         app:cmv_backgroundColorPressed="#FFBABABA"
         app:cmv_arrowGravity="end"
         app:cmv_arrowPosition="left"
@@ -36,7 +36,8 @@
         android:minHeight="100dp"
         android:maxWidth="150dp"
         android:maxHeight="150dp"
-        android:background="#000"
+        android:background="#007FE2"
+        android:src="@drawable/ic_insert_drive_file_white_48px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -44,6 +45,7 @@
             android:id="@+id/pdfview"
             android:minWidth="100dp"
             android:minHeight="100dp"
+            android:visibility="gone"
             android:maxWidth="150dp"
             android:maxHeight="150dp"
             android:background="#000"
@@ -62,7 +64,15 @@
             android:textStyle="bold"/>
 
     </me.himanshusoni.chatmessageview.ChatMessageView>
-
+    <TextView
+        android:text="22/06/2016"
+        android:id="@+id/fileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contentMessageChat"
+        android:layout_toEndOf="@+id/ivUserChat"
+        android:padding="10dp"
+        android:textSize="10sp" />
     <TextView
         android:text="22/06/2016"
         android:id="@+id/timestamp"
@@ -70,8 +80,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:paddingLeft="10dp"
-        android:paddingTop="3dp"
         android:textSize="10sp"
-        android:layout_below="@+id/contentMessageChat"
+        android:layout_below="@+id/fileName"
         android:layout_toEndOf="@+id/ivUserChat" />
+
+
 </RelativeLayout>

@@ -52,4 +52,15 @@
         android:textSize="10sp"
         android:layout_below="@+id/contentMessageChat"
         android:layout_toEndOf="@+id/ivUserChat" />
+    <TextView
+        android:text="22/06/2016"
+        android:id="@+id/fileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignRight="@id/contentMessageChat"
+        android:layout_below="@id/contentMessageChat"
+        android:layout_marginBottom="25dp"
+        android:padding="10dp"
+        android:textSize="10sp" />
 </RelativeLayout>

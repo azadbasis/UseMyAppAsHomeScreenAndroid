@@ -65,6 +65,7 @@ import java.util.List;
 
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.BuildConfig;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.LeaveActivity;
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MainActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MeetingMinutesActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MeetingNoticeActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MeetingRoomBookingActivity;
@@ -225,8 +226,14 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
         if (requestCode == IMAGE_GALLERY_REQUEST){
             if (resultCode == RESULT_OK){
                 Uri selectedImageUri = data.getData();
+                PathHolder = ReadAllFile.getPath(getApplicationContext(), selectedImageUri);
+                //Log.e("Path:",PathHolder);
+                String lStr = PathHolder;
+                lStr = lStr.substring(lStr.lastIndexOf("/"));
+                File f = new File(PathHolder);
+                Log.e("file name:",f.getName());
                 if (selectedImageUri != null){
-                    sendFileFirebase(storageRef,selectedImageUri);
+                    sendFileFirebase(storageRef,selectedImageUri,f.getName());
                 }else{
                     //URI IS NULL
                 }
@@ -262,24 +269,32 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
 
                     Uri uri = data.getData();
                     PathHolder = ReadAllFile.getPath(getApplicationContext(), uri);
-                    sendFileFirebase(storageRef, Uri.fromFile(new File(PathHolder)));
+                    Log.e("Path:",PathHolder);
+                    String lStr = PathHolder;
+                    lStr = lStr.substring(lStr.lastIndexOf("/"));
+
+                    sendFileFirebase(storageRef, Uri.fromFile(new File(PathHolder)),lStr);
                 }
                 break;
         }
 
 
         //when the user choses the file
-        if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            //if a file is selected
-            if (data.getData() != null) {
-                //uploading the file
-                //uploadFile(data.getData());
-                sendFileFirebase(storageRef,data.getData());
-            } else {
-                Toast.makeText(this, "No file chosen", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+//            //if a file is selected
+//            if (data.getData() != null) {
+//                //uploading the file
+//                //uploadFile(data.getData());
+//                sendFileFirebase(storageRef,data.getData());
+//            } else {
+//                Toast.makeText(this, "No file chosen", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
+
+
+
+
 
 
 
@@ -287,9 +302,6 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     @Override
     protected void onStart() {
         super.onStart();
-
-
-
 
 
     }
@@ -363,10 +375,10 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
     /**
      * Envia o arvquivo para o firebase
      */
-    private void sendFileFirebase(StorageReference storageReference, final Uri file){
+    private void sendFileFirebase(StorageReference storageReference, final Uri file,final String name){
         if (storageReference != null){
-            final String name = DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString();
-            StorageReference imageGalleryRef = storageReference.child(name+"_gallery");
+            //final String name = DateFormat.format("yyyy-MM-dd_hhmmss", new Date()).toString();
+            StorageReference imageGalleryRef = storageReference.child(name);
                 UploadTask uploadTask = imageGalleryRef.putFile(file);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -378,6 +390,7 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Log.i(TAG,"onSuccess sendFileFirebase");
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                        String type = taskSnapshot.getMetadata().getContentType();
                         FileModel fileModel = new FileModel("img",downloadUrl.toString(),name,"");
                         ChatModel chatModel = new ChatModel(userModel,"",Calendar.getInstance().getTime().getTime()+"",fileModel);
                         mFirebaseDatabaseReference.child(CHAT_REFERENCE).push().setValue(chatModel);
@@ -454,6 +467,12 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
 
     private void pdfFilesend(){
 
+    }
+
+    private void getFile(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture_title)), 7);
     }
 
     private void fileIntent(){
@@ -554,7 +573,7 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
      */
     private void lerMessagensFirebase(){
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        final ChatFirebaseAdapter firebaseAdapter = new ChatFirebaseAdapter(mFirebaseDatabaseReference.child(CHAT_REFERENCE),userModel.getName(),this);
+        final ChatFirebaseAdapter firebaseAdapter = new ChatFirebaseAdapter(mFirebaseDatabaseReference.child(CHAT_REFERENCE),userModel.getName(),this, this);
         firebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
@@ -637,16 +656,17 @@ public class MainActivityChat extends AppCompatActivity implements GoogleApiClie
 //                photoCameraIntent();
                                 break;
                             case R.id.sendPhotoGallery:
+
                                 photoGalleryIntent();
                                 //getPDF();
                                 break;
-                            case R.id.sendLocation:
-                                locationPlacesIntent();
+                            case R.id.sendFile:
+                                fileIntent();
                                 break;
                             case R.id.sign_out:
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("*/*");
-                                startActivityForResult(intent, 7);
+//                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                                intent.setType("*/*");
+//                                startActivityForResult(intent, 7);
 
                                 return true;
                         }

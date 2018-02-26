@@ -433,6 +433,7 @@ Power Division</b>\n <u>Car Requisition Form(govt./personal purpose)</u></string
     <string name="sendPhotoGallery">Photo Gallery</string>
     <string name="api_key_google_places">AIzaSyBisbsq9wIW8Q2Isj033c3wXqtTBRyaRBA</string>
     <string name="sendLocation">Send Location</string>
+    <string name="sendFile">Send File</string>
     <string name="locationTo">Localização Enviada</string>
     <string-array name="leave_array">
         <item>Select leave type</item>

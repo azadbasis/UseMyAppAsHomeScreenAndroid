@@ -1,18 +1,35 @@
 package azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.adapter;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.joanzapata.pdfview.PDFView;
 
+import java.io.File;
+
+import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.MainActivity;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.R;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.model.ChatModel;
 import azhar.testlayoutvisibility.nanosoft.usemyappashomescreenandroid.firebasefilesendcat.util.Util;
@@ -27,6 +44,7 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
     private static final int LEFT_MSG = 1;
     private static final int RIGHT_MSG_IMG = 2;
     private static final int LEFT_MSG_IMG = 3;
+    private Activity activity;
 
     private ClickListenerChatFirebase mClickListenerChatFirebase;
 
@@ -34,12 +52,19 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
 
 
 
+    public ChatFirebaseAdapter(DatabaseReference ref, String nameUser,ClickListenerChatFirebase mClickListenerChatFirebase,Activity activity) {
+        super(ChatModel.class, R.layout.item_message_left, MyChatViewHolder.class, ref);
+        this.nameUser = nameUser;
+        this.mClickListenerChatFirebase = mClickListenerChatFirebase;
+        this.activity = activity;
+    }
+
     public ChatFirebaseAdapter(DatabaseReference ref, String nameUser,ClickListenerChatFirebase mClickListenerChatFirebase) {
         super(ChatModel.class, R.layout.item_message_left, MyChatViewHolder.class, ref);
         this.nameUser = nameUser;
         this.mClickListenerChatFirebase = mClickListenerChatFirebase;
-    }
 
+    }
     @Override
     public MyChatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
@@ -87,8 +112,18 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
         viewHolder.setTvTimestamp(model.getTimeStamp());
         viewHolder.tvIsLocation(View.GONE);
         if (model.getFile() != null){
+            viewHolder.fileName.setText(model.getFile().getName_file()+"");
             viewHolder.tvIsLocation(View.GONE);
-            viewHolder.setIvChatPhoto(model.getFile().getUrl_file());
+            String filename = model.getFile().getName_file();
+            if(filename.contains(".pdf")||filename.contains(".txt")
+                        ||filename.contains(".xls")||filename.contains(".xlsx")
+                        ||filename.contains(".xls")||filename.contains(".doc")
+                        ||filename.contains(".docx")) {
+                viewHolder.setIvChatFilePhoto();
+            }else {
+                viewHolder.setIvChatPhoto(model.getFile().getUrl_file());
+            }
+
         }else if(model.getMapModel() != null){
             viewHolder.setIvChatPhoto(Util.local(model.getMapModel().getLatitude(),model.getMapModel().getLongitude()));
             viewHolder.tvIsLocation(View.VISIBLE);
@@ -97,7 +132,7 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
 
     public class MyChatViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView tvTimestamp,tvLocation;
+        TextView tvTimestamp,tvLocation,fileName;
         EmojiconTextView txtMessage;
         ImageView ivUser,ivChatPhoto;
         PDFView pdfView;
@@ -105,6 +140,7 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
         public MyChatViewHolder(View itemView) {
             super(itemView);
             tvTimestamp = (TextView)itemView.findViewById(R.id.timestamp);
+            fileName = (TextView)itemView.findViewById(R.id.fileName);
             txtMessage = (EmojiconTextView)itemView.findViewById(R.id.txtMessage);
             tvLocation = (TextView)itemView.findViewById(R.id.tvLocation);
             ivChatPhoto = (ImageView)itemView.findViewById(R.id.img_chat);
@@ -116,17 +152,48 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
         public void onClick(View view) {
             int position = getAdapterPosition();
             ChatModel model = getItem(position);
-            if (model.getMapModel() != null){
-                mClickListenerChatFirebase.clickImageMapChat(view,position,model.getMapModel().getLatitude(),model.getMapModel().getLongitude());
-            }else{
-                mClickListenerChatFirebase.clickImageChat(view,position,model.getUserModel().getName(),model.getUserModel().getPhoto_profile(),model.getFile().getUrl_file());
+            String downloadUrl = model.getFile().getUrl_file();
+//            String fileType = model.getFile().getType();
+//            //String filename = model.getFile().getName_file();
+//            Log.e("fileType",""+fileType);
+//            if (model.getMapModel() != null){
+//                mClickListenerChatFirebase.clickImageMapChat(view,position,model.getMapModel().getLatitude(),model.getMapModel().getLongitude());
+//            }else{
+//                mClickListenerChatFirebase.clickImageChat(view,position,model.getUserModel().getName(),model.getUserModel().getPhoto_profile(),model.getFile().getUrl_file());
+//            }
+
+
+
+            if (model.getFile() != null){
+//                String filename = model.getFile().getName_file();
+//                if(filename.contains(".pdf")||filename.contains(".txt")
+//                        ||filename.contains(".xls")||filename.contains(".xlsx")
+//                        ||filename.contains(".xls")||filename.contains(".doc")
+//                        ||filename.contains(".docx")) {
+
+//                    if(filename.contains(".doc")
+//                            ||filename.contains(".docx")){
+//                        Intent intent = new Intent();
+//                        intent.setDataAndType(Uri.parse(downloadUrl), "application/msword");
+//                        activity.startActivity(new Intent(intent.ACTION_VIEW,Uri.parse(downloadUrl)));
+//                    }
+
+                    activity.startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(downloadUrl)));
+
+               //}
+
+//                else {
+//                    mClickListenerChatFirebase.clickImageChat(view,position,model.getUserModel().getName(),model.getUserModel().getPhoto_profile(),model.getFile().getUrl_file());
+//                }
             }
+
         }
 
         public void setTxtMessage(String message){
             if (txtMessage == null)return;
             txtMessage.setText(message);
         }
+
 
         public void setIvUser(String urlPhotoUser){
             if (ivUser == null)return;
@@ -144,6 +211,11 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
                     .override(100, 100)
                     .fitCenter()
                     .into(ivChatPhoto);
+            ivChatPhoto.setOnClickListener(this);
+        }
+
+        public void setIvChatFilePhoto(){
+            if (ivChatPhoto == null)return;
             ivChatPhoto.setOnClickListener(this);
         }
 
@@ -168,4 +240,33 @@ public class ChatFirebaseAdapter extends FirebaseRecyclerAdapter<ChatModel,ChatF
         return DateUtils.getRelativeTimeSpanString(Long.parseLong(mileSegundos),System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
     }
 
+
+    //Tuturial
+    //https://code.tutsplus.com/tutorials/firebase-for-android-file-storage--cms-27376
+
+    private void downloadFile( String url) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl(url);
+        StorageReference  islandRef = storageRef.child("file.txt");
+
+        File rootPath = new File(Environment.getExternalStorageDirectory(), "firebasefile");
+        if(!rootPath.exists()) {
+            rootPath.mkdirs();
+        }
+
+        final File localFile = new File(rootPath,"imageName.txt");
+
+        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Log.e("firebase ",";local tem file created  created " +localFile.toString());
+                //  updateDb(timestamp,localFile.toString(),position);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("firebase ",";local tem file not created  created " +exception.toString());
+            }
+        });
+    }
 }

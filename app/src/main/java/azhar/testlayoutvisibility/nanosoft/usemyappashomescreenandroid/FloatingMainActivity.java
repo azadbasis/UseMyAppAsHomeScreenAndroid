@@ -113,7 +113,7 @@ public class FloatingMainActivity extends AppCompatActivity {
     private String fromHourMin;
     private String toHourMin;
     private Dialog dialog;
-    private ImageView imgCall, imgCam, imgMsg, imgEmail, imgChat,imgErp,imgEvent;
+    private ImageView imgCall, imgCam, imgMsg, imgEmail, imgChat,imgErp,imgEFile;
     private LinearLayout home;
     private Button btnActive;
     private boolean isActive;
@@ -148,7 +148,7 @@ public class FloatingMainActivity extends AppCompatActivity {
         imgMsg = (ImageView) findViewById(R.id.imgMsg);
         imgEmail = (ImageView) findViewById(R.id.imgEmail);
         imgChat = (ImageView) findViewById(R.id.imgChat);
-        imgEvent = (ImageView) findViewById(R.id.imgEvent);
+        imgEFile = (ImageView) findViewById(R.id.imgEFile);
         imgErp = (ImageView) findViewById(R.id.imgErp);
         home = (LinearLayout) findViewById(R.id.home);
         btnActive = (Button) findViewById(R.id.btnActive);
@@ -174,9 +174,19 @@ public class FloatingMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(con,MeetingMinuteWeb.class));
+
             }
         });
 
+        imgEFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.tappware.nothipro");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);//null pointer check in case package name was not found
+                }
+            }
+        });
 
 
         imgCall.setOnClickListener(new View.OnClickListener() {
@@ -274,6 +284,8 @@ public class FloatingMainActivity extends AppCompatActivity {
         initToolBar();
 
     }
+
+
 
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
